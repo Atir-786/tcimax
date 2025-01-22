@@ -1,9 +1,8 @@
 import React from "react";
 import Image from "next/image";
 import logo from "../../public/logo.png";
-import lock from "../../public/lock.gif";
-import envelope from "../../public/envelope.svg";
-import Link from "next/link";
+
+import RegisterForm from "@/client/RegisterForm";
 
 const page = () => {
   return (
@@ -18,66 +17,8 @@ const page = () => {
         <h3 className="mb-4 text-xl font-light">
           Management Information System (MIS)
         </h3>
-        <form>
-          <div className="relative mb-4 rounded-sm">
-            <input
-              type="text"
-              placeholder="Full Name"
-              className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-            />
-            <Image
-              src={envelope}
-              alt=""
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-            />
-          </div>
-          <div className="relative mb-4 rounded-sm">
-            <input
-              type="text"
-              placeholder="Email"
-              className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-            />
-            <Image
-              src={envelope}
-              alt=""
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-            />
-          </div>
-
-          <div className="relative mb-4">
-            <input
-              type="password"
-              placeholder="Password"
-              className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-            />
-            <Image
-              src={lock}
-              alt="Search Icon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-            />
-          </div>
-          <div className="relative mb-4">
-            <input
-              type="password"
-              placeholder="Password Confirm"
-              className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-            />
-            <Image
-              src={lock}
-              alt="Search Icon"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="text-mg font-bold py-3 my-5 w-full bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-          >
-            Register
-          </button>
-
-          <h5 className="text-center my-3">AM-MIS v1.3</h5>
-        </form>
+        <RegisterForm />
+        <h5 className="text-center my-3">AM-MIS v1.3</h5>
       </div>
     </div>
   );
