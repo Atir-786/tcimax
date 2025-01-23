@@ -1,65 +1,104 @@
 "use client";
-import React, { useState, useEffect } from "react";
-import { FiMenu, FiBell, FiUser } from "react-icons/fi";
-import { MdDarkMode, MdOutlineLightMode } from "react-icons/md";
-import user from "@/public/user.png";
+import React from "react";
+import logo from "../public/logo.png";
 import Image from "next/image";
-const Navbar = () => {
-  const [time, setTime] = useState("");
-  const [darkMode, setDarkMode] = useState(false);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const now = new Date();
-      const hours = now.getHours() % 12 || 12; // 12-hour format
-      const minutes = now.getMinutes().toString().padStart(2, "0");
-      const seconds = now.getSeconds().toString().padStart(2, "0");
-      const ampm = now.getHours() >= 12 ? "PM" : "AM";
-      setTime(`${hours}:${minutes}:${seconds}: ${ampm}`);
-    }, 1000);
-
-    return () => clearInterval(interval); // Cleanup interval on component unmount
-  }, []);
-
-  // Toggle between light and dark mode
-  const toggleTheme = () => {
-    setDarkMode(!darkMode);
-    document.documentElement.classList.toggle("dark", !darkMode); // Add 'dark' class to HTML tag
-  };
-
+import Link from "next/link";
+import { useState } from "react";
+import { GoPlus } from "react-icons/go";
+import { CiHome, CiSettings } from "react-icons/ci";
+import { IoMdClose } from "react-icons/io";
+import { IoIosList } from "react-icons/io";
+import { FaCirclePlus } from "react-icons/fa6";
+import { HiOutlineUsers } from "react-icons/hi2";
+const menuList = [
+  "Retailer List",
+  "Company Associated List",
+  "Sale Approvales",
+  "Total Dealers List",
+  "District Wise List",
+  "Schemes List",
+];
+const addList = ["Add Distributor", "Add Retailer", "Add Monthly Sale Targets"];
+const userManagementList = ["Managers", "Distributors", "Retailers"];
+const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
   return (
-    <nav className="flex items-center justify-between w-full px-4 py-4 bg-white-100  shadow-md">
-      {/* Hamburger Menu */}
-      <div className="flex items-center">
-        <FiMenu className="text-2xl text-black-800 cursor-pointer" />
+    <div
+      //   className={`p-2 fixed inset-y-0 left-0 bg-white shadow-lg transform ${
+      //     isSidebarOpen || window.innerWidth >= 1024
+      //       ? "translate-x-0"
+      //       : "-translate-x-full"
+      //   } transition-transform duration-300 w-64 z-20 lg:translate-x-0`}
+      // >
+      className={`p-2 fixed inset-y-0 left-0 bg-white shadow-lg transform ${
+        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+      } transition-transform duration-300 w-64 z-20 scrollable`}
+    >
+      <div className="flex items-center justify-between p-4 border-b">
+        <Image src={logo} alt=""></Image>
+
+        <button
+          onClick={toggleSidebar}
+          className="text-xl p-1 focus:outline-none bg-gray-200 rounded-2xl"
+        >
+          <IoMdClose />
+        </button>
       </div>
 
-      {/* Right Section */}
+      <nav className="p-4 overflow-y-auto h-[calc(100vh-5rem)]">
+        <ul className="space-y-4 text-gray-600 font-semibold">
+          <li className="bg-blue-800 p-2 text-white rounded-xl">
+            <Link href="/dashboard" className="flex items-center space-x-2">
+              <span>
+                <CiHome />
+              </span>
+              <span>Dashboard</span>
+            </Link>
+          </li>
+          <h6>Company CRM/MIS</h6>
+          {addList.map((item, index) => (
+            <li key={index}>
+              <Link href="#" className="flex items-center space-x-2">
+                <span>
+                  <FaCirclePlus />
+                </span>
+                <span>{item}</span>
+              </Link>
+            </li>
+          ))}
 
-      <div className="flex items-center space-x-4 ">
-        {/* Digital Clock */}
-        <div className="text-lg font-light text-white-800 dark:text-grey-200">
-          {time}
-        </div>
-        <div className="bg-gray-200 w-10 h-10 rounded-full flex justify-center items-center">
-          <button
-            onClick={toggleTheme}
-            className="text-xl text-gray-800"
-            aria-label="Toggle Theme"
-          >
-            {darkMode ? <MdOutlineLightMode /> : <MdDarkMode />}
-          </button>
-        </div>
-
-        <div className="relative bg-gray-200 w-10 h-10 rounded-full flex justify-center items-center">
-          <FiBell className="text-xl text-gray-800 cursor-pointer" />
-          {/* <span className="absolute top-0 right-0 h-2 w-2 bg-red-500 rounded-full"></span> */}
-        </div>
-        <div className="w-10">
-          <Image src={user} alt=""></Image>
-        </div>
-      </div>
-    </nav>
+          {menuList.map((item, index) => (
+            <li key={index}>
+              <Link href="#" className="flex items-center space-x-2">
+                <span>
+                  <IoIosList />
+                </span>
+                <span>{item}</span>
+              </Link>
+            </li>
+          ))}
+          <h1>User Management</h1>
+          {userManagementList.map((item, index) => (
+            <li key={index}>
+              <Link href="#" className="flex items-center space-x-2">
+                <span>
+                  <HiOutlineUsers />
+                </span>
+                <span>{item}</span>
+              </Link>
+            </li>
+          ))}
+          <h1>App Management</h1>
+          <li>
+            <Link href="#" className="flex items-center space-x-2">
+              <span>
+                <CiSettings />
+              </span>
+              <span>Settings</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 };
 

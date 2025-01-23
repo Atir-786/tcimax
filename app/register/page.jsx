@@ -2,11 +2,11 @@ import React from "react";
 import Image from "next/image";
 import logo from "../../public/logo.png";
 
-import RegisterForm from "@/client/RegisterForm";
+import RegisterForm from "@/components/client/RegisterForm";
 
 const page = () => {
   return (
-    <div className="border border-sky-500 flex flex-col md:flex-row  min-h-screen bg-gray-100 w-screen h-screen flex w-full h-screen">
+    <div className="flex flex-col md:flex-row  min-h-screen  w-screen h-screen flex w-full h-screen">
       <div className="bg-blue-100 h-full w-1/2  hidden md:flex w-1/2 items-center justify-center">
         <Image src={logo} alt="Logo" className="w-1/4" />
       </div>
