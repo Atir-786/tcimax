@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { redirect } from "next/navigation";
 import { AiOutlineMail } from "react-icons/ai";
 import { CiLock, CiUser } from "react-icons/ci";
+import InputField from "../InputComp";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
@@ -38,51 +39,39 @@ const RegisterForm = () => {
   return (
     <form onSubmit={(e) => handleForm(e)}>
       {errors && <p>{errors}</p>}
-      <div className="relative mb-4 rounded-sm">
-        <input
-          name="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          type="text"
-          placeholder="Full Name"
-          className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-        />
-        <CiUser className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
-      </div>
-      <div className="relative mb-4 rounded-sm">
-        <input
-          name="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          type="text"
-          placeholder="Email"
-          className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-        />
-        <AiOutlineMail className="text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
-      </div>
-
-      <div className="relative mb-4">
-        <input
-          name="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          type="password"
-          placeholder="Password"
-          className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-        />
-        <CiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
-      </div>
-      <div className="relative mb-4">
-        <input
-          name="confirmPassword"
-          value={confirmPassword}
-          onChange={(e) => setConfirmPassword(e.target.value)}
-          type="password"
-          placeholder="Password Confirm"
-          className="pl-10 pr-4 py-3.5 w-full border border-gray-300 rounded-xl bg-gray-200"
-        />
-        <CiLock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5" />
-      </div>
+      {/* Full Name Field */}
+      <InputField
+        name="name"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        type="text"
+        placeholder="Full Name"
+        icon={CiUser}
+      />
+      <InputField
+        name="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        type="email"
+        placeholder="Email"
+        icon={AiOutlineMail}
+      />
+      <InputField
+        name="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        type="password"
+        placeholder="Password"
+        icon={CiLock}
+      />
+      <InputField
+        name="confirmPassword"
+        value={confirmPassword}
+        onChange={(e) => setConfirmPassword(e.target.value)}
+        type="password"
+        placeholder="Confirm Password"
+        icon={CiLock}
+      />
 
       <button
         type="submit"

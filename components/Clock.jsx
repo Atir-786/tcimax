@@ -14,7 +14,7 @@ const Clock = () => {
       setTime(`${hours}:${minutes}:${seconds} ${ampm}`);
     }, 1000);
 
-    return () => clearInterval(interval); // Cleanup interval on component unmount
+    return () => clearInterval(interval);
   }, []);
 
   return <div className="text-lg font-normal text-black ">{time}</div>;
