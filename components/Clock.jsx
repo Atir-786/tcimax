@@ -17,9 +17,7 @@ const Clock = () => {
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, []);
 
-  return (
-    <div className="text-lg font-normal text-black dark:text-white">{time}</div>
-  );
+  return <div className="text-lg font-normal text-black ">{time}</div>;
 };
 
 export default Clock;
