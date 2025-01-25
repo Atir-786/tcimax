@@ -1,15 +1,15 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import logo from "../public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import { GoPlus } from "react-icons/go";
 import { CiHome, CiSettings } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import { IoIosList } from "react-icons/io";
-import { FaCirclePlus } from "react-icons/fa6";
+import { FaAngleDown, FaCirclePlus } from "react-icons/fa6";
 import { HiOutlineUsers } from "react-icons/hi2";
+import { FaAngleRight } from "react-icons/fa";
+import { BsDot } from "react-icons/bs";
 const menuList = [
   "Retailer List",
   "Company Associated List",
@@ -19,16 +19,30 @@ const menuList = [
   "Schemes List",
 ];
 const addList = ["Add Distributor", "Add Retailer", "Add Monthly Sale Targets"];
-const userManagementList = ["Managers", "Distributors", "Retailers"];
+const userManagementList = [
+  {
+    name: "Managers",
+    icon: <HiOutlineUsers />,
+    subItems: ["Add User", "Users List"],
+  },
+  {
+    name: "Distributors",
+    icon: <HiOutlineUsers />,
+    subItems: ["Add User", "Users List"],
+  },
+  {
+    name: "Retailers",
+    icon: <HiOutlineUsers />,
+    subItems: ["Add User", "Users List"],
+  },
+];
 const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
+  const [openMenu, setOpenMenu] = useState(null);
+  const toggleMenu = (index) => {
+    setOpenMenu(openMenu === index ? null : index);
+  };
   return (
     <div
-      //   className={`p-2 fixed inset-y-0 left-0 bg-white shadow-lg transform ${
-      //     isSidebarOpen || window.innerWidth >= 1024
-      //       ? "translate-x-0"
-      //       : "-translate-x-full"
-      //   } transition-transform duration-300 w-64 z-20 lg:translate-x-0`}
-      // >
       className={`p-2 fixed inset-y-0 left-0 bg-white shadow-lg transform ${
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       } transition-transform duration-300 w-64 z-20 scrollable`}
@@ -79,14 +93,39 @@ const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
           <h1>User Management</h1>
           {userManagementList.map((item, index) => (
             <li key={index}>
-              <Link href="#" className="flex items-center space-x-2">
+              <div
+                className="flex items-center justify-between space-x-4 cursor-pointer p-2 hover:bg-gray-200 rounded"
+                onClick={() => toggleMenu(index)}
+              >
+                <div className="flex items-center space-x-4">
+                  <span>{item.icon}</span>
+                  <span>{item.name}</span>
+                </div>
                 <span>
-                  <HiOutlineUsers />
+                  {openMenu === index ? <FaAngleDown /> : <FaAngleRight />}
                 </span>
-                <span>{item}</span>
-              </Link>
+              </div>
+              {/* Sublist */}
+              {openMenu === index && (
+                <ul className="ml-8 mt-2 space-y-2">
+                  {item.subItems.map((subItem, subIndex) => (
+                    <li
+                      key={subIndex}
+                      className="flex items-center space-x-2 p-2 hover:bg-gray-300 rounded"
+                    >
+                      <BsDot className="text-xl text-red-800" />
+                      <Link
+                        href={`/${subItem.toLowerCase().replace(" ", "-")}`}
+                      >
+                        <span>{subItem}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </li>
           ))}
+
           <h1>App Management</h1>
           <li>
             <Link href="#" className="flex items-center space-x-2">

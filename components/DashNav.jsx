@@ -8,6 +8,9 @@ import NotificationBell from "./NotificationBell";
 import UserAvatar from "./UserAvatar";
 
 const DashNav = ({ toggleSidebar }) => {
+  // function toggleSidebar() {
+  //   setIsSidebarOpen(!isSidebarOpen);
+  // }
   return (
     <nav className="flex items-center justify-between w-full px-4 py-4 bg-white-100 shadow-md">
       {/* Hamburger Menu */}

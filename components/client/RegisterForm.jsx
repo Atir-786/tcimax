@@ -34,7 +34,7 @@ const RegisterForm = () => {
     const updatedUsers = [...existingUsers, newUser];
     localStorage.setItem("users", JSON.stringify(updatedUsers)); // Save updated users to localStorage
     setMessage("User registered successfully!");
-    redirect("/login");
+    redirect("/users-list");
   }
   return (
     <form onSubmit={(e) => handleForm(e)}>
