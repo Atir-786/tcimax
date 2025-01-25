@@ -1,26 +1,29 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { CiLock } from "react-icons/ci";
+import { CiLock, CiMobile1 } from "react-icons/ci";
 import { redirect } from "next/navigation";
 import { AiOutlineMail } from "react-icons/ai";
 import InputField from "../InputComp";
 import axios from "axios";
+import { useRouter } from "next/router";
+
 const LoginForm = () => {
-  const [email, setEmail] = useState("bilqueesp007@gmail.com");
+  // const router = useRouter();
+  const [mobile, setMobile] = useState("9906745021");
   const [password, setPassword] = useState("123456789");
   const [errors, setErrors] = useState({ email: "", password: "" });
   const [message, setMessage] = useState("");
 
   const validateFields = () => {
-    const validationErrors = { email: "", password: "" };
+    const validationErrors = { mobile: "", password: "" };
     let isValid = true;
 
     // Validate email
-    if (!email) {
-      validationErrors.email = "Email is required.";
+    if (!mobile) {
+      validationErrors.mobile = "mobile is required.";
       isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      validationErrors.email = "Enter a valid email address.";
+    } else if (mobile.length < 9) {
+      validationErrors.mobile = "Enter a valid mobile.";
       isValid = false;
     }
 
@@ -39,7 +42,7 @@ const LoginForm = () => {
     // Validate fields
     if (!validateFields()) return;
     const data = JSON.stringify({
-      email: email,
+      mobile: mobile,
       password: password,
     });
 
@@ -54,9 +57,34 @@ const LoginForm = () => {
       data: data,
     };
 
+    // try {
+    //   const response = await axios.request(config);
+    //   console.log("Response:", response.data);
+    // } catch (error) {
+    //   if (error.response) {
+    //     console.error("Error Response:", error.response.data);
+    //   } else if (error.request) {
+    //     console.error("No Response Received:", error.request);
+    //   } else {
+    //     console.error("Request Error:", error.message);
+    //   }
+    // }
     try {
-      const response = await axios.request(config);
+      // Fetch CSRF token
+      await axios.get("https://mis.tcimax.co.in/sanctum/csrf-cookie", {
+        withCredentials: true,
+      });
+
+      // Proceed with login request
+      const response = await axios.post(
+        "https://mis.tcimax.co.in/api/login",
+        { mobile: mobile, password: password },
+        { withCredentials: true } // Send cookies with the request
+      );
+
       console.log("Response:", response.data);
+      localStorage.setItem("isAuthenticated", "true");
+      window.location.href = "/dashboard";
     } catch (error) {
       if (error.response) {
         console.error("Error Response:", error.response.data);
@@ -84,16 +112,16 @@ const LoginForm = () => {
   }
   return (
     <form onSubmit={(e) => handleForm(e)}>
-      {errors.email && (
-        <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+      {errors.mobile && (
+        <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
       )}
       <InputField
-        name="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        type="email"
-        placeholder="Email"
-        icon={AiOutlineMail}
+        name="mobile"
+        value={mobile}
+        onChange={(e) => setMobile(e.target.value)}
+        type="number"
+        placeholder="Mobile Number"
+        icon={CiMobile1}
       />
 
       {errors.password && (

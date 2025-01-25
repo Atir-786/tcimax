@@ -11,9 +11,9 @@ const Layout = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const currentUser = localStorage.getItem("currentUser") || "";
+    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
 
-    if (!currentUser) {
+    if (!isAuthenticated) {
       router.push("/login");
     } else {
       setIsLoading(false); // Stop loading when authenticated
