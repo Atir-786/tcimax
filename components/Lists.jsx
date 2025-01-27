@@ -41,7 +41,7 @@ const List = ({ role, name }) => {
   return (
     <Layout>
       <div className="container mx-auto p-6">
-        <h2 className="text-2xl font-semibold mb-4">{name} List</h2>
+        <h2 className="text-2xl font-semibold mb-4">{name} list</h2>
 
         {/* Error Message */}
         {error && <p className="text-red-500 mb-4">{error}</p>}

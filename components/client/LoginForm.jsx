@@ -108,7 +108,7 @@ export default function LoginForm() {
         name="password"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
-        type="password"
+        type="text"
         placeholder="Password"
         icon={CiLock}
       />

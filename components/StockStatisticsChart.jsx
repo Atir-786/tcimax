@@ -52,7 +52,7 @@ const StockStatisticsChart = () => {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-white border rounded-lg shadow-md p-4">
       <div className="flex justify-between items-center mb-4">
         <div>
           <h3 className="text-lg font-semibold">Stock Statistic</h3>
@@ -74,7 +74,6 @@ const StockStatisticsChart = () => {
         series={chartSeries}
         type="line"
         height={250}
-        width={500}
       />
     </div>
   );

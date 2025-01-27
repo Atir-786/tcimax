@@ -43,25 +43,22 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
     setOpenMenu(openMenu === index ? null : index);
   };
   return (
-    <div
-      className={`p-2 fixed inset-y-0 left-0 bg-white shadow-lg transform ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } transition-transform duration-300 w-64 z-20 scrollable`}
-    >
+    <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-4 border-b">
         <Image src={logo} alt=""></Image>
 
-        <button
+        {/* <button
           onClick={toggleSidebar}
           className="text-xl p-1 focus:outline-none bg-gray-200 rounded-2xl"
         >
           <IoMdClose />
-        </button>
+        </button> */}
       </div>
 
       <nav className="p-4 overflow-y-auto h-[calc(100vh-5rem)]">
-        <ul className="space-y-4 text-gray-600 font-semibold">
-          <li className="bg-blue-800 p-2 text-white rounded-xl">
+        {/* <nav className="flex flex-col mt-4"> */}
+        <ul className="text-sm space-y-4 text-gray-600 font-light">
+          <li className="bg-primary p-2 text-white rounded-xl">
             <Link href="/dashboard" className="flex items-center space-x-2">
               <span>
                 <CiHome />

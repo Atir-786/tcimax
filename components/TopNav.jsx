@@ -12,7 +12,7 @@ const DashNav = ({ toggleSidebar }) => {
   //   setIsSidebarOpen(!isSidebarOpen);
   // }
   return (
-    <nav className="flex items-center justify-between w-full px-4 py-4 bg-white-100 shadow-md">
+    <nav className="flex items-center justify-between p-4 bg-white">
       {/* Hamburger Menu */}
       <div className="flex items-center">
         <FiMenu

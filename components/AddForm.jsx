@@ -3,6 +3,7 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Layout from "./Layout";
+import { FaPlusCircle } from "react-icons/fa";
 export default function AddForm({ role, name }) {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -10,7 +11,7 @@ export default function AddForm({ role, name }) {
     lname: "",
     email: "",
     mobile: "",
-    password: "",
+    password: "1298@XYZ",
     passwordConfirmation: "",
     role_id: role,
     status: 1, // Active by default
@@ -28,6 +29,8 @@ export default function AddForm({ role, name }) {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
+      passwordConfirmation:
+        name === "password" ? value : prevData.passwordConfirmation,
     }));
   };
 
@@ -38,13 +41,17 @@ export default function AddForm({ role, name }) {
     if (!formData.lname) validationErrors.lname = "Last name is required";
     if (!formData.email) validationErrors.email = "Email is required";
     if (!formData.mobile) validationErrors.mobile = "Mobile is required";
+    if (!formData.address) validationErrors.address = "address is required";
+    if (!formData.district) validationErrors.district = "district is required";
+    if (!formData.pincode) validationErrors.pincode = "pincode is required";
+    if (!formData.tehsil) validationErrors.tehsil = "tehsil is required";
     else if (!/^[6-9]\d{9}$/.test(formData.mobile))
       validationErrors.mobile = "Please enter a valid 10-digit mobile number";
     if (!formData.password) validationErrors.password = "Password is required";
     else if (formData.password.length < 8)
       validationErrors.password = "Password must be at least 8 characters";
-    if (formData.password !== formData.passwordConfirmation)
-      validationErrors.passwordConfirmation = "Passwords do not match";
+    // if (formData.password !== formData.passwordConfirmation)
+    //   validationErrors.passwordConfirmation = "Passwords do not match";
     return validationErrors;
   };
 
@@ -70,7 +77,7 @@ export default function AddForm({ role, name }) {
         role_id: role,
         status: 1, // Active by default
         password: formData.password,
-        password_confirmation: formData.passwordConfirmation,
+        password_confirmation: formData.password,
         address: formData.address.trim(),
         district: formData.district.trim(),
         tehsil: formData.tehsil.trim(),
@@ -87,7 +94,7 @@ export default function AddForm({ role, name }) {
       if (response.status === 200 || response.status === 201) {
         console.log("Registration successful:", response.data);
         // Redirect to the users-list
-        router.push("/retailers-list");
+        router.push(`/{name}-list`);
       }
     } catch (error) {
       if (error.response && error.response.data) {
@@ -104,16 +111,16 @@ export default function AddForm({ role, name }) {
 
   return (
     <Layout>
-      <div className="register-page max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
-        <h2 className="text-2xl font-semibold mb-4">Add {name}</h2>
+      <div className="register-page  mx-auto p-6 bg-white shadow-md rounded-lg border ">
+        <h2 className="text-center text-2xl font-semibold mb-4">Add {name}</h2>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit} className="p-4 border mx-auto max-w-xl">
           {errors.api && (
             <div className="text-red-500 text-sm mb-4">{errors.api}</div>
           )}
 
           <div className="mb-4">
-            <label className="block text-sm font-medium">Name</label>
+            <label className="block text-sm font-medium mb-1">Name</label>
             <input
               type="text"
               name="name"
@@ -127,7 +134,7 @@ export default function AddForm({ role, name }) {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Last Name</label>
+            <label className="block text-sm font-medium mb-1">Last Name</label>
             <input
               type="text"
               name="lname"
@@ -141,7 +148,7 @@ export default function AddForm({ role, name }) {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Email</label>
+            <label className="block text-sm font-medium mb-1">Email</label>
             <input
               type="email"
               name="email"
@@ -156,7 +163,9 @@ export default function AddForm({ role, name }) {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium">Mobile Number</label>
+            <label className="block text-sm font-medium mb-1">
+              Mobile Number
+            </label>
             <input
               type="text"
               name="mobile"
@@ -170,7 +179,7 @@ export default function AddForm({ role, name }) {
             )}
           </div>
           {/* Address Fields */}
-          <div className="mb-4">
+          {/* <div className="mb-4">
             <label className="block text-sm font-medium">Address</label>
             <input
               type="text"
@@ -183,10 +192,22 @@ export default function AddForm({ role, name }) {
             {errors.address && (
               <p className="text-red-500 text-sm">{errors.address}</p>
             )}
-          </div>
-
+          </div> */}
           <div className="mb-4">
-            <label className="block text-sm font-medium">District</label>
+            <label className="block text-sm font-medium mb-1">Address</label>
+            <textarea
+              name="address"
+              value={formData.address}
+              placeholder="Enter your address"
+              onChange={handleChange}
+              className="w-full border p-2 rounded"
+            ></textarea>
+            {errors.address && (
+              <p className="text-red-500 text-sm">{errors.address}</p>
+            )}
+          </div>
+          <div className="mb-4">
+            <label className="block text-sm font-medium mb-1">District</label>
             <select
               name="district"
               value={formData.district}
@@ -205,7 +226,7 @@ export default function AddForm({ role, name }) {
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium">Tehsil</label>
+            <label className="block text-sm font-medium mb-1">Tehsil</label>
             <input
               type="text"
               name="tehsil"
@@ -213,11 +234,14 @@ export default function AddForm({ role, name }) {
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your tehsil"
-            />
+            />{" "}
+            {errors.tehsil && (
+              <p className="text-red-500 text-sm">{errors.tehsil}</p>
+            )}
           </div>
 
           <div className="mb-4">
-            <label className="block text-sm font-medium">Pincode</label>
+            <label className="block text-sm font-medium mb-1">Pincode</label>
             <input
               type="text"
               name="pincode"
@@ -231,21 +255,23 @@ export default function AddForm({ role, name }) {
             )}
           </div>
           <div className="mb-4">
-            <label className="block text-sm font-medium">Password</label>
+            <label className="block text-sm font-medium mb-1">
+              Sample Password
+            </label>
             <input
-              type="password"
+              type="text"
               name="password"
               value={formData.password}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Enter your password"
+              // placeholder="Enter your password"
             />
             {errors.password && (
               <p className="text-red-500 text-sm">{errors.password}</p>
             )}
           </div>
 
-          <div className="mb-4">
+          {/* <div className="mb-4 hidden">
             <label className="block text-sm font-medium">
               Confirm Password
             </label>
@@ -262,15 +288,22 @@ export default function AddForm({ role, name }) {
                 {errors.passwordConfirmation}
               </p>
             )}
-          </div>
+          </div> */}
 
           <div className="mb-4">
             <button
               type="submit"
-              className="w-full py-2 bg-blue-600 text-white rounded-lg"
+              className="w-full py-2 bg-primary text-white rounded-lg flex justify-center items-center gap-2"
               disabled={loading}
             >
-              {loading ? "Registering..." : "Register"}
+              {loading ? (
+                "Adding..."
+              ) : (
+                <>
+                  <FaPlusCircle className="h-4 w-4" />
+                  Add
+                </>
+              )}
             </button>
           </div>
         </form>
