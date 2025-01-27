@@ -1,13 +1,17 @@
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import user from "../public/user.png";
+import Avator from "../public/user.png";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { FiUser } from "react-icons/fi";
+import { useRouter } from "next/navigation";
 const UserAvatar = () => {
+  const router = useRouter();
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const modalRef = useRef(null);
   const [currentUserName, setCurrentUserName] = useState("");
+  const user = JSON.parse(localStorage.getItem("user"));
+
   // Toggle modal visibility
   const toggleUserModal = () => {
     setIsUserModalOpen((prev) => !prev);
@@ -33,8 +37,11 @@ const UserAvatar = () => {
 
   // Logout handler using window.location
   const handleLogout = () => {
-    localStorage.removeItem("currentUser");
-    window.location.href = "/login";
+    // localStorage.removeItem("currentUser");
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("user");
+
+    router.push("/login");
   };
 
   return (
@@ -44,7 +51,7 @@ const UserAvatar = () => {
         onClick={toggleUserModal}
         className="w-10 h-10 rounded-full cursor-pointer overflow-hidden"
       >
-        <Image src={user} alt="User" />
+        <Image src={Avator} alt="User" />
       </div>
 
       {/* Modal */}
@@ -54,8 +61,20 @@ const UserAvatar = () => {
           className="p-2 absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-30"
         >
           <div className="p-2 bg-blue-100">
-            <h1>{currentUserName}</h1>
-            <h3>Admin</h3>
+            <h1>{user?.name}</h1>
+            <h3>
+              {user?.role === 1
+                ? "Super Admin"
+                : user?.role === 2
+                ? "Admin"
+                : user?.role === 3
+                ? "Manager"
+                : user?.role === 4
+                ? "Distributor"
+                : user?.role === 5
+                ? "Retailer"
+                : "Other"}
+            </h3>
           </div>
           <ul className="py-2 text-sm text-gray-700">
             <li className="hover:bg-gray-100 flex items-center space-x-2 px-4 py-2">

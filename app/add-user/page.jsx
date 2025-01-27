@@ -1,11 +1,13 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import RegisterForm from "../../components/client/RegisterForm";
+import AddUserForm from "../../components/AddUserForm";
 const page = () => {
   return (
     <>
       <Layout>
-        <RegisterForm />
+        {/* <RegisterForm /> */}
+        Add users
+        <AddUserForm />
       </Layout>
     </>
   );

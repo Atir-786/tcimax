@@ -11,7 +11,8 @@ import { HiOutlineUsers } from "react-icons/hi2";
 import { FaAngleRight } from "react-icons/fa";
 import { BsDot } from "react-icons/bs";
 const menuList = [
-  "Retailer List",
+  "Distributors List",
+  "Retailers List",
   "Company Associated List",
   "Sale Approvales",
   "Total Dealers List",
@@ -36,7 +37,7 @@ const userManagementList = [
     subItems: ["Add User", "Users List"],
   },
 ];
-const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
+const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const toggleMenu = (index) => {
     setOpenMenu(openMenu === index ? null : index);
@@ -69,72 +70,87 @@ const Navbar = ({ isSidebarOpen, toggleSidebar }) => {
             </Link>
           </li>
           <h6>Company CRM/MIS</h6>
-          {addList.map((item, index) => (
-            <li key={index}>
-              <Link href="#" className="flex items-center space-x-2">
-                <span>
-                  <FaCirclePlus />
-                </span>
-                <span>{item}</span>
-              </Link>
-            </li>
-          ))}
+          {roleId == 3 &&
+            addList.map((item, index) => (
+              <li key={index}>
+                <Link
+                  href={`/${item.toLowerCase().replace(" ", "-")}`}
+                  className="flex items-center space-x-2"
+                >
+                  <span>
+                    <FaCirclePlus />
+                  </span>
+                  <span>{item}</span>
+                </Link>
+              </li>
+            ))}
 
-          {menuList.map((item, index) => (
-            <li key={index}>
-              <Link href="#" className="flex items-center space-x-2">
-                <span>
-                  <IoIosList />
-                </span>
-                <span>{item}</span>
-              </Link>
-            </li>
-          ))}
-          <h1>User Management</h1>
-          {userManagementList.map((item, index) => (
-            <li key={index}>
-              <div
-                className="flex items-center justify-between space-x-4 cursor-pointer p-2 hover:bg-gray-200 rounded"
-                onClick={() => toggleMenu(index)}
-              >
-                <div className="flex items-center space-x-4">
-                  <span>{item.icon}</span>
-                  <span>{item.name}</span>
-                </div>
-                <span>
-                  {openMenu === index ? <FaAngleDown /> : <FaAngleRight />}
-                </span>
-              </div>
-              {/* Sublist */}
-              {openMenu === index && (
-                <ul className="ml-8 mt-2 space-y-2">
-                  {item.subItems.map((subItem, subIndex) => (
-                    <li
-                      key={subIndex}
-                      className="flex items-center space-x-2 p-2 hover:bg-gray-300 rounded"
-                    >
-                      <BsDot className="text-xl text-red-800" />
-                      <Link
-                        href={`/${subItem.toLowerCase().replace(" ", "-")}`}
-                      >
-                        <span>{subItem}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          ))}
+          {roleId == 3 &&
+            menuList.map((item, index) => (
+              <li key={index}>
+                <Link
+                  href={`/${item.toLowerCase().replace(" ", "-")}`}
+                  className="flex items-center space-x-2"
+                >
+                  <span>
+                    <IoIosList />
+                  </span>
+                  <span>{item}</span>
+                </Link>
+              </li>
+            ))}
+          {(roleId == 1 || roleId == 2) && (
+            <>
+              <h1 className="">User Management</h1>
+              {userManagementList.map((item, index) => (
+                <li key={index}>
+                  <div
+                    className="flex items-center justify-between space-x-4 cursor-pointer p-2 hover:bg-gray-200 rounded"
+                    onClick={() => toggleMenu(index)}
+                  >
+                    <div className="flex items-center space-x-4">
+                      <span>{item.icon}</span>
+                      <span>{item.name}</span>
+                    </div>
+                    <span>
+                      {openMenu === index ? <FaAngleDown /> : <FaAngleRight />}
+                    </span>
+                  </div>
+                  {/* Sublist */}
+                  {openMenu === index && (
+                    <ul className="ml-8 mt-2 space-y-2">
+                      {item.subItems.map((subItem, subIndex) => (
+                        <li
+                          key={subIndex}
+                          className="flex items-center space-x-2 p-2 hover:bg-gray-300 rounded"
+                        >
+                          <BsDot className="text-xl text-red-800" />
+                          <Link href={subItem}>
+                            <span>{subItem}</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </>
+          )}
 
-          <h1>App Management</h1>
-          <li>
-            <Link href="#" className="flex items-center space-x-2">
-              <span>
-                <CiSettings />
-              </span>
-              <span>Settings</span>
-            </Link>
-          </li>
+          {(roleId == 1 || roleId == 2) && (
+            <>
+              {" "}
+              <h1>App Management</h1>
+              <li>
+                <Link href="#" className="flex items-center space-x-2">
+                  <span>
+                    <CiSettings />
+                  </span>
+                  <span>Settings</span>
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </nav>
     </div>

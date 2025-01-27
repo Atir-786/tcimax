@@ -1,14 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Layout from "../../components/Layout";
-const UserList = () => {
+import Layout from "./Layout";
+const List = ({ role, name }) => {
   const [users, setUsers] = useState([]); // Store users
   const [loading, setLoading] = useState(false); // Loading state
   const [error, setError] = useState(null); // Error state
   const [page, setPage] = useState(1); // Current page
   const [limit, setLimit] = useState(5); // Number of users per page
-  const [roleId, setRoleId] = useState(2); // Role filter (default to 2)
 
   // Fetch users from API
   const fetchUsers = async () => {
@@ -18,7 +17,7 @@ const UserList = () => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `https://mis.tcimax.co.in/api/users/${page}/${limit}/${roleId}`,
+        `https://mis.tcimax.co.in/api/users/${page}/${limit}/${role}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Add token to the request
@@ -37,30 +36,12 @@ const UserList = () => {
   // Fetch users on component mount and when page/limit/roleId changes
   useEffect(() => {
     fetchUsers();
-  }, [page, limit, roleId]);
+  }, [page, limit]);
 
   return (
     <Layout>
       <div className="container mx-auto p-6">
-        <h2 className="text-2xl font-semibold mb-4">Users List</h2>
-
-        {/* Role Filter */}
-        <div className="mb-4">
-          <label className="block mb-2 text-sm font-medium">
-            Filter by Role:
-          </label>
-          <select
-            value={roleId}
-            onChange={(e) => setRoleId(Number(e.target.value))}
-            className="border border-gray-300 rounded p-2"
-          >
-            <option value={1}>Super Admin</option>
-            <option value={2}>Admin</option>
-            <option value={3}>Manager</option>
-            <option value={4}>Distributor</option>
-            <option value={5}>Retailer</option>
-          </select>
-        </div>
+        <h2 className="text-2xl font-semibold mb-4">{name} List</h2>
 
         {/* Error Message */}
         {error && <p className="text-red-500 mb-4">{error}</p>}
@@ -77,7 +58,6 @@ const UserList = () => {
                 <th className="border border-gray-300 p-2">Name</th>
                 <th className="border border-gray-300 p-2">Email</th>
                 <th className="border border-gray-300 p-2">Status</th>
-                <th className="border border-gray-300 p-2">Role</th>
                 <th className="border border-gray-300 p-2">Created At</th>
               </tr>
             </thead>
@@ -90,7 +70,6 @@ const UserList = () => {
                   <td className="border border-gray-300 p-2">
                     {user.status == 1 ? "Active" : "Not Active"}
                   </td>
-                  <td className="border border-gray-300 p-2">{user.role}</td>
                   <td className="border border-gray-300 p-2">
                     {user.created_at}
                   </td>
@@ -124,4 +103,4 @@ const UserList = () => {
   );
 };
 
-export default UserList;
+export default List;

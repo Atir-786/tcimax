@@ -3,8 +3,9 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const page = () => {
-  let user = JSON.parse(localStorage.getItem("currentUser"));
-  if (user) {
+  const token = localStorage.getItem("access_token");
+
+  if (token) {
     redirect("/dashboard");
   } else redirect("/login");
 };

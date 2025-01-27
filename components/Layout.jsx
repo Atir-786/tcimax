@@ -4,21 +4,22 @@ import DashNav from "./DashNav";
 import Navbar from "./Navbar";
 import { useRouter } from "next/navigation";
 import { FiLoader } from "react-icons/fi";
-
 const Layout = ({ children }) => {
+  const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const router = useRouter();
-
+  const [roleId, setRoleId] = useState(null);
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("isAuthenticated") === "true";
-
-    if (!isAuthenticated) {
+    const token = localStorage.getItem("access_token");
+    const { role } = JSON.parse(localStorage.getItem("user"));
+    setRoleId(role);
+    if (!token) {
+      // Redirect to login if no token is found
       router.push("/login");
     } else {
-      setIsLoading(false); // Stop loading when authenticated
+      setIsLoading(false);
     }
-  }, [router]);
+  }, []);
 
   if (isLoading) {
     return (
@@ -34,7 +35,11 @@ const Layout = ({ children }) => {
   return (
     <>
       <DashNav toggleSidebar={toggleSidebar} />
-      <Navbar isSidebarOpen={isSidebarOpen} toggleSidebar={toggleSidebar} />
+      <Navbar
+        isSidebarOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+        roleId={roleId}
+      />
       {children}
     </>
   );

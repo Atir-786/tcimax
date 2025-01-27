@@ -7,27 +7,6 @@ import { FaAward, FaWallet } from "react-icons/fa6";
 import StockStatisticsChart from "../../components/StockStatisticsChart";
 import Layout from "../../components/Layout";
 const Dashboard = () => {
-  // const [isLoading, setIsLoading] = useState(true);
-  // const router = useRouter();
-
-  // useEffect(() => {
-  //   const currentUser = localStorage.getItem("currentUser") || "";
-
-  //   if (!currentUser) {
-  //     router.push("/login");
-  //   } else {
-  //     setIsLoading(false); // Stop loading when authenticated
-  //   }
-  // }, [router]);
-
-  // if (isLoading) {
-  //   return (
-  //     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-  //       <p className="text-xl font-semibold text-gray-700">loading...</p>
-  //       <FiLoader />
-  //     </div>
-  //   );
-  // }
   return (
     <>
       <Layout>

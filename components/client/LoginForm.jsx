@@ -1,120 +1,96 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { CiLock, CiMobile1 } from "react-icons/ci";
-import { redirect } from "next/navigation";
-import { AiOutlineMail } from "react-icons/ai";
-import InputField from "../InputComp";
+import React, { useState } from "react";
 import axios from "axios";
-import { useRouter } from "next/router";
+import { CiMobile1, CiLock } from "react-icons/ci";
+import InputField from "../InputComp";
+import { useRouter } from "next/navigation";
+export default function LoginForm() {
+  const router = useRouter();
 
-const LoginForm = () => {
-  // const router = useRouter();
   const [mobile, setMobile] = useState("9906745021");
   const [password, setPassword] = useState("123456789");
-  const [errors, setErrors] = useState({ email: "", password: "" });
-  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const validateFields = () => {
-    const validationErrors = { mobile: "", password: "" };
-    let isValid = true;
+  const validateForm = () => {
+    const validationErrors = {};
 
-    // Validate email
+    // Validate mobile number
+    const mobileRegex = /^[6-9]\d{9}$/; // Accepts a 10-digit number starting with 6, 7, 8, or 9
     if (!mobile) {
-      validationErrors.mobile = "mobile is required.";
-      isValid = false;
-    } else if (mobile.length < 9) {
-      validationErrors.mobile = "Enter a valid mobile.";
-      isValid = false;
+      validationErrors.mobile = "Mobile number is required";
+    } else if (!mobileRegex.test(mobile)) {
+      validationErrors.mobile = "Enter a valid 10-digit mobile number";
     }
 
     // Validate password
     if (!password) {
-      validationErrors.password = "Password is required.";
-      isValid = false;
+      validationErrors.password = "Password is required";
+    } else if (password.length < 8) {
+      validationErrors.password = "Password must be at least 8 characters long";
     }
 
-    setErrors(validationErrors);
-    return isValid;
+    return validationErrors;
   };
 
-  async function handleForm(e) {
+  const handleForm = async (e) => {
     e.preventDefault();
+    console.log("logging");
     // Validate fields
-    if (!validateFields()) return;
-    const data = JSON.stringify({
-      mobile: mobile,
-      password: password,
-    });
+    const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
-    const config = {
-      method: "post",
-      url: "https://mis.tcimax.co.in/api/login",
-      headers: {
-        "Content-Type": "application/json",
-        Cookie:
-          "XSRF-TOKEN=eyJpdiI6IlAyclVKa1lkYmR1c0duV1ZDT3o1WGc9PSIsInZhbHVlIjoicGd4bFQvTXordHphSk0rY2FaQWhQQjMvdGI0anR3d0hleUN6TDNPamFFcXZYMVNpWlFGclJUdTJMaWx5NC9hZUlUci85K2dUOHd2cjM3MTIxb3RocVB5QVBKQjJiMDJpeDN2eUlIU1VaWWxJaVhUVWdBSW1WTmQ3U1dVRFZLT3MiLCJtYWMiOiI4MzdmNGZmYTgwZDNlMmQ1NTI2MzEzN2MxNTg2ZmEyMmUxZmQ1Mzk2NzYxZmVhOTE1M2RkZjQwOTE2OWY4MDM0IiwidGFnIjoiIn0%3D; am_mis_session=eyJpdiI6IlVuRnBMZXp6V2w0THhzVExvdEROZlE9PSIsInZhbHVlIjoiK2ZHallGSXZ3U3p6ek1qQUt6T3ZLS0tMbWRCRS8wV01yM0s2RG9iUXAyRW9tZTk0QnhydngxMUg4UkhUYTNBc3hiWjgvWWxwb3VncWJVZ2NGdGp5QnJHWFhtTldycHJhaGVza0VLZDZxOHpSaHdCeEluS1NWTzJ0a2FyUVZIUHQiLCJtYWMiOiI0YjZjMGZiYmMyZWE1NWU3NzRmMWNiZTliYjJkMzQ1YThkYzhjYTJhMGUxZmQzMWFmZjI4Y2Y0ZWU3ZmIzY2M5IiwidGFnIjoiIn0%3D", // Replace tokens here
-      },
-      data: data,
-    };
+    setErrors({});
+    setLoading(true);
 
-    // try {
-    //   const response = await axios.request(config);
-    //   console.log("Response:", response.data);
-    // } catch (error) {
-    //   if (error.response) {
-    //     console.error("Error Response:", error.response.data);
-    //   } else if (error.request) {
-    //     console.error("No Response Received:", error.request);
-    //   } else {
-    //     console.error("Request Error:", error.message);
-    //   }
-    // }
     try {
-      // Fetch CSRF token
-      await axios.get("https://mis.tcimax.co.in/sanctum/csrf-cookie", {
-        withCredentials: true,
+      const response = await axios.post("https://mis.tcimax.co.in/api/login", {
+        mobile,
+        password,
       });
+      console.log(response);
 
-      // Proceed with login request
-      const response = await axios.post(
-        "https://mis.tcimax.co.in/api/login",
-        { mobile: mobile, password: password },
-        { withCredentials: true } // Send cookies with the request
-      );
+      if (response.status === 200) {
+        console.log("Login successful!");
+        // Store token securely
+        localStorage.setItem("access_token", response.data.access_token);
 
-      console.log("Response:", response.data);
-      localStorage.setItem("isAuthenticated", "true");
-      window.location.href = "/dashboard";
+        // Store user details (only for display purposes)
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            name: response.data.user.name,
+            role: response.data.user.role_id,
+          })
+        );
+        // Redirect to the dashboard
+        // window.location.href = "/dashboard";
+        router.push("/dashboard");
+      }
     } catch (error) {
       if (error.response) {
-        console.error("Error Response:", error.response.data);
-      } else if (error.request) {
-        console.error("No Response Received:", error.request);
+        setErrors({
+          api: error.response.data.message || "Login failed. Please try again.",
+        });
       } else {
-        console.error("Request Error:", error.message);
+        setErrors({ api: "An unexpected error occurred. Please try again." });
       }
+    } finally {
+      setLoading(false);
     }
-    // // Safely parse localStorage data
-    // const existingUsers = JSON.parse(localStorage.getItem("users")) || [];
+  };
 
-    // const user = existingUsers.find(
-    //   (u) => u.email === email && u.password === password
-    // );
-    // if (user) {
-    //   localStorage.setItem("currentUser", JSON.stringify(user));
-    //   redirect("/dashboard");
-    // } else {
-    //   setErrors((prev) => ({
-    //     ...prev,
-    //     password: "Invalid password.",
-    //   }));
-    // }
-  }
   return (
     <form onSubmit={(e) => handleForm(e)}>
-      {errors.mobile && (
-        <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
+      {/* API Error Message */}
+      {errors.api && (
+        <div className="text-red-500 text-sm mb-4">{errors.api}</div>
       )}
+
+      {/* Mobile Number Input */}
       <InputField
         name="mobile"
         value={mobile}
@@ -123,10 +99,11 @@ const LoginForm = () => {
         placeholder="Mobile Number"
         icon={CiMobile1}
       />
-
-      {errors.password && (
-        <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+      {errors.mobile && (
+        <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
       )}
+
+      {/* Password Input */}
       <InputField
         name="password"
         value={password}
@@ -135,16 +112,18 @@ const LoginForm = () => {
         placeholder="Password"
         icon={CiLock}
       />
+      {errors.password && (
+        <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+      )}
 
+      {/* Submit Button */}
       <button
         type="submit"
         className="text-lg py-4 my-8 w-full bg-blue-600 text-white rounded-xl hover:bg-blue-600 transition"
+        disabled={loading}
       >
-        Signin
+        {loading ? "Logging in..." : "Signin"}
       </button>
-      {message}
     </form>
   );
-};
-
-export default LoginForm;
+}
