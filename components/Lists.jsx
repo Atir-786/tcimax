@@ -40,7 +40,9 @@ const List = ({ role, name }) => {
   return (
     <Layout>
       <div className="mx-auto p-6 bg-white shadow-md rounded-lg border ">
-        <h2 className="text-2xl font-semibold mb-4">{name} List</h2>
+        <h2 className="text-2xl font-semibold mb-4">
+          {name.charAt(0).toUpperCase() + name.slice(1)} List
+        </h2>
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {loading && <p className="text-blue-500">Loading...</p>}

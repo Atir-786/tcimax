@@ -1,8 +1,5 @@
 "use client";
 import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import Avator from "../public/user.png";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { FiUser } from "react-icons/fi";
 import { useRouter } from "next/navigation";
@@ -53,13 +50,13 @@ const UserAvatar = () => {
   return (
     <div className="relative">
       {/* User Avatar */}
+
       <div
         onClick={toggleUserModal}
-        className="w-10 h-10 rounded-full cursor-pointer overflow-hidden"
+        className="w-10 h-10 rounded-full cursor-pointer bg-gray-200 flex items-center justify-center"
       >
-        <Image src={Avator} alt="User" />
+        <FiUser className="w-6 h-6 text-gray-600" />
       </div>
-
       {/* Modal */}
       {isUserModalOpen && (
         <div

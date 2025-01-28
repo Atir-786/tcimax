@@ -4,6 +4,8 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import Layout from "./Layout";
 import { FaPlusCircle } from "react-icons/fa";
+import Swal from "sweetalert2";
+
 export default function AddForm({ role, name }) {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -91,12 +93,12 @@ export default function AddForm({ role, name }) {
       if (response.status === 200 || response.status === 201) {
         console.log("Registration successful:", response.data);
         // Redirect to the users-list
-        // Swal.fire({
-        //   title: "Added!",
-        //   icon: "success",
-        //   timer: 2000,
-        //   showConfirmButton: false,
-        // });
+        Swal.fire({
+          title: "Added!",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
         router.push(`/${name}-list`);
       }
     } catch (error) {
@@ -174,28 +176,19 @@ export default function AddForm({ role, name }) {
               name="mobile"
               value={formData.mobile}
               onChange={handleChange}
+              maxLength={10}
               className="w-full p-2 border border-gray-300 rounded"
               placeholder="Enter your mobile number"
             />
+            <p className="text-sm text-gray-500 mt-1">
+              This mobile number will be your primary contact and must be
+              unique.
+            </p>
             {errors.mobile && (
               <p className="text-red-500 text-sm">{errors.mobile}</p>
             )}
           </div>
-          {/* Address Fields */}
-          {/* <div className="mb-4">
-            <label className="block text-sm font-medium">Address</label>
-            <input
-              type="text"
-              name="address"
-              value={formData.address}
-              onChange={handleChange}
-              className="w-full p-2 border border-gray-300 rounded"
-              placeholder="Enter your address"
-            />
-            {errors.address && (
-              <p className="text-red-500 text-sm">{errors.address}</p>
-            )}
-          </div> */}
+
           <div className="mb-4">
             <label className="block text-sm font-medium mb-1">Address</label>
             <textarea
@@ -283,6 +276,7 @@ export default function AddForm({ role, name }) {
               type="text"
               name="password"
               value={formData.password}
+              maxLength={10}
               onChange={handleChange}
               className="w-full p-2 border border-gray-300 rounded"
               // placeholder="Enter your password"

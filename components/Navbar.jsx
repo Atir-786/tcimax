@@ -10,6 +10,7 @@ import { FaAngleDown, FaCirclePlus } from "react-icons/fa6";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { FaAngleRight } from "react-icons/fa";
 import { BsDot } from "react-icons/bs";
+import { useRouter } from "next/navigation";
 const menuList = [
   "Distributors List",
   "Retailers List",
@@ -38,35 +39,41 @@ const userManagementList = [
   },
 ];
 const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
+  const router = useRouter();
   const [openMenu, setOpenMenu] = useState(null);
   const toggleMenu = (index) => {
     setOpenMenu(openMenu === index ? null : index);
   };
   // console.log(roleId);
+  const isActive =
+    router.pathname &&
+    (router.pathname === "/dashboard" ||
+      router.pathname.startsWith("/dashboard"));
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-4 border-b">
         <Image src={logo} alt=""></Image>
-
-        {/* <button
-          onClick={toggleSidebar}
-          className="text-xl p-1 focus:outline-none bg-gray-200 rounded-2xl"
-        >
-          <IoMdClose />
-        </button> */}
       </div>
 
       <nav className="p-4 overflow-y-auto h-[calc(100vh-5rem)]">
         {/* <nav className="flex flex-col mt-4"> */}
         <ul className="text-sm space-y-4 text-gray-600 font-light">
-          <li className="bg-primary p-2 text-white rounded-xl">
-            <Link href="/dashboard" className="flex items-center space-x-2">
+          <li className="rounded-xl">
+            <Link
+              href="/dashboard"
+              className={`flex items-center space-x-2 p-3 rounded-xl transition-colors ${
+                isActive
+                  ? "bg-primary text-white" // Active route styling
+                  : "text-gray-600" // Default styling
+              } hover:bg-primary hover:text-white focus:bg-primary focus:text-white`}
+            >
               <span>
                 <CiHome />
               </span>
               <span>Dashboard</span>
             </Link>
           </li>
+
           <h6>Company CRM/MIS</h6>
           {roleId == 3 &&
             addList.map((item, index) => (
