@@ -46,7 +46,11 @@ export default function LoginForm() {
     setLoading(true);
     const loginURL = "https://mis.tcimax.co.in/api/login";
     try {
-      const response = await axios.post(loginURL, { mobile, password });
+      const response = await axios.post(
+        loginURL,
+        { mobile, password },
+        { crossDomain: true }
+      );
 
       if (response.status === 200) {
         localStorage.setItem("access_token", response.data.access_token);

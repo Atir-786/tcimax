@@ -117,7 +117,9 @@ export default function AddForm({ role, name }) {
   return (
     <Layout>
       <div className="register-page  mx-auto p-6 bg-white shadow-md rounded-lg border ">
-        <h2 className="text-center text-2xl font-semibold mb-4">Add {name}</h2>
+        <h2 className="text-center text-2xl font-semibold mb-4">
+          Add {name.charAt(0).toUpperCase() + name.slice(1)}
+        </h2>
 
         <form onSubmit={handleSubmit} className="p-4 border mx-auto max-w-xl">
           {errors.api && (
@@ -172,7 +174,7 @@ export default function AddForm({ role, name }) {
               Mobile Number
             </label>
             <input
-              type="text"
+              type="number"
               name="mobile"
               value={formData.mobile}
               onChange={handleChange}
