@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -10,7 +11,7 @@ const UserAvatar = () => {
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const modalRef = useRef(null);
   const [currentUserName, setCurrentUserName] = useState("");
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [user, setUser] = useState(null);
 
   // Toggle modal visibility
   const toggleUserModal = () => {
@@ -19,10 +20,15 @@ const UserAvatar = () => {
 
   // Close modal if clicked outside
   useEffect(() => {
-    const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-    if (currentUser && currentUser.name) {
-      setCurrentUserName(currentUser.name);
+    // Ensure the code only runs on the client-side
+    if (typeof window !== "undefined") {
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      if (currentUser && currentUser.name) {
+        setCurrentUserName(currentUser.name);
+        setUser(currentUser);
+      }
     }
+
     const handleClickOutside = (event) => {
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setIsUserModalOpen(false);
@@ -58,11 +64,11 @@ const UserAvatar = () => {
       {isUserModalOpen && (
         <div
           ref={modalRef}
-          className="p-2 absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-30"
+          className="p-4 absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-30"
         >
-          <div className="p-2 bg-blue-100">
-            <h1>{user?.name}</h1>
-            <h3>
+          <div className="p-4 bg-blue-100 rounded-md">
+            <h1 className="font-bold">{user?.name}</h1>
+            <h3 className="text-gray-600">
               {user?.role === 1
                 ? "Super Admin"
                 : user?.role === 2
@@ -76,14 +82,14 @@ const UserAvatar = () => {
                 : "Other"}
             </h3>
           </div>
-          <ul className="py-2 text-sm text-gray-700">
+          <ul className="py-2 text-md text-gray-700">
             <li className="hover:bg-gray-100 flex items-center space-x-2 px-4 py-2">
-              <FiUser className="text-lg text-gray-600" />
+              <FiUser className="text-2xl text-gray-600" />
               <button className="w-full text-left">Profile</button>
             </li>
 
             <li className="hover:bg-gray-100 flex items-center space-x-2 px-4 py-2">
-              <AiOutlinePoweroff className="text-lg text-gray-600" />
+              <AiOutlinePoweroff className="text-2xl text-gray-600" />
               <button onClick={handleLogout} className="w-full text-left">
                 Logout
               </button>

@@ -9,7 +9,7 @@ const InputField = ({
   icon: Icon,
 }) => {
   return (
-    <div className="relative mb-4 rounded-sm">
+    <div className="relative my-4 rounded-sm">
       <input
         name={name}
         value={value}

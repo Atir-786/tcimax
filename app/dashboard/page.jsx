@@ -1,11 +1,13 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { FiLoader } from "react-icons/fi";
 import { FaAward, FaWallet } from "react-icons/fa6";
-import StockStatisticsChart from "../../components/StockStatisticsChart";
+import dynamic from "next/dynamic";
 import Layout from "../../components/Layout";
+const StockStatisticsChart = dynamic(
+  () => import("../../components/StockStatisticsChart"),
+  {
+    ssr: false, // Disable SSR for this component
+  }
+);
 const Dashboard = () => {
   return (
     <>

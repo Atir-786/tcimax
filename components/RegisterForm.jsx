@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { redirect } from "next/navigation";
 import { AiOutlineMail } from "react-icons/ai";
 import { CiLock, CiUser } from "react-icons/ci";
-import InputField from "../InputComp";
+import InputField from "./InputComp";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");

@@ -1,13 +1,20 @@
 "use client";
-import { redirect } from "next/navigation";
-import React from "react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
-const page = () => {
-  const token = localStorage.getItem("access_token");
+const Page = () => {
+  const router = useRouter();
+  useEffect(() => {
+    const token = localStorage.getItem("access_token");
 
-  if (token) {
-    redirect("/dashboard");
-  } else redirect("/login");
+    if (token) {
+      router.push("/dashboard");
+    } else {
+      router.push("/login");
+    }
+  }, [router]);
+
+  return null; // No UI needed
 };
 
-export default page;
+export default Page;

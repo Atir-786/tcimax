@@ -9,17 +9,20 @@ const Layout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [roleId, setRoleId] = useState(null);
+
   useEffect(() => {
     const token = localStorage.getItem("access_token");
-    const { role } = JSON.parse(localStorage.getItem("user"));
-    setRoleId(role);
+
     if (!token) {
-      // Redirect to login if no token is found
       router.push("/login");
     } else {
+      const user = JSON.parse(localStorage.getItem("user"));
+      // console.log(user.role);
+
+      setRoleId(user?.role);
       setIsLoading(false);
     }
-  }, []);
+  }, [router]);
 
   if (isLoading) {
     return (

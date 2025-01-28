@@ -42,6 +42,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
   const toggleMenu = (index) => {
     setOpenMenu(openMenu === index ? null : index);
   };
+  // console.log(roleId);
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-4 border-b">

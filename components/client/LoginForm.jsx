@@ -4,6 +4,8 @@ import axios from "axios";
 import { CiMobile1, CiLock } from "react-icons/ci";
 import InputField from "../InputComp";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+
 export default function LoginForm() {
   const router = useRouter();
 
@@ -14,16 +16,14 @@ export default function LoginForm() {
 
   const validateForm = () => {
     const validationErrors = {};
+    const mobileRegex = /^[6-9]\d{9}$/;
 
-    // Validate mobile number
-    const mobileRegex = /^[6-9]\d{9}$/; // Accepts a 10-digit number starting with 6, 7, 8, or 9
     if (!mobile) {
       validationErrors.mobile = "Mobile number is required";
     } else if (!mobileRegex.test(mobile)) {
       validationErrors.mobile = "Enter a valid 10-digit mobile number";
     }
 
-    // Validate password
     if (!password) {
       validationErrors.password = "Password is required";
     } else if (password.length < 8) {
@@ -35,8 +35,7 @@ export default function LoginForm() {
 
   const handleForm = async (e) => {
     e.preventDefault();
-    console.log("logging");
-    // Validate fields
+
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
@@ -45,20 +44,12 @@ export default function LoginForm() {
 
     setErrors({});
     setLoading(true);
-
+    const loginURL = "https://mis.tcimax.co.in/api/login";
     try {
-      const response = await axios.post("https://mis.tcimax.co.in/api/login", {
-        mobile,
-        password,
-      });
-      console.log(response);
+      const response = await axios.post(loginURL, { mobile, password });
 
       if (response.status === 200) {
-        console.log("Login successful!");
-        // Store token securely
         localStorage.setItem("access_token", response.data.access_token);
-
-        // Store user details (only for display purposes)
         localStorage.setItem(
           "user",
           JSON.stringify({
@@ -66,18 +57,27 @@ export default function LoginForm() {
             role: response.data.user.role_id,
           })
         );
-        // Redirect to the dashboard
-        // window.location.href = "/dashboard";
+
+        Swal.fire({
+          title: "Login Successful!",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+
         router.push("/dashboard");
       }
     } catch (error) {
-      if (error.response) {
-        setErrors({
-          api: error.response.data.message || "Login failed. Please try again.",
-        });
-      } else {
-        setErrors({ api: "An unexpected error occurred. Please try again." });
-      }
+      const errorMessage =
+        error.response?.data?.message || "Login failed. Please try again.";
+      setErrors({ api: errorMessage });
+
+      Swal.fire({
+        title: "Error!",
+        text: errorMessage,
+        icon: "error",
+        confirmButtonText: "OK",
+      });
     } finally {
       setLoading(false);
     }
@@ -85,12 +85,10 @@ export default function LoginForm() {
 
   return (
     <form onSubmit={(e) => handleForm(e)}>
-      {/* API Error Message */}
       {errors.api && (
         <div className="text-red-500 text-sm mb-4">{errors.api}</div>
       )}
 
-      {/* Mobile Number Input */}
       <InputField
         name="mobile"
         value={mobile}
@@ -100,10 +98,9 @@ export default function LoginForm() {
         icon={CiMobile1}
       />
       {errors.mobile && (
-        <p className="text-red-500 text-sm mt-1">{errors.mobile}</p>
+        <p className="text-red-500 mb-2 text-sm">{errors.mobile}</p>
       )}
 
-      {/* Password Input */}
       <InputField
         name="password"
         value={password}
@@ -113,10 +110,9 @@ export default function LoginForm() {
         icon={CiLock}
       />
       {errors.password && (
-        <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+        <p className="text-red-500 text-sm mb-2">{errors.password}</p>
       )}
 
-      {/* Submit Button */}
       <button
         type="submit"
         className="text-lg py-4 my-8 w-full bg-blue-600 text-white rounded-xl hover:bg-blue-600 transition"
