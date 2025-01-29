@@ -25,7 +25,7 @@ const LoginPage = () => {
             </Link>
           </div> */}
 
-          <h5 className="text-center mt-8">AM-MIS v1.3</h5>
+          <h5 className="text-center mt-8">AM-MIS v1.4</h5>
         </div>
       </div>
     </div>

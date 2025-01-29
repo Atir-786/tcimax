@@ -45,10 +45,6 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
     setOpenMenu(openMenu === index ? null : index);
   };
   // console.log(roleId);
-  const isActive =
-    router.pathname &&
-    (router.pathname === "/dashboard" ||
-      router.pathname.startsWith("/dashboard"));
   return (
     <div className="flex flex-col h-full">
       <div className="flex items-center justify-between p-4 border-b">
@@ -58,19 +54,16 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
       <nav className="p-4 overflow-y-auto h-[calc(100vh-5rem)]">
         {/* <nav className="flex flex-col mt-4"> */}
         <ul className="text-sm space-y-4 text-gray-600 font-light">
-          <li className="rounded-xl">
-            <Link
-              href="/dashboard"
-              className={`flex items-center space-x-2 p-3 rounded-xl transition-colors ${
-                isActive
-                  ? "bg-primary text-white" // Active route styling
-                  : "text-gray-600" // Default styling
-              } hover:bg-primary hover:text-white focus:bg-primary focus:text-white`}
-            >
-              <span>
-                <CiHome />
-              </span>
-              <span>Dashboard</span>
+          <li
+            className={`p-3 rounded-xl transition-colors bg-primary text-white`}
+          >
+            <Link href="/dashboard">
+              <div className="flex items-center space-x-2">
+                <span>
+                  <CiHome />
+                </span>
+                <span>Dashboard</span>
+              </div>
             </Link>
           </li>
 
@@ -90,7 +83,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
               </li>
             ))}
 
-          {roleId == 3 &&
+          {(roleId == 1 || roleId == 3) &&
             menuList.map((item, index) => (
               <li key={index}>
                 <Link
@@ -147,7 +140,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
               {" "}
               <h1>App Management</h1>
               <li>
-                <Link href="#" className="flex items-center space-x-2">
+                <Link href="/settings" className="flex items-center space-x-2">
                   <span>
                     <CiSettings />
                   </span>

@@ -9,8 +9,8 @@ import Swal from "sweetalert2";
 export default function LoginForm() {
   const router = useRouter();
 
-  const [mobile, setMobile] = useState("9906745021");
-  const [password, setPassword] = useState("123456789");
+  const [mobile, setMobile] = useState("");
+  const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -49,7 +49,10 @@ export default function LoginForm() {
       const response = await axios.post(
         loginURL,
         { mobile, password },
-        { crossDomain: true }
+        {
+          headers: { "Content-Type": "application/json" },
+          withCredentials: true,
+        }
       );
 
       if (response.status === 200) {
@@ -100,6 +103,7 @@ export default function LoginForm() {
         type="number"
         placeholder="Mobile Number"
         icon={CiMobile1}
+        // maxLength={10}
       />
       {errors.mobile && (
         <p className="text-red-500 mb-2 text-sm">{errors.mobile}</p>
@@ -112,6 +116,7 @@ export default function LoginForm() {
         type="text"
         placeholder="Password"
         icon={CiLock}
+        // maxLength={50}
       />
       {errors.password && (
         <p className="text-red-500 text-sm mb-2">{errors.password}</p>
