@@ -55,7 +55,8 @@ const List = ({ role, name }) => {
                   <th className="p-4">S.L</th>
                   <th className="p-4">Join Date</th>
                   <th className="p-4">Name</th>
-                  <th className="p-4">Email</th>
+                  <th className="p-4">Mobile</th>
+                  <th className="p-4">District</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Action</th>
                 </tr>
@@ -66,7 +67,8 @@ const List = ({ role, name }) => {
                     <td className="p-4">{(page - 1) * limit + index + 1}</td>
                     <td className="p-4">{user.created_at}</td>
                     <td className="p-4">{user.name}</td>
-                    <td className="p-4">{user.email}</td>
+                    <td className="p-4">{user.mobile}</td>
+                    <td className="p-4">{user.district}</td>
                     <td className="p-4">
                       <span
                         className={`px-4 py-2 text-sm rounded ${

@@ -1,5 +1,5 @@
 "use client";
-import AddForm from "../../components/AddForm";
+import AddUserLayout from "../../components/AddUserLayout";
 export default function AddDistributor() {
-  return <AddForm role={4} name="distributors" />;
+  return <AddUserLayout role={4} name="distributors" />;
 }

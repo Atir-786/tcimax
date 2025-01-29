@@ -100,10 +100,10 @@ export default function LoginForm() {
         name="mobile"
         value={mobile}
         onChange={(e) => setMobile(e.target.value)}
-        type="number"
+        type="text"
         placeholder="Mobile Number"
         icon={CiMobile1}
-        // maxLength={10}
+        maxLength={10}
       />
       {errors.mobile && (
         <p className="text-red-500 mb-2 text-sm">{errors.mobile}</p>
@@ -116,7 +116,7 @@ export default function LoginForm() {
         type="text"
         placeholder="Password"
         icon={CiLock}
-        // maxLength={50}
+        maxLength={20}
       />
       {errors.password && (
         <p className="text-red-500 text-sm mb-2">{errors.password}</p>

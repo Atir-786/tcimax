@@ -20,7 +20,7 @@ const menuList = [
   "District Wise List",
   "Schemes List",
 ];
-const addList = ["Add Distributor", "Add Retailer", "Add Monthly Sale Targets"];
+const addList = ["Add Distributor", "Add Retailer", "Add Sales"];
 const userManagementList = [
   {
     name: "Managers",

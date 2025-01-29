@@ -7,7 +7,7 @@ const InputField = ({
   type = "text",
   placeholder,
   icon: Icon,
-  // maxLength,
+  maxLength,
 }) => {
   return (
     <div className="relative my-4 rounded-sm">
@@ -16,7 +16,7 @@ const InputField = ({
         value={value}
         onChange={onChange}
         type={type}
-        // maxLength={maxLength}
+        maxLength={maxLength}
         placeholder={placeholder}
         className="text-lg pl-10 pr-4 py-4 w-full border border-gray-100 rounded-xl bg-gray-100 focus:outline-gray-400"
       />

@@ -1,4 +1,4 @@
-import AddForm from "../../components/AddForm";
+import AddUserLayout from "../../components/AddUserLayout";
 export default function AddRetailer() {
-  return <AddForm role={5} name="retailers" />;
+  return <AddUserLayout role={5} name="retailers" />;
 }

@@ -1,5 +1,5 @@
 "use client";
-import { FaAward, FaWallet } from "react-icons/fa6";
+import { FaAward, FaPerson, FaWallet } from "react-icons/fa6";
 import dynamic from "next/dynamic";
 import Layout from "../../components/Layout";
 const StockStatisticsChart = dynamic(
@@ -13,8 +13,8 @@ const Dashboard = () => {
     <>
       <Layout>
         <div className="p-2">
-          <h1 className="text-xl font-semibold">DashBoard</h1>
-          <main className="flex flex-col md:flex-row ">
+          <h1 className="text-xl font-semibold mb-2">DashBoard</h1>
+          <main className="flex flex-col lg:flex-row ">
             <section className="mr-4 mb-4 flex-1 text-gray-700  flex justify-between items-center p-4 bg-gradient-to-r from-purple-100 from-10%  to-white-500 border rounded-lg">
               <div>
                 <h2 className="text-lg font-semibold">Sales Achieved</h2>
@@ -33,6 +33,26 @@ const Dashboard = () => {
 
               <div className="text-white text-2xl  bg-emerald-500 w-12 h-12 rounded-full flex justify-center items-center">
                 <FaWallet />
+              </div>
+            </section>
+            <section className="mr-4 mb-4 flex-1 text-gray-700  flex justify-between items-center p-4 bg-gradient-to-r from-purple-100 from-10%  to-white-500 border rounded-lg">
+              <div>
+                <h2 className="text-lg font-semibold">Total Distributors</h2>
+                <h2 className="text-lg font-bold">0</h2>
+              </div>
+
+              <div className="text-white text-2xl  bg-purple-500 w-12 h-12 rounded-full flex justify-center items-center">
+                <FaPerson />
+              </div>
+            </section>
+            <section className="mr-4 mb-4 flex-1 text-gray-700  flex justify-between items-center p-4 bg-gradient-to-r from-emerald-100 from-10%  to-white-500 border rounded-lg">
+              <div>
+                <h2 className="text-lg font-semibold">Sales Retailors</h2>
+                <h2 className="text-lg font-bold">0</h2>
+              </div>
+
+              <div className="text-white text-2xl  bg-emerald-500 w-12 h-12 rounded-full flex justify-center items-center">
+                <FaPerson />
               </div>
             </section>
           </main>

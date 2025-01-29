@@ -1,17 +1,17 @@
 import React from "react";
 import Image from "next/image";
-import logo from "../../public/logo.png";
+import logo from "../../public/LOGO-01.png";
 import LoginForm from "../../components/client/LoginForm";
 const LoginPage = () => {
   return (
     <div className="flex w-screen h-screen">
       <div className="bg-blue-100 h-screen w-1/2  hidden md:flex items-center justify-center">
-        <Image src={logo} alt="Logo" className="w-1/4" />
+        <Image src={logo} alt="Logo" className="w-1/4 bg-white" />
       </div>
       {/* form section */}
       <div
         className="flex flex-col justify-center items-center
-      h-full w-full md:w-1/2"
+      h-full w-full md:w-1/2 p-2"
       >
         <div>
           <h2 className="text-3xl font-semibold text-gray-800 mb-2">Login</h2>
