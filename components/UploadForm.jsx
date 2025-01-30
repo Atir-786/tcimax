@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { FiUpload } from "react-icons/fi";
 import axios from "axios";
