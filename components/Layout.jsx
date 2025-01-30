@@ -1,14 +1,30 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import TopNav from "./TopNav";
 import Navbar from "./Navbar";
 import { useRouter } from "next/navigation";
 import { FiLoader } from "react-icons/fi";
+
 const Layout = ({ children }) => {
   const router = useRouter();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to closed
   const [isLoading, setIsLoading] = useState(true);
   const [roleId, setRoleId] = useState(null);
+
+  useEffect(() => {
+    // Check screen size and set the initial sidebar state
+    const handleResize = () => {
+      setIsSidebarOpen(window.innerWidth >= 768); // Open sidebar if screen width is desktop size (>= 768px)
+    };
+
+    handleResize(); // Set initial state
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("access_token");
@@ -17,8 +33,6 @@ const Layout = ({ children }) => {
       router.push("/login");
     } else {
       const user = JSON.parse(localStorage.getItem("user"));
-      // console.log(user.role);
-
       setRoleId(user?.role);
       setIsLoading(false);
     }
@@ -32,9 +46,11 @@ const Layout = ({ children }) => {
       </div>
     );
   }
+
   function toggleSidebar() {
     setIsSidebarOpen(!isSidebarOpen);
   }
+
   return (
     <>
       <div className="flex min-h-screen overflow-hidden">
@@ -55,7 +71,10 @@ const Layout = ({ children }) => {
         >
           {/* Top Navigation */}
           <header className="sticky top-0 z-10 bg-white shadow-md">
-            <TopNav toggleSidebar={toggleSidebar} />
+            <TopNav
+              toggleSidebar={toggleSidebar}
+              isSidebarOpen={isSidebarOpen}
+            />
           </header>
 
           {/* Main Content */}

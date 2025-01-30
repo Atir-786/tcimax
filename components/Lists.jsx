@@ -53,9 +53,10 @@ const List = ({ role, name }) => {
               <thead>
                 <tr className="border bg-gray-100">
                   <th className="p-4">S.L</th>
-                  <th className="p-4">Join Date</th>
-                  <th className="p-4">Name</th>
                   <th className="p-4">Mobile</th>
+                  <th className="p-4">Name</th>
+                  <th className="p-4">Join Date</th>
+
                   <th className="p-4">District</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Action</th>
@@ -65,9 +66,9 @@ const List = ({ role, name }) => {
                 {users.map((user, index) => (
                   <tr key={index} className="border text-gray-500 ">
                     <td className="p-4">{(page - 1) * limit + index + 1}</td>
-                    <td className="p-4">{user.created_at}</td>
-                    <td className="p-4">{user.name}</td>
                     <td className="p-4">{user.mobile}</td>
+                    <td className="p-4">{user.name}</td>
+                    <td className="p-4">{user.created_at}</td>
                     <td className="p-4">{user.district}</td>
                     <td className="p-4">
                       <span

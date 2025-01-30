@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-const Clock = () => {
+const Clock = ({ isSidebarOpen }) => {
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -17,7 +17,16 @@ const Clock = () => {
     return () => clearInterval(interval);
   }, []);
 
-  return <div className="text-lg font-normal text-black ">{time}</div>;
+  // Hide on mobile when sidebar is open
+  return (
+    <div
+      className={`text-lg font-normal text-black ${
+        isSidebarOpen ? "hidden md:block" : ""
+      }`}
+    >
+      {time}
+    </div>
+  );
 };
 
 export default Clock;
