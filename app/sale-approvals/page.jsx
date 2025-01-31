@@ -3,7 +3,9 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
 import Layout from "../../components/Layout";
-
+import { FiDownload } from "react-icons/fi";
+import Link from "next/link";
+import ActionDropdown from "../../components/ActionDropdown";
 export default function SaleApprovals() {
   const [salesData, setSalesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -55,7 +57,7 @@ export default function SaleApprovals() {
   return (
     <Layout>
       <div className="p-8 bg-gray-50 rounded-xl shadow-lg max-w-4xl mx-auto">
-        <h2 className="text-xl font-bold mb-4">Sales Queue Table</h2>
+        <h2 className="text-xl font-bold mb-4">Sale Approvals</h2>
 
         {loading ? (
           <p>Loading sales data...</p>
@@ -67,9 +69,9 @@ export default function SaleApprovals() {
                   <th className="px-4 py-4">S.No.</th>
                   <th className="px-4 py-4">Date</th>
                   <th className="px-4 py-4">Uploaded By</th>
-                  <th className="px-4 py-4">Type</th>
-                  <th className="px-4 py-4">Action</th>
+                  <th className="px-4 py-4">Status</th>
                   <th className="px-4 py-4">Download</th>
+                  <th className="px-4 py-4">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -80,31 +82,32 @@ export default function SaleApprovals() {
                     </td>
                     <td className="px-4 py-4">{upload.dated}</td>
                     <td className="px-4 py-4">{upload.upload_by}</td>
-                    <td className="px-4 py-4">{upload.upload_type}</td>
                     <td className="px-4 py-4">
-                      <select
-                        onChange={(e) =>
-                          handleAction(upload.process_id, e.target.value)
-                        }
-                        defaultValue=""
-                        className="border px-2 py-1 rounded"
-                      >
-                        <option value="" disabled>
-                          Select Action
-                        </option>
-                        <option value="Approve">Approve</option>
-                        <option value="Reject">Reject</option>
-                      </select>
+                      {upload.status === 1 ? (
+                        <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
+                          Completed
+                        </span>
+                      ) : (
+                        <span className="bg-orange-100 text-orange-600  px-4 py-2 rounded-full text-sm">
+                          Pending
+                        </span>
+                      )}
                     </td>
                     <td className="px-4 py-4">
-                      <a
+                      <Link
                         href={upload.download}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-500 underline"
+                        className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
                       >
-                        Download
-                      </a>
+                        <FiDownload className="inline text-sm" />
+                      </Link>
+                    </td>
+                    <td className="px-4 py-4 flex justify-center items-center">
+                      <ActionDropdown
+                        processId={upload.process_id}
+                        handleAction={handleAction}
+                      />
                     </td>
                   </tr>
                 ))}
