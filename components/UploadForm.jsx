@@ -4,7 +4,7 @@ import { FiUpload } from "react-icons/fi";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function UploadForm() {
+export default function UploadForm({ url }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState("");
 
@@ -38,21 +38,21 @@ export default function UploadForm() {
     }
 
     const formData = new FormData();
-    formData.append("file", selectedFile);
-
+    formData.append("bulk_sales", selectedFile);
+    for (let pair of formData.entries()) {
+      console.log(`${pair[0]}: ${pair[1]}`);
+    }
     try {
+      const token = localStorage.getItem("access_token");
       // Replace with your real API
-      const response = await axios.post(
-        "https://dummyapi.io/upload",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-
-      if (response.status === 200) {
+      const response = await axios.post(url, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log(response);
+      if (response.status === 200 || response.status === 201) {
         Swal.fire("Success", "File uploaded successfully!", "success");
         setSelectedFile(null);
       }

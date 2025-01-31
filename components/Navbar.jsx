@@ -14,8 +14,8 @@ import { useRouter } from "next/navigation";
 const menuList = [
   "Distributors List",
   "Retailers List",
+  "Sale Approvals",
   "Company Associated List",
-  "Sale Approvales",
   "Total Dealers List",
   "District Wise List",
   "Schemes List",
