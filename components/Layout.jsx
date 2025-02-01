@@ -56,7 +56,7 @@ const Layout = ({ children }) => {
       <div className="flex min-h-screen overflow-hidden">
         {/* Sidebar */}
         <aside
-          className={`fixed top-0 left-0 h-full bg-white shadow-lg transition-transform duration-300 ${
+          className={`border border-gray-100 fixed top-0 left-0 h-full bg-white shadow-lg transition-transform duration-300 ${
             isSidebarOpen ? "translate-x-0" : "-translate-x-64"
           } w-64`}
         >
@@ -70,7 +70,12 @@ const Layout = ({ children }) => {
           }`}
         >
           {/* Top Navigation */}
-          <header className="sticky top-0 z-10 bg-white shadow-md">
+          <header
+            className={`fixed top-0 z-10 bg-white  transition-all duration-300 ${
+              isSidebarOpen ? "left-64" : "left-0"
+            } right-0`}
+          >
+            {" "}
             <TopNav
               toggleSidebar={toggleSidebar}
               isSidebarOpen={isSidebarOpen}
@@ -78,7 +83,7 @@ const Layout = ({ children }) => {
           </header>
 
           {/* Main Content */}
-          <main className="flex-1 p-6 bg-gray-100">{children}</main>
+          <main className="flex-1 p-2 pt-20 bg-gray-50">{children}</main>
         </div>
       </div>
     </>

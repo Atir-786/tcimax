@@ -24,7 +24,7 @@ const Dashboard = () => {
     <Layout>
       {roleId === 1 || roleId === 2 ? (
         <div className="p-2">
-          <h1 className="text-xl font-semibold mb-2">DashBoard</h1>
+          <h1 className="text-h6 font-semibold mb-4">DashBoard</h1>
           <main className="flex flex-col lg:flex-row ">
             <section className="mr-4 mb-4 flex-1 text-gray-700  flex justify-between items-center p-4 bg-gradient-to-r from-purple-100 from-10%  to-white-500 border rounded-lg">
               <div>

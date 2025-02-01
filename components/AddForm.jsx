@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
-const AddForm = ({ role }) => {
+const AddForm = ({ role, name }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
@@ -271,7 +271,7 @@ const AddForm = ({ role }) => {
       <div className="mb-4">
         <button
           type="submit"
-          className="w-full py-2 bg-primary text-white rounded-lg flex justify-center items-center gap-2"
+          className="w-full py-2 bg-primary text-white rounded-lg flex justify-center items-center gap-2 hover:bg-info"
           disabled={loading}
         >
           {loading ? (

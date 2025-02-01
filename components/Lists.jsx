@@ -12,7 +12,8 @@ const List = ({ role, name }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const limit = 5;
+  const [searchQuery, setSearchQuery] = useState("");
+  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   const fetchUsers = async () => {
     setLoading(true);
@@ -20,11 +21,14 @@ const List = ({ role, name }) => {
 
     try {
       const token = localStorage.getItem("access_token");
-      const response = await axios.get(`${usersURL}/${page}/${limit}/${role}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await axios.get(
+        `${usersURL}/${page}/${rowsPerPage}/${role}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setUsers(response.data.data.users);
     } catch (err) {
       setError(err.response?.data?.message || "An error occurred.");
@@ -35,19 +39,64 @@ const List = ({ role, name }) => {
 
   useEffect(() => {
     fetchUsers();
-  }, [page]);
+  }, [page, rowsPerPage]);
 
+  // Filter users by search query
+  const filteredUsers = users.filter(
+    (user) =>
+      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.mobile.includes(searchQuery) ||
+      user.district.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const handleRowsPerPageChange = (e) => {
+    setRowsPerPage(Number(e.target.value)); // Update the rowsPerPage state
+  };
   return (
     <Layout>
-      <div className="mx-auto p-6 bg-white shadow-md rounded-lg border ">
-        <h2 className="text-2xl font-semibold mb-4">
+      <div className="mx-auto p-6 bg-white shadow-md rounded-lg border">
+        <h2 className="border-b text-2xl font-semibold mb-4 pb-4">
           {name.charAt(0).toUpperCase() + name.slice(1)} List
         </h2>
+        <div className="flex items-center justify-between mb-4">
+          {/* Entries per page */}
+          <div className="flex items-center">
+            <label htmlFor="rowsPerPage" className="mr-2 text-sm text-gray-700">
+              Entries per page:
+            </label>
+            <select
+              id="rowsPerPage"
+              onChange={handleRowsPerPageChange}
+              value={rowsPerPage}
+              className="border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-200"
+            >
+              <option value={1}>1</option>
+              <option value={5}>5</option>
+              <option value={10}>10</option>
+              <option value={25}>25</option>
+              <option value={50}>50</option>
+            </select>
+          </div>
+
+          {/* Search Box */}
+          <div className="flex items-center">
+            <label htmlFor="searchInput" className="mr-2 text-sm text-gray-700">
+              Search:
+            </label>
+            <input
+              id="searchInput"
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder=""
+              className="border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none"
+            />
+          </div>
+        </div>
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
         {loading && <p className="text-blue-500">Loading...</p>}
 
-        {!loading && users.length > 0 && (
+        {!loading && filteredUsers.length > 0 && (
           <div className="overflow-x-auto">
             <table className="min-w-full text-left border">
               <thead>
@@ -56,16 +105,17 @@ const List = ({ role, name }) => {
                   <th className="p-4">Mobile</th>
                   <th className="p-4">Name</th>
                   <th className="p-4">Join Date</th>
-
                   <th className="p-4">District</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Action</th>
                 </tr>
               </thead>
               <tbody>
-                {users.map((user, index) => (
-                  <tr key={index} className="border text-gray-500 ">
-                    <td className="p-4">{(page - 1) * limit + index + 1}</td>
+                {filteredUsers.map((user, index) => (
+                  <tr key={index} className="border text-gray-500">
+                    <td className="p-4">
+                      {(page - 1) * rowsPerPage + index + 1}
+                    </td>
                     <td className="p-4">{user.mobile}</td>
                     <td className="p-4">{user.name}</td>
                     <td className="p-4">{user.created_at}</td>
@@ -115,111 +165,3 @@ const List = ({ role, name }) => {
 };
 
 export default List;
-
-// "use client";
-// import React, { useEffect, useState } from "react";
-// import axios from "axios";
-// import Layout from "./Layout";
-// const List = ({ role, name }) => {
-//   const [users, setUsers] = useState([]); // Store users
-//   const [loading, setLoading] = useState(false); // Loading state
-//   const [error, setError] = useState(null); // Error state
-//   const [page, setPage] = useState(1); // Current page
-//   const [limit, setLimit] = useState(5); // Number of users per page
-
-//   // Fetch users from API
-//   const fetchUsers = async () => {
-//     setLoading(true);
-//     setError(null);
-
-//     try {
-//       const token = localStorage.getItem("access_token");
-//       const response = await axios.get(
-//         `https://mis.tcimax.co.in/api/users/${page}/${limit}/${role}`,
-//         {
-//           headers: {
-//             Authorization: `Bearer ${token}`, // Add token to the request
-//           },
-//         }
-//       );
-//       console.log(response);
-//       setUsers(response.data.data.users); // Assuming the API returns users in `data`
-//     } catch (err) {
-//       setError(err.response?.data?.message || "An error occurred.");
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   // Fetch users on component mount and when page/limit/roleId changes
-//   useEffect(() => {
-//     fetchUsers();
-//   }, [page, limit]);
-
-//   return (
-//     <Layout>
-//       <div className="container mx-auto p-6">
-//         <h2 className="text-2xl font-semibold mb-4">{name} list</h2>
-
-//         {/* Error Message */}
-//         {error && <p className="text-red-500 mb-4">{error}</p>}
-
-//         {/* Loading Spinner */}
-//         {loading && <p className="text-blue-500">Loading...</p>}
-
-//         {/* Users Table */}
-//         {!loading && users.length > 0 && (
-//           <table className="min-w-full border-collapse border border-gray-300">
-//             <thead>
-//               <tr>
-//                 <th className="border border-gray-300 p-2">S.L</th>
-//                 <th className="border border-gray-300 p-2">Join Date</th>
-//                 <th className="border border-gray-300 p-2">Name</th>
-//                 <th className="border border-gray-300 p-2">Email</th>
-//                 <th className="border border-gray-300 p-2">Status</th>
-//                 <th className="border border-gray-300 p-2">Action</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {users.map((user, index) => (
-//                 <tr key={index}>
-//                   <td className="border border-gray-300 p-2">{index + 1}</td>
-//                   <td className="border border-gray-300 p-2">
-//                     {user.created_at}
-//                   </td>
-//                   <td className="border border-gray-300 p-2">{user.name}</td>
-//                   <td className="border border-gray-300 p-2">{user.email}</td>
-//                   <td className="border border-gray-300 p-2">
-//                     {user.status == 1 ? "Active" : "Not Active"}
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         )}
-
-//         {/* Pagination Controls */}
-//         <div className="flex items-center justify-between mt-4">
-//           <button
-//             onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-//             disabled={page === 1}
-//             className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-//           >
-//             Previous
-//           </button>
-//           <span>
-//             Page <strong>{page}</strong>
-//           </span>
-//           <button
-//             onClick={() => setPage((prev) => prev + 1)}
-//             className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400"
-//           >
-//             Next
-//           </button>
-//         </div>
-//       </div>
-//     </Layout>
-//   );
-// };
-
-// export default List;

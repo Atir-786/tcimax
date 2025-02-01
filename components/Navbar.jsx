@@ -51,7 +51,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
         <Image src={logo} alt=""></Image>
       </div>
 
-      <nav className="p-4 overflow-y-auto h-[calc(100vh-5rem)]">
+      <nav className="w-64 p-4 overflow-y-auto h-[calc(100vh-5rem)]">
         {/* <nav className="flex flex-col mt-4"> */}
         <ul className="text-sm space-y-4 text-gray-600 font-light">
           <li
@@ -73,7 +73,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
               <li key={index}>
                 <Link
                   href={`/${item.toLowerCase().replace(" ", "-")}`}
-                  className="flex items-center space-x-2"
+                  className={`flex items-center space-x-2`}
                 >
                   <span>
                     <FaCirclePlus />

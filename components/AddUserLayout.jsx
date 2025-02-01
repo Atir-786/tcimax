@@ -8,7 +8,7 @@ export default function AddUserLayout({ role, name }) {
   const [activeTab, setActiveTab] = useState("excel");
   return (
     <Layout>
-      <div className="register-page  mx-auto p-6 bg-white shadow-md rounded-lg border ">
+      <div className=" mx-auto p-6 bg-white shadow-md rounded-lg border ">
         <h2 className="text-center text-2xl font-semibold mb-4">
           Add {name.charAt(0).toUpperCase() + name.slice(1)}
         </h2>
@@ -39,7 +39,7 @@ export default function AddUserLayout({ role, name }) {
         <div className="mt-6">
           {activeTab === "manual" && (
             <div className="bg-gray-50 p-4 rounded-xl">
-              <AddForm role={role} />
+              <AddForm role={role} name={name} />
             </div>
           )}
           {activeTab === "excel" && (

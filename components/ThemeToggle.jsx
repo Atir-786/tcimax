@@ -10,7 +10,7 @@ const ThemeToggle = () => {
   };
 
   return (
-    <div className="bg-gray-200 w-10 h-10 rounded-full flex justify-center items-center">
+    <div className="hidden bg-gray-200 w-10 h-10 rounded-full flex justify-center items-center">
       <button
         onClick={toggleTheme}
         className="text-xl text-gray-800"

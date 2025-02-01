@@ -20,9 +20,8 @@ const Clock = ({ isSidebarOpen }) => {
   // Hide on mobile when sidebar is open
   return (
     <div
-      className={`text-lg font-normal text-black ${
-        isSidebarOpen ? "hidden md:block" : ""
-      }`}
+      className="text-lg font-normal text-black 
+         hidden md:block"
     >
       {time}
     </div>
