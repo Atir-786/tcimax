@@ -9,11 +9,13 @@ import { FaAngleDown, FaCirclePlus } from "react-icons/fa6";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { FaAngleRight } from "react-icons/fa";
 import { BsDot } from "react-icons/bs";
-const menuList = [
+const menuList1 = [
   "Distributors List",
   "Retailers List",
   "Sale Approvals",
   "User Approvals",
+];
+const menuList2 = [
   "Company Associated List",
   "Total Dealers List",
   "District Wise List",
@@ -64,9 +66,9 @@ const Navbar = ({ roleId }) => {
               </div>
             </Link>
           </li>
-
           <h6>Company CRM/MIS</h6>
-          {roleId == 3 &&
+          {/* /// // // / // / // / / // / / */}
+          {roleId === 3 &&
             addList.map((item, index) => (
               <li key={index}>
                 <Link
@@ -80,9 +82,9 @@ const Navbar = ({ roleId }) => {
                 </Link>
               </li>
             ))}
-
-          {(roleId == 1 || roleId == 2) &&
-            menuList.map((item, index) => (
+          {/* // /// / /// // / // // / /  */}
+          {(roleId === 1 || roleId === 2 || roleId === 3) &&
+            menuList1.map((item, index) => (
               <li key={index}>
                 <Link
                   href={`/${item.toLowerCase().replace(" ", "-")}`}
@@ -95,7 +97,23 @@ const Navbar = ({ roleId }) => {
                 </Link>
               </li>
             ))}
-          {roleId == 1 && (
+          {/* // // /// /// ///// // */}
+          {(roleId === 1 || roleId === 2) &&
+            menuList2.map((item, index) => (
+              <li key={index}>
+                <Link
+                  href={`/${item.toLowerCase().replace(" ", "-")}`}
+                  className="flex items-center space-x-2 hover:text-primary"
+                >
+                  <span>
+                    <IoIosList />
+                  </span>
+                  <span>{item}</span>
+                </Link>
+              </li>
+            ))}
+          {/* // ///  // / / / / / / / // / // / */}
+          {roleId === 1 && (
             <>
               <h1 className="">User Management</h1>
               {userManagementList.map((item, index) => (
@@ -135,8 +153,8 @@ const Navbar = ({ roleId }) => {
               ))}
             </>
           )}
-
-          {roleId == 1 && (
+          {/* /// / // App Management /// /// / */}
+          {roleId === 1 && (
             <>
               {" "}
               <h1>App Management</h1>

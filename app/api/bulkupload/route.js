@@ -4,8 +4,9 @@ import { cookies } from "next/headers";
 
 export async function POST(req) {
   try {
-    const accessToken = cookies().get("access_token")?.value;
-
+    const cookieStore = await cookies();
+    const accessToken = cookieStore.get("access_token")?.value;
+    // console.log(accessToken);
     if (!accessToken) {
       return NextResponse.json(
         { message: "Unauthorized: No access token found" },
@@ -15,7 +16,10 @@ export async function POST(req) {
 
     // Parse the incoming form data and target upload API
     const formData = await req.formData();
-    const file = formData.get("bulk_data");
+    const fileField = Array.from(formData.keys()).find(
+      (key) => key !== "uploadUrl"
+    );
+    const file = formData.get(fileField);
     const targetUrl = formData.get("uploadUrl");
 
     if (!file) {
@@ -33,7 +37,7 @@ export async function POST(req) {
     }
 
     const backendFormData = new FormData();
-    backendFormData.append("bulk_data", file);
+    backendFormData.append(fileField, file);
 
     const uploadResponse = await axios.post(targetUrl, backendFormData, {
       headers: {

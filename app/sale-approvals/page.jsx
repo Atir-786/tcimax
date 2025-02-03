@@ -19,9 +19,9 @@ export default function SaleApprovals() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    const { role } = JSON.parse(Cookies.get("user_data"));
+    // const { role } = JSON.parse(Cookies.get("user_data"));
     // console.log(role);
-    if (role !== 1 || role !== 2) router.push("dashboard");
+    // if (role !== 1 || role !== 2) router.push("dashboard");
 
     fetchSalesData(currentPage);
   }, [currentPage, rowsPerPage]);
@@ -88,7 +88,6 @@ export default function SaleApprovals() {
               value={rowsPerPage}
               className="border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-200"
             >
-              <option value={1}>1</option>
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={25}>25</option>

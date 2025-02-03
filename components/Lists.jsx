@@ -13,31 +13,45 @@ const List = ({ role, name }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  const fetchUsers = async () => {
-    setLoading(true);
-    setError(null);
+  // const fetchUsers = async () => {
+  //   setLoading(true);
+  //   setError(null);
 
-    try {
-      const token = localStorage.getItem("access_token");
-      const response = await axios.get(
-        `${API_URLS.USERS}/${page}/${rowsPerPage}/${role}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setUsers(response.data.data.users);
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  //   try {
+  //     const token = localStorage.getItem("access_token");
+  //     const response = await axios.get(
+  //       `${API_URLS.USERS}/${page}/${rowsPerPage}/${role}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       }
+  //     );
+  //     setUsers(response.data.data.users);
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || "An error occurred.");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
   useEffect(() => {
-    fetchUsers();
-  }, [page, rowsPerPage]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `/api/fetchUsers?page=${page}&rowsPerPage=${rowsPerPage}&role=${role}`
+        );
+        if (!response.ok) throw new Error(await response.json());
+        const data = await response.json();
+        // console.log(data);
+        setUsers(data);
+      } catch (err) {
+        setError(err.message);
+      }
+    };
+
+    fetchData();
+  }, [page, rowsPerPage, role]);
 
   // Filter users by search query
   const filteredUsers = users.filter(
