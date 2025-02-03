@@ -13,12 +13,13 @@ import Cookies from "js-cookie";
 
 const Dashboard = () => {
   const [roleId, setRoleId] = useState(null);
-
+  const [name, setName] = useState("");
   useEffect(() => {
     const userData = Cookies.get("user_data");
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
+        setName(parsedUser.name);
         setRoleId(parsedUser.role);
       } catch (err) {
         console.error("Error parsing user data:", err);
@@ -73,8 +74,18 @@ const Dashboard = () => {
       ) : (
         <div className="p-6">
           <h1 className="text-center text-2xl font-semibold">
-            Welcome Manager
+            Welcome {name} to tcimax MIS .{" "}
           </h1>
+          <p className="text-center">
+            You are logged in as{" "}
+            {roleId == 3
+              ? "Data Entry Operator"
+              : roleId == 4
+              ? "Distributor"
+              : roleId == 5
+              ? "Retailer "
+              : "Other"}
+          </p>
         </div>
       )}
     </Layout>

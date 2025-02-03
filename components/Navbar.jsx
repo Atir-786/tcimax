@@ -81,7 +81,7 @@ const Navbar = ({ roleId }) => {
               </li>
             ))}
 
-          {(roleId == 1 || roleId == 3) &&
+          {(roleId == 1 || roleId == 2) &&
             menuList.map((item, index) => (
               <li key={index}>
                 <Link
@@ -95,7 +95,7 @@ const Navbar = ({ roleId }) => {
                 </Link>
               </li>
             ))}
-          {(roleId == 1 || roleId == 2) && (
+          {roleId == 1 && (
             <>
               <h1 className="">User Management</h1>
               {userManagementList.map((item, index) => (
@@ -121,7 +121,10 @@ const Navbar = ({ roleId }) => {
                           className="flex items-center space-x-2 p-2 hover:bg-gray-300 rounded"
                         >
                           <BsDot className="text-xl text-red-800" />
-                          <Link href={subItem} className="hover:text-primary">
+                          <Link
+                            href={`/${subItem.toLowerCase().replace(" ", "-")}`}
+                            className="hover:text-primary"
+                          >
                             <span>{subItem}</span>
                           </Link>
                         </li>
@@ -133,7 +136,7 @@ const Navbar = ({ roleId }) => {
             </>
           )}
 
-          {(roleId == 1 || roleId == 2) && (
+          {roleId == 1 && (
             <>
               {" "}
               <h1>App Management</h1>

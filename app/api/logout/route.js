@@ -7,7 +7,7 @@ import API_URLS from "../../../config/apiUrls";
 export async function POST() {
   const cookieStore = cookies();
   const token = cookieStore.get("access_token")?.value;
-  console.log(token);
+  // console.log(token);
   if (!token) {
     return new NextResponse(
       JSON.stringify({ message: "No access token found." }),

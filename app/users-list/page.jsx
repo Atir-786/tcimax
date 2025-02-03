@@ -10,7 +10,7 @@ const UserList = () => {
   const [page, setPage] = useState(1); // Current page
   const [limit, setLimit] = useState(5); // Number of users per page
   const [roleId, setRoleId] = useState(2); // Role filter (default to 2)
-
+  console.log(users);
   // Fetch users from API
   const fetchUsers = async () => {
     setLoading(true);
@@ -55,9 +55,9 @@ const UserList = () => {
             onChange={(e) => setRoleId(Number(e.target.value))}
             className="border border-gray-300 rounded p-2"
           >
-            <option value={1}>Super Admin</option>
-            <option value={2}>Admin</option>
-            <option value={3}>Manager</option>
+            <option value={1}>Admin</option>
+            <option value={2}>Manager</option>
+            <option value={3}>Data Entry Operator</option>
             <option value={4}>Distributor</option>
             <option value={5}>Retailer</option>
           </select>
@@ -71,30 +71,28 @@ const UserList = () => {
 
         {/* Users Table */}
         {!loading && users.length > 0 && (
-          <table className="min-w-full border-collapse border border-gray-300">
+          <table className="min-w-full border-collapse border border-gray-300 text-center">
             <thead>
-              <tr>
-                <th className="border border-gray-300 p-2">#</th>
-                <th className="border border-gray-300 p-2">Name</th>
-                <th className="border border-gray-300 p-2">Email</th>
-                <th className="border border-gray-300 p-2">Status</th>
-                <th className="border border-gray-300 p-2">Role</th>
-                <th className="border border-gray-300 p-2">Created At</th>
+              <tr className="border border-gray-300">
+                <th className="p-2">#</th>
+                <th className="p-2">Name</th>
+                <th className="p-2">Mobile</th>
+                <th className="p-2">Status</th>
+                <th className="p-2">Role</th>
+                <th className="p-2">Created At</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user, index) => (
-                <tr key={index}>
-                  <td className="border border-gray-300 p-2">{index + 1}</td>
-                  <td className="border border-gray-300 p-2">{user.name}</td>
-                  <td className="border border-gray-300 p-2">{user.email}</td>
-                  <td className="border border-gray-300 p-2">
+                <tr key={index} className="border border-gray-300">
+                  <td className="p-2">{index + 1}</td>
+                  <td className="p-2">{user.name}</td>
+                  <td className="p-2">{user.mobile}</td>
+                  <td className="p-2">
                     {user.status == 1 ? "Active" : "Not Active"}
                   </td>
-                  <td className="border border-gray-300 p-2">{user.role}</td>
-                  <td className="border border-gray-300 p-2">
-                    {user.created_at}
-                  </td>
+                  <td className="p-2">{user.role}</td>
+                  <td className="p-2">{user.created_at}</td>
                 </tr>
               ))}
             </tbody>

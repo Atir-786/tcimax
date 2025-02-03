@@ -67,7 +67,6 @@ const List = ({ role, name }) => {
               value={rowsPerPage}
               className="border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-200"
             >
-              <option value={1}>1</option>
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={25}>25</option>

@@ -51,11 +51,11 @@ const UserAvatar = () => {
             <h1 className="font-bold">{user?.name}</h1>
             <h3 className="text-gray-600">
               {user?.role === 1
-                ? "Super Admin"
-                : user?.role === 2
                 ? "Admin"
-                : user?.role === 3
+                : user?.role === 2
                 ? "Manager"
+                : user?.role === 3
+                ? "Data Entry Operator"
                 : user?.role === 4
                 ? "Distributor"
                 : user?.role === 5

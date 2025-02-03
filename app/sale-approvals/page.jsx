@@ -8,7 +8,10 @@ import Link from "next/link";
 import ActionDropdown from "../../components/ActionDropdown";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import API_URLS from "../../config/apiUrls";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 export default function SaleApprovals() {
+  const router = useRouter();
   const [salesData, setSalesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -16,6 +19,10 @@ export default function SaleApprovals() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
+    const { role } = JSON.parse(Cookies.get("user_data"));
+    // console.log(role);
+    if (role !== 1 || role !== 2) router.push("dashboard");
+
     fetchSalesData(currentPage);
   }, [currentPage, rowsPerPage]);
 

@@ -75,7 +75,7 @@ export default function RegisterUser() {
       const response = await axios.post(API_URLS.REGISTER, payload);
 
       if (response.status === 200 || response.status === 201) {
-        console.log("Registration successful:", response.data);
+        // console.log("Registration successful:", response.data);
         // Redirect to the users-list
         router.push("/users-list");
       }
@@ -165,8 +165,8 @@ export default function RegisterUser() {
             onChange={handleChange}
             className="w-full p-2 border border-gray-300 rounded"
           >
-            <option value={2}>Admin</option>
-            <option value={3}>Manager</option>
+            <option value={2}>Manager</option>
+            <option value={3}>Data Entry Operator</option>
             <option value={4}>Distributor</option>
             <option value={5}>Retailer</option>
           </select>

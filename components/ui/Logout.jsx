@@ -11,7 +11,7 @@ const Logout = () => {
         title: "Logging out...",
         text: "Please wait while we log you out.",
       });
-      console.log("init");
+      // console.log("init");
       await axios.post("/api/logout");
 
       await Swal.fire("Success", "Logout Successfully");
