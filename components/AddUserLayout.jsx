@@ -3,6 +3,8 @@ import { useState } from "react";
 import Layout from "./Layout";
 import AddForm from "./AddForm";
 import UploadForm from "./UploadForm";
+import Link from "next/link";
+import { FiDownload } from "react-icons/fi";
 export default function AddUserLayout({ role, name, url }) {
   // Handle form field changes
   const [activeTab, setActiveTab] = useState("excel");
@@ -34,6 +36,16 @@ export default function AddUserLayout({ role, name, url }) {
           >
             Upload Excel File
           </button>
+          <button
+            onClick={() => setActiveTab("sample")}
+            className={`ml-4 px-4 py-2 font-semibold ${
+              activeTab === "sample"
+                ? "border-b-4 border-green-500 text-green-600"
+                : "text-gray-600"
+            }`}
+          >
+            Sample
+          </button>
         </div>
         {/* Tab Content */}
         <div className="mt-6">
@@ -45,6 +57,19 @@ export default function AddUserLayout({ role, name, url }) {
           {activeTab === "excel" && (
             <div className="bg-gray-50 p-4 rounded-xl">
               <UploadForm url={url} formName="bulk_users" />
+            </div>
+          )}
+          {activeTab === "sample" && (
+            <div className="bg-gray-50 p-4 rounded-xl">
+              <Link
+                href={`http://mis.tcimax.co.in/public/assets/sample/sample_tcimax_users.xlsx`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
+              >
+                <FiDownload className="inline text-sm" />{" "}
+                <span>Download Sample</span>
+              </Link>
             </div>
           )}
         </div>

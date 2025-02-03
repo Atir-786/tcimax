@@ -85,7 +85,7 @@ const Layout = ({ children }) => {
           {/* Main Content */}
           <main className="flex-1 p-2 pt-20 bg-gray-50">{children}</main>
           <footer className="py-6">
-            <h1 className="ml-4">© 2024 WowDash. All Rights Reserved.</h1>
+            {/* <h1 className="ml-4">© 2024 WowDash. All Rights Reserved.</h1> */}
           </footer>
         </div>
       </div>
