@@ -1,16 +1,30 @@
+"use client";
+import { useState, useEffect } from "react";
 import { FaAward, FaPerson, FaWallet } from "react-icons/fa6";
-import dynamic from "next/dynamic";
 import Layout from "../../components/Layout";
-import { cookies } from "next/headers";
-import StockStatisticsChart from "../../components/StockStatisticsChart";
+import dynamic from "next/dynamic";
+// Dynamically import StockStatisticsChart with SSR disabled
+const StockStatisticsChart = dynamic(
+  () => import("../../components/StockStatisticsChart"),
+  { ssr: false }
+);
 
-const Dashboard = async () => {
-  const cookieStore = await cookies();
-  const user = cookieStore.get("user_data")?.value;
-  let roleId;
-  if (user) {
-    roleId = JSON.parse(user).role;
-  }
+import Cookies from "js-cookie";
+
+const Dashboard = () => {
+  const [roleId, setRoleId] = useState(null);
+
+  useEffect(() => {
+    const userData = Cookies.get("user_data");
+    if (userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setRoleId(parsedUser.role);
+      } catch (err) {
+        console.error("Error parsing user data:", err);
+      }
+    }
+  }, []);
   return (
     <Layout>
       {roleId === 1 || roleId === 2 ? (

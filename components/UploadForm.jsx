@@ -38,6 +38,7 @@ export default function UploadForm({ url, formName }) {
 
     const formData = new FormData();
     formData.append(formName, selectedFile);
+    // formData.append("uploadUrl", url); // Include the dynamic API URL
     // formData.append("bulk_users", selectedFile);
     // for (let pair of formData.entries()) {
     //   console.log(`${pair[0]}: ${pair[1]}`);
@@ -45,6 +46,20 @@ export default function UploadForm({ url, formName }) {
     try {
       const token = localStorage.getItem("access_token");
       // Replace with your real API
+      // // // ///  /
+      // const res = await fetch("/api/upload", {
+      //   method: "POST",
+      //   body: formData,
+      // });
+
+      // const result = await res.json();
+      // if (res.ok) {
+      //   Swal.fire("Success", "File uploaded successfully!", "success");
+      //   setSelectedFile(null);
+      // } else {
+      //   Swal.fire("Error", result.message || "Something went wrong.", "error");
+      // }
+      // // // // // //
       const response = await axios.post(url, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
