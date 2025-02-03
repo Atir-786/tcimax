@@ -2,8 +2,9 @@
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import API_URLS from "../config/apiUrls";
 
-export default function AddUserForm({}) {
+export default function RegisterUser() {
   const router = useRouter();
   const [formData, setFormData] = useState({
     name: "",
@@ -12,8 +13,8 @@ export default function AddUserForm({}) {
     mobile: "",
     password: "",
     passwordConfirmation: "",
-    role_id: 2, // Default to Distributor
-    status: 1, // Active by default
+    role_id: 2,
+    status: 1,
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -71,10 +72,7 @@ export default function AddUserForm({}) {
 
       console.log("Payload being sent:", payload);
 
-      const response = await axios.post(
-        "https://mis.tcimax.co.in/api/register",
-        payload
-      );
+      const response = await axios.post(API_URLS.REGISTER, payload);
 
       if (response.status === 200 || response.status === 201) {
         console.log("Registration successful:", response.data);

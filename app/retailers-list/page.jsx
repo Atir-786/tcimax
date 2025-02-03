@@ -1,6 +1,4 @@
-"use client";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+// "use client";
 import List from "../../components/Lists";
 const RetailersList = () => {
   return <List role={5} name="retailers" />;

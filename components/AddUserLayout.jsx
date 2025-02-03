@@ -3,12 +3,12 @@ import { useState } from "react";
 import Layout from "./Layout";
 import AddForm from "./AddForm";
 import UploadForm from "./UploadForm";
-export default function AddUserLayout({ role, name }) {
+export default function AddUserLayout({ role, name, url }) {
   // Handle form field changes
   const [activeTab, setActiveTab] = useState("excel");
   return (
     <Layout>
-      <div className=" mx-auto p-6 bg-white shadow-md rounded-lg border ">
+      <div className=" mx-auto p-6 bg-white  rounded-lg border ">
         <h2 className="text-center text-2xl font-semibold mb-4">
           Add {name.charAt(0).toUpperCase() + name.slice(1)}
         </h2>
@@ -44,7 +44,7 @@ export default function AddUserLayout({ role, name }) {
           )}
           {activeTab === "excel" && (
             <div className="bg-gray-50 p-4 rounded-xl">
-              <UploadForm />
+              <UploadForm url={url} formName="bulk_users" />
             </div>
           )}
         </div>

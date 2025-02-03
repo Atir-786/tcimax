@@ -4,10 +4,9 @@ import { FiUpload } from "react-icons/fi";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-export default function UploadForm({ url }) {
+export default function UploadForm({ url, formName }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState("");
-
   // Handle file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -38,10 +37,11 @@ export default function UploadForm({ url }) {
     }
 
     const formData = new FormData();
-    formData.append("bulk_sales", selectedFile);
-    for (let pair of formData.entries()) {
-      console.log(`${pair[0]}: ${pair[1]}`);
-    }
+    formData.append(formName, selectedFile);
+    // formData.append("bulk_users", selectedFile);
+    // for (let pair of formData.entries()) {
+    //   console.log(`${pair[0]}: ${pair[1]}`);
+    // }
     try {
       const token = localStorage.getItem("access_token");
       // Replace with your real API

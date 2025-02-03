@@ -8,44 +8,36 @@ import Link from "next/link";
 import ActionDropdown from "../../components/ActionDropdown";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import API_URLS from "../../config/apiUrls";
-export default function SaleApprovals() {
-  const [salesData, setSalesData] = useState([]);
+export default function UsersQueue() {
+  const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetchSalesData(currentPage);
+    fetchUsers(currentPage);
   }, [currentPage, rowsPerPage]);
 
-  const fetchSalesData = async (page) => {
+  const fetchUsers = async (page) => {
     setLoading(true);
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `${API_URLS.GET_SALES_QUEUE}/${page}/${rowsPerPage}/bulksales`,
+        `${API_URLS.GET_SALES_QUEUE}/${page}/${rowsPerPage}/bulkusers`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }
       );
-      setSalesData(response.data.data.uploads);
+      setUsers(response.data.data.uploads);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching sales data:", error);
       Swal.fire("Error", "Failed to fetch sales data.", "error");
       setLoading(false);
     }
-  };
-
-  const handleAction = (processId, action) => {
-    Swal.fire(
-      "Action Selected",
-      `Process ${processId} marked as ${action}`,
-      "info"
-    );
   };
 
   // Pagination Handlers
@@ -56,7 +48,7 @@ export default function SaleApprovals() {
   const handleNextPage = () => {
     setCurrentPage(currentPage + 1);
   };
-  const filteredData = salesData.filter(
+  const filteredData = users.filter(
     (item) =>
       item.upload_by.toLowerCase().includes(searchQuery.toLowerCase()) ||
       item.upload_type.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -68,7 +60,7 @@ export default function SaleApprovals() {
   return (
     <Layout>
       <div className=" mx-auto p-6 bg-white shadow-md rounded-lg border ">
-        <h2 className="border-b text-xl font-bold mb-4 pb-4">Sale Approvals</h2>
+        <h2 className="border-b text-xl font-bold mb-4 pb-4">Users</h2>
         <div className="flex items-center justify-between mb-4">
           {/* Entries per page */}
           <div className="flex items-center">
@@ -81,7 +73,7 @@ export default function SaleApprovals() {
               value={rowsPerPage}
               className="border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-200"
             >
-              <option value={1}>1</option>
+              {/* <option value={1}>1</option> */}
               <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={25}>25</option>
@@ -106,7 +98,7 @@ export default function SaleApprovals() {
         </div>
 
         {loading ? (
-          <p>Loading sales data...</p>
+          <p>Loading users data...</p>
         ) : (
           <>
             <table className="w-full border-collapse border border-gray-300 text-center">
@@ -115,9 +107,8 @@ export default function SaleApprovals() {
                   <th className="px-4 py-4">S.NO.</th>
                   <th className="px-4 py-4">Date</th>
                   <th className="px-4 py-4">Uploaded By</th>
-                  <th className="px-4 py-4">File Process Status</th>
+                  <th className="px-4 py-4">Users Process Status</th>
                   <th className="px-4 py-4">Download</th>
-                  <th className="px-4 py-4">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -153,12 +144,6 @@ export default function SaleApprovals() {
                         <FiDownload className="inline text-sm" />
                       </Link>
                     </td>
-                    <td className="px-4 py-4 flex justify-center items-center">
-                      <ActionDropdown
-                        processId={upload.process_id}
-                        handleAction={handleAction}
-                      />
-                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -178,7 +163,7 @@ export default function SaleApprovals() {
               </span>
               <button
                 onClick={handleNextPage}
-                disabled={salesData.length < rowsPerPage}
+                disabled={users.length < rowsPerPage}
                 className="p-2 bg-gray-100 hover:bg-gray-200 rounded disabled:opacity-50"
               >
                 <FaChevronRight />

@@ -5,10 +5,9 @@ import { CiMobile1, CiLock } from "react-icons/ci";
 import InputField from "../InputComp";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
-
+import API_URLS from "../../config/apiUrls";
 export default function LoginForm() {
   const router = useRouter();
-
   const [mobile, setMobile] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -44,10 +43,9 @@ export default function LoginForm() {
 
     setErrors({});
     setLoading(true);
-    const loginURL = "https://mis.tcimax.co.in/api/login";
     try {
       const response = await axios.post(
-        loginURL,
+        API_URLS.LOGIN,
         { mobile, password },
         {
           headers: { "Content-Type": "application/json" },
@@ -55,7 +53,8 @@ export default function LoginForm() {
         }
       );
 
-      if (response.status === 200) {
+      if (response.status === 200 || response.status === 200) {
+        // save data in localStorage
         localStorage.setItem("access_token", response.data.access_token);
         localStorage.setItem(
           "user",
@@ -64,7 +63,15 @@ export default function LoginForm() {
             role: response.data.user.role_id,
           })
         );
-
+        //save data in cookies
+        // Set cookies securely using the Next.js API route
+        await axios.post("/api/setCookies", {
+          accessToken: response.data.access_token,
+          user: {
+            name: response.data.user.name,
+            role: response.data.user.role_id,
+          },
+        });
         Swal.fire({
           title: "Login Successful!",
           icon: "success",

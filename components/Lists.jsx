@@ -4,9 +4,7 @@ import axios from "axios";
 import Layout from "./Layout";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
-
-const usersURL = "https://mis.tcimax.co.in/api/users";
-
+import API_URLS from "../config/apiUrls";
 const List = ({ role, name }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -22,7 +20,7 @@ const List = ({ role, name }) => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `${usersURL}/${page}/${rowsPerPage}/${role}`,
+        `${API_URLS.USERS}/${page}/${rowsPerPage}/${role}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -53,7 +51,7 @@ const List = ({ role, name }) => {
   };
   return (
     <Layout>
-      <div className="mx-auto p-6 bg-white shadow-md rounded-lg border">
+      <div className="mx-auto p-6 bg-white  rounded-lg border">
         <h2 className="border-b text-2xl font-semibold mb-4 pb-4">
           {name.charAt(0).toUpperCase() + name.slice(1)} List
         </h2>
@@ -98,9 +96,9 @@ const List = ({ role, name }) => {
 
         {!loading && filteredUsers.length > 0 && (
           <div className="overflow-x-auto">
-            <table className="min-w-full text-left border">
+            <table className="w-full border-collapse border border-gray-300 text-center">
               <thead>
-                <tr className="border bg-gray-100">
+                <tr className="bg-gray-200">
                   <th className="p-4">S.L</th>
                   <th className="p-4">Mobile</th>
                   <th className="p-4">Name</th>

@@ -19,12 +19,6 @@ const LoginPage = () => {
             Management Information System (MIS)
           </h3>
           <LoginForm />
-          {/* <div className="text-center text-blue-700 font-light">
-            <Link className="underline" href="/register">
-              Click to register
-            </Link>
-          </div> */}
-
           <h5 className="text-center mt-8">AM-MIS v1.4</h5>
         </div>
       </div>

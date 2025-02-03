@@ -1,20 +1,19 @@
-"use client";
+// "use client";
 import React, { useState } from "react";
 import logo from "../public/logo.png";
 import Image from "next/image";
 import Link from "next/link";
 import { CiHome, CiSettings } from "react-icons/ci";
-import { IoMdClose } from "react-icons/io";
 import { IoIosList } from "react-icons/io";
 import { FaAngleDown, FaCirclePlus } from "react-icons/fa6";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { FaAngleRight } from "react-icons/fa";
 import { BsDot } from "react-icons/bs";
-import { useRouter } from "next/navigation";
 const menuList = [
   "Distributors List",
   "Retailers List",
   "Sale Approvals",
+  "Users Queue",
   "Company Associated List",
   "Total Dealers List",
   "District Wise List",
@@ -38,8 +37,7 @@ const userManagementList = [
     subItems: ["Add User", "Users List"],
   },
 ];
-const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
-  const router = useRouter();
+const Navbar = ({ roleId }) => {
   const [openMenu, setOpenMenu] = useState(null);
   const toggleMenu = (index) => {
     setOpenMenu(openMenu === index ? null : index);
@@ -73,7 +71,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
               <li key={index}>
                 <Link
                   href={`/${item.toLowerCase().replace(" ", "-")}`}
-                  className={`flex items-center space-x-2`}
+                  className={`flex items-center space-x-2 hover:text-primary`}
                 >
                   <span>
                     <FaCirclePlus />
@@ -88,7 +86,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
               <li key={index}>
                 <Link
                   href={`/${item.toLowerCase().replace(" ", "-")}`}
-                  className="flex items-center space-x-2"
+                  className="flex items-center space-x-2 hover:text-primary"
                 >
                   <span>
                     <IoIosList />
@@ -123,7 +121,7 @@ const Navbar = ({ isSidebarOpen, toggleSidebar, roleId }) => {
                           className="flex items-center space-x-2 p-2 hover:bg-gray-300 rounded"
                         >
                           <BsDot className="text-xl text-red-800" />
-                          <Link href={subItem}>
+                          <Link href={subItem} className="hover:text-primary">
                             <span>{subItem}</span>
                           </Link>
                         </li>

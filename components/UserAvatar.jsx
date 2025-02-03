@@ -2,28 +2,21 @@
 import React, { useState, useRef, useEffect } from "react";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { FiUser } from "react-icons/fi";
-import { useRouter } from "next/navigation";
+import Logout from "./ui/Logout";
+import Cookies from "js-cookie";
 const UserAvatar = () => {
-  const router = useRouter();
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const modalRef = useRef(null);
-  const [currentUserName, setCurrentUserName] = useState("");
   const [user, setUser] = useState(null);
 
-  // Toggle modal visibility
   const toggleUserModal = () => {
     setIsUserModalOpen((prev) => !prev);
   };
 
-  // Close modal if clicked outside
   useEffect(() => {
-    // Ensure the code only runs on the client-side
-    if (typeof window !== "undefined") {
-      const currentUser = JSON.parse(localStorage.getItem("user"));
-      if (currentUser && currentUser.name) {
-        setCurrentUserName(currentUser.name);
-        setUser(currentUser);
-      }
+    const currentUser = JSON.parse(Cookies.get("user_data"));
+    if (currentUser) {
+      setUser(currentUser);
     }
 
     const handleClickOutside = (event) => {
@@ -37,15 +30,6 @@ const UserAvatar = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
-  // Logout handler using window.location
-  const handleLogout = () => {
-    // localStorage.removeItem("currentUser");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("user");
-
-    router.push("/login");
-  };
 
   return (
     <div className="relative">
@@ -87,9 +71,7 @@ const UserAvatar = () => {
 
             <li className="hover:bg-gray-100 flex items-center space-x-2 px-4 py-2">
               <AiOutlinePoweroff className="text-2xl text-gray-600" />
-              <button onClick={handleLogout} className="w-full text-left">
-                Logout
-              </button>
+              <Logout />
             </li>
           </ul>
         </div>

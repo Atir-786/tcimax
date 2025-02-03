@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Layout from "../../components/Layout";
+import API_URLS from "../../config/apiUrls";
 const UserList = () => {
   const [users, setUsers] = useState([]); // Store users
   const [loading, setLoading] = useState(false); // Loading state
@@ -18,7 +19,7 @@ const UserList = () => {
     try {
       const token = localStorage.getItem("access_token");
       const response = await axios.get(
-        `https://mis.tcimax.co.in/api/users/${page}/${limit}/${roleId}`,
+        `${API_URLS.USERS}/${page}/${limit}/${roleId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`, // Add token to the request

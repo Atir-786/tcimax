@@ -1,4 +1,4 @@
-"use client";
+// "use client";
 
 import React from "react";
 import { FiMenu } from "react-icons/fi";
@@ -9,9 +9,9 @@ import UserAvatar from "./UserAvatar";
 
 const TopNav = ({ toggleSidebar, isSidebarOpen }) => {
   return (
-    <nav className="flex items-center justify-between p-4 bg-white">
+    <nav className="flex items-center justify-between py-4 bg-white">
       {/* Hamburger Menu */}
-      <div className="flex items-center">
+      <div className="ml-4 flex items-center">
         <FiMenu onClick={toggleSidebar} className="text-xl cursor-pointer" />
       </div>
 

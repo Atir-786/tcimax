@@ -1,13 +1,22 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import AddUserForm from "../../components/AddUserForm";
+import RegisterUser from "../../components/RegisterUser";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+
 const page = () => {
+  const cookieStore = cookies();
+  const { role } = JSON.parse(cookieStore.get("user_data")?.value);
+  console.log(role);
+  if (role != 1) {
+    redirect("/dashboard");
+  }
   return (
     <>
       <Layout>
         {/* <RegisterForm /> */}
         Add users
-        <AddUserForm />
+        <RegisterUser />
       </Layout>
     </>
   );

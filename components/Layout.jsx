@@ -5,7 +5,7 @@ import TopNav from "./TopNav";
 import Navbar from "./Navbar";
 import { useRouter } from "next/navigation";
 import { FiLoader } from "react-icons/fi";
-
+import Cookies from "js-cookie";
 const Layout = ({ children }) => {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to closed
@@ -27,12 +27,12 @@ const Layout = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("access_token");
-
-    if (!token) {
+    const user_data = Cookies.get("user_data");
+    // console.log(user_data);
+    if (!user_data) {
       router.push("/login");
     } else {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = JSON.parse(user_data);
       setRoleId(user?.role);
       setIsLoading(false);
     }
@@ -53,7 +53,7 @@ const Layout = ({ children }) => {
 
   return (
     <>
-      <div className="flex min-h-screen overflow-hidden">
+      <div className="flex min-h-screen ">
         {/* Sidebar */}
         <aside
           className={`border border-gray-100 fixed top-0 left-0 h-full bg-white shadow-lg transition-transform duration-300 ${
@@ -84,6 +84,9 @@ const Layout = ({ children }) => {
 
           {/* Main Content */}
           <main className="flex-1 p-2 pt-20 bg-gray-50">{children}</main>
+          <footer className="py-6">
+            <h1 className="ml-4">© 2024 WowDash. All Rights Reserved.</h1>
+          </footer>
         </div>
       </div>
     </>

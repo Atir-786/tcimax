@@ -14,7 +14,7 @@ export default function ActionDropdown({ processId, handleAction }) {
     <div className="relative">
       <button
         onClick={() => setShowMenu(!showMenu)}
-        className="flex items-center justify-between w-36 px-4 py-4 text-sm font-medium text-primary bg-white border rounded-md hover:text-white hover:bg-primary focus:bg-primary focus:text-white"
+        className="flex items-center justify-between w-36 px-4 py-3 text-sm font-medium text-primary bg-white border rounded-md hover:text-white hover:bg-primary focus:bg-primary focus:text-white"
       >
         Select
         <FiChevronDown className="ml-2 text-xl" />

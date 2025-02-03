@@ -1,25 +1,16 @@
-"use client";
-import { useEffect, useState } from "react";
 import { FaAward, FaPerson, FaWallet } from "react-icons/fa6";
 import dynamic from "next/dynamic";
 import Layout from "../../components/Layout";
+import { cookies } from "next/headers";
+import StockStatisticsChart from "../../components/StockStatisticsChart";
 
-const StockStatisticsChart = dynamic(
-  () => import("../../components/StockStatisticsChart"),
-  { ssr: false }
-);
-
-const Dashboard = () => {
-  const [roleId, setRoleId] = useState(null);
-
-  useEffect(() => {
-    // Retrieve user role securely (ideally, replace this with a secure API call)
-    const user = JSON.parse(localStorage.getItem("user"));
-    console.log(user);
-    setRoleId(user?.role);
-    // console.log(roleId);
-  }, []);
-
+const Dashboard = async () => {
+  const cookieStore = await cookies();
+  const user = cookieStore.get("user_data")?.value;
+  let roleId;
+  if (user) {
+    roleId = JSON.parse(user).role;
+  }
   return (
     <Layout>
       {roleId === 1 || roleId === 2 ? (

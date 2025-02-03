@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import API_URLS from "../config/apiUrls";
 const AddForm = ({ role, name }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -13,7 +14,6 @@ const AddForm = ({ role, name }) => {
     mobile: "",
     password: "1298@XYZ",
     passwordConfirmation: "",
-    role_id: role,
     status: 1, // Active by default
     address: "",
     district: "",
@@ -83,8 +83,7 @@ const AddForm = ({ role, name }) => {
       };
 
       // console.log("Payload being sent:", payload);
-      const registerURL = "https://mis.tcimax.co.in/api/register";
-      const response = await axios.post(`${registerURL}`, payload);
+      const response = await axios.post(`${API_URLS.REGISTER}`, payload);
 
       if (response.status === 200 || response.status === 201) {
         console.log("Registration successful:", response.data);
