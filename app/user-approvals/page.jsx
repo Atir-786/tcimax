@@ -60,7 +60,7 @@ export default function UsersQueue() {
   return (
     <Layout>
       <div className=" mx-auto p-6 bg-white shadow-md rounded-lg border ">
-        <h2 className="border-b text-xl font-bold mb-4 pb-4">Users</h2>
+        <h2 className="border-b text-xl font-bold mb-4 pb-4">User Approvals</h2>
         <div className="flex items-center justify-between mb-4">
           {/* Entries per page */}
           <div className="flex items-center">

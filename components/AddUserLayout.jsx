@@ -3,8 +3,8 @@ import { useState } from "react";
 import Layout from "./Layout";
 import AddForm from "./AddForm";
 import UploadForm from "./UploadForm";
-import Link from "next/link";
-import { FiDownload } from "react-icons/fi";
+
+import SampleLink from "./ui/SampleLink";
 export default function AddUserLayout({ role, name, url }) {
   // Handle form field changes
   const [activeTab, setActiveTab] = useState("excel");
@@ -60,17 +60,7 @@ export default function AddUserLayout({ role, name, url }) {
             </div>
           )}
           {activeTab === "sample" && (
-            <div className="bg-gray-50 p-4 rounded-xl">
-              <Link
-                href={`http://mis.tcimax.co.in/public/assets/sample/sample_tcimax_users.xlsx`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
-              >
-                <FiDownload className="inline text-sm" />{" "}
-                <span>Download Sample</span>
-              </Link>
-            </div>
+            <SampleLink url="https://mis.tcimax.co.in/public/assets/sample/sample_tcimax_users.xlsx" />
           )}
         </div>
       </div>

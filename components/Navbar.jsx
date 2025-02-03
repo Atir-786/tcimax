@@ -13,7 +13,7 @@ const menuList = [
   "Distributors List",
   "Retailers List",
   "Sale Approvals",
-  "Users Queue",
+  "User Approvals",
   "Company Associated List",
   "Total Dealers List",
   "District Wise List",
