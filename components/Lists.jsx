@@ -142,7 +142,7 @@ const List = ({ role, name }) => {
                         {user.status == 1 ? "Active" : "Not Active"}
                       </span>
                     </td>
-                    <td className="p-4 text-center">
+                    <td className="p-4 flex justify-center items-center">
                       <BsEye className="text-blue-500 cursor-pointer" />
                     </td>
                   </tr>

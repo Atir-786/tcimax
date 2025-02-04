@@ -124,9 +124,9 @@ export default function SaleApprovals() {
                   <th className="px-4 py-4">Date</th>
                   <th className="px-4 py-4">Uploaded By</th>
                   <th className="px-4 py-4">File Processing </th>
-                  <th className="px-4 py-4">Download</th>
-                  <th className="px-4 py-4">Status</th>
+                  <th className="px-4 py-4">Manager Status</th>
                   {roleId === 2 && <th className="px-4 py-4">Action</th>}
+                  <th className="px-4 py-4">Download</th>
                 </tr>
               </thead>
               <tbody>
@@ -155,16 +155,6 @@ export default function SaleApprovals() {
                     </td>
 
                     <td className="px-4 py-4">
-                      <Link
-                        href={upload.download}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
-                      >
-                        <FiDownload className="inline text-sm" />
-                      </Link>
-                    </td>
-                    <td className="px-4 py-4">
                       {upload.status === 1 ? (
                         <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
                           Approved
@@ -187,6 +177,16 @@ export default function SaleApprovals() {
                         />
                       </td>
                     )}
+                    <td className="px-4 py-4">
+                      <Link
+                        href={upload.download}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
+                      >
+                        <FiDownload className="inline text-sm" />
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>
