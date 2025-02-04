@@ -74,7 +74,7 @@ const Dashboard = () => {
       ) : (
         <div className="p-6">
           <h1 className="text-center text-2xl font-semibold">
-            Welcome {name} to tcimax MIS .{" "}
+            Welcome {name} to TCIMAX{" "}
           </h1>
           <p className="text-center">
             You are logged in as{" "}

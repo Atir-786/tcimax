@@ -31,6 +31,7 @@ export default function UsersQueue() {
           },
         }
       );
+      console.log(response.data.data.uploads);
       setUsers(response.data.data.uploads);
       setLoading(false);
     } catch (error) {
@@ -107,8 +108,9 @@ export default function UsersQueue() {
                   <th className="px-4 py-4">S.NO.</th>
                   <th className="px-4 py-4">Date</th>
                   <th className="px-4 py-4">Uploaded By</th>
-                  <th className="px-4 py-4">Users Process Status</th>
+                  <th className="px-4 py-4">File Processing</th>
                   <th className="px-4 py-4">Download</th>
+                  <th className="px-4 py-4">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -120,15 +122,15 @@ export default function UsersQueue() {
                     <td className="px-4 py-4">{upload.dated}</td>
                     <td className="px-4 py-4">{upload.upload_by}</td>
                     <td className="px-4 py-4">
-                      {upload.status === 1 ? (
+                      {upload.process_id === 1 ? (
                         <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
-                          Completed
+                          Processing
                         </span>
-                      ) : upload.status === 0 ? (
+                      ) : upload.process_id === 0 ? (
                         <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm">
                           Pending
                         </span>
-                      ) : upload.status === 3 ? (
+                      ) : upload.process_id === 3 ? (
                         <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm">
                           Failed
                         </span>
@@ -143,6 +145,21 @@ export default function UsersQueue() {
                       >
                         <FiDownload className="inline text-sm" />
                       </Link>
+                    </td>
+                    <td className="px-4 py-4">
+                      {upload.status === 1 ? (
+                        <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
+                          Completed
+                        </span>
+                      ) : upload.status === 0 ? (
+                        <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm">
+                          Pending
+                        </span>
+                      ) : upload.status === 3 ? (
+                        <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm">
+                          Failed
+                        </span>
+                      ) : null}
                     </td>
                   </tr>
                 ))}

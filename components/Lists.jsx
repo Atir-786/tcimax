@@ -43,7 +43,7 @@ const List = ({ role, name }) => {
         );
         if (!response.ok) throw new Error(await response.json());
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
         setUsers(data);
       } catch (err) {
         setError(err.message);
@@ -115,7 +115,7 @@ const List = ({ role, name }) => {
                   <th className="p-4">S.L</th>
                   <th className="p-4">Mobile</th>
                   <th className="p-4">Name</th>
-                  <th className="p-4">Join Date</th>
+                  <th className="p-4">Date Added</th>
                   <th className="p-4">District</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Action</th>

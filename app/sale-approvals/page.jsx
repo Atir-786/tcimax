@@ -17,10 +17,11 @@ export default function SaleApprovals() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [roleId, setRoleId] = useState(null);
   useEffect(() => {
-    // const { role } = JSON.parse(Cookies.get("user_data"));
-    // console.log(role);
+    const { role } = JSON.parse(Cookies.get("user_data"));
+    setRoleId(role);
+    console.log(role);
     // if (role !== 1 || role !== 2) router.push("dashboard");
 
     fetchSalesData(currentPage);
@@ -38,6 +39,7 @@ export default function SaleApprovals() {
           },
         }
       );
+      console.log(response.data.data.uploads);
       setSalesData(response.data.data.uploads);
       setLoading(false);
     } catch (error) {
@@ -121,9 +123,10 @@ export default function SaleApprovals() {
                   <th className="px-4 py-4">S.NO.</th>
                   <th className="px-4 py-4">Date</th>
                   <th className="px-4 py-4">Uploaded By</th>
-                  <th className="px-4 py-4">File Process Status</th>
+                  <th className="px-4 py-4">File Processing </th>
                   <th className="px-4 py-4">Download</th>
-                  <th className="px-4 py-4">Action</th>
+                  <th className="px-4 py-4">Status</th>
+                  {roleId === 2 && <th className="px-4 py-4">Action</th>}
                 </tr>
               </thead>
               <tbody>
@@ -135,9 +138,36 @@ export default function SaleApprovals() {
                     <td className="px-4 py-4">{upload.dated}</td>
                     <td className="px-4 py-4">{upload.upload_by}</td>
                     <td className="px-4 py-4">
+                      {" "}
+                      {upload.process_id === 1 ? (
+                        <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
+                          Proccessing
+                        </span>
+                      ) : upload.process_id === 0 ? (
+                        <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm">
+                          Pending
+                        </span>
+                      ) : upload.process_id === 3 ? (
+                        <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm">
+                          Failed
+                        </span>
+                      ) : null}
+                    </td>
+
+                    <td className="px-4 py-4">
+                      <Link
+                        href={upload.download}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
+                      >
+                        <FiDownload className="inline text-sm" />
+                      </Link>
+                    </td>
+                    <td className="px-4 py-4">
                       {upload.status === 1 ? (
                         <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
-                          Completed
+                          Approved
                         </span>
                       ) : upload.status === 0 ? (
                         <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm">
@@ -149,22 +179,14 @@ export default function SaleApprovals() {
                         </span>
                       ) : null}
                     </td>
-                    <td className="px-4 py-4">
-                      <Link
-                        href={upload.download}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
-                      >
-                        <FiDownload className="inline text-sm" />
-                      </Link>
-                    </td>
-                    <td className="px-4 py-4 flex justify-center items-center">
-                      <ActionDropdown
-                        processId={upload.process_id}
-                        handleAction={handleAction}
-                      />
-                    </td>
+                    {roleId === 2 && (
+                      <td className="px-4 py-4 flex justify-center items-center">
+                        <ActionDropdown
+                          processId={upload.process_id}
+                          handleAction={handleAction}
+                        />
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
