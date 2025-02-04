@@ -13,7 +13,7 @@ const menuList1 = [
   "Distributors List",
   "Retailers List",
   "Sale Approvals",
-  "User Approvals",
+  "Retailer/Distributor Approvals",
 ];
 const menuList2 = [
   "Company Associated List",
@@ -87,7 +87,10 @@ const Navbar = ({ roleId }) => {
             menuList1.map((item, index) => (
               <li key={index}>
                 <Link
-                  href={`/${item.toLowerCase().replace(" ", "-")}`}
+                  href={`/${item
+                    .toLowerCase()
+                    .replace(" ", "-")
+                    .replace("/", "-")}`}
                   className="flex items-center space-x-2 hover:text-primary"
                 >
                   <span>
