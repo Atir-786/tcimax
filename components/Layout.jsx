@@ -57,8 +57,8 @@ const Layout = ({ children }) => {
         {/* Sidebar */}
         <aside
           className={`border border-gray-100 fixed top-0 left-0 h-full bg-white shadow-lg transition-transform duration-300 ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-64"
-          } w-64`}
+            isSidebarOpen ? "translate-x-0" : "-translate-x-[230px]"
+          } w-[230px]`}
         >
           <Navbar roleId={roleId} />
         </aside>
@@ -66,13 +66,13 @@ const Layout = ({ children }) => {
         {/* Main Content Area */}
         <div
           className={`flex flex-col flex-1 transition-transform duration-300 ${
-            isSidebarOpen ? "ml-64" : "ml-0"
+            isSidebarOpen ? "ml-[230px]" : "ml-0"
           }`}
         >
           {/* Top Navigation */}
           <header
             className={`fixed top-0 z-10 bg-white  transition-all duration-300 ${
-              isSidebarOpen ? "left-64" : "left-0"
+              isSidebarOpen ? "left-[230px]" : "left-0"
             } right-0`}
           >
             {" "}

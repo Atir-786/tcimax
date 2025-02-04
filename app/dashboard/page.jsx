@@ -28,7 +28,7 @@ const Dashboard = () => {
   }, []);
   return (
     <Layout>
-      {roleId === 1 || roleId === 2 ? (
+      {roleId === 1 ? (
         <div className="p-2">
           <h1 className="text-h6 font-semibold mb-4">DashBoard</h1>
           <main className="flex flex-col lg:flex-row ">
@@ -78,7 +78,9 @@ const Dashboard = () => {
           </h1>
           <p className="text-center">
             You are logged in as{" "}
-            {roleId == 3
+            {roleId == 2
+              ? "Manager"
+              : roleId == 3
               ? "Data Entry Operator"
               : roleId == 4
               ? "Distributor"

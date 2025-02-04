@@ -1,15 +1,22 @@
 "use client";
 import { useState } from "react";
-import { FiChevronDown } from "react-icons/fi";
+import { FiChevronsDown } from "react-icons/fi";
+import Swal from "sweetalert2";
 
-export default function ActionDropdown({ processId, handleAction }) {
+export default function ActionDropdown({ processId }) {
   const [showMenu, setShowMenu] = useState(false);
 
   const handleSelect = (action) => {
     handleAction(processId, action);
     setShowMenu(false);
   };
-
+  const handleAction = (processId, action) => {
+    Swal.fire(
+      "Action Selected",
+      `Process ${processId} marked as ${action}`,
+      "info"
+    );
+  };
   return (
     <div className="relative">
       <button
@@ -17,7 +24,7 @@ export default function ActionDropdown({ processId, handleAction }) {
         className="flex items-center justify-between w-36 px-4 py-3 text-sm font-medium text-primary bg-white border rounded-md hover:text-white hover:bg-primary focus:bg-primary focus:text-white"
       >
         Select
-        <FiChevronDown className="ml-2 text-xl" />
+        <FiChevronsDown className="ml-2 text-xl" />
       </button>
 
       {showMenu && (

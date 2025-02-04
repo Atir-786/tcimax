@@ -49,14 +49,6 @@ export default function SaleApprovals() {
     }
   };
 
-  const handleAction = (processId, action) => {
-    Swal.fire(
-      "Action Selected",
-      `Process ${processId} marked as ${action}`,
-      "info"
-    );
-  };
-
   // Pagination Handlers
   const handlePreviousPage = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
@@ -173,7 +165,7 @@ export default function SaleApprovals() {
                       <td className="px-4 py-4 flex justify-center items-center">
                         <ActionDropdown
                           processId={upload.process_id}
-                          handleAction={handleAction}
+                          // handleAction={handleAction}
                         />
                       </td>
                     )}

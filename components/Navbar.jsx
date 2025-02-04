@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 import React, { useState } from "react";
 import logo from "../public/logo.png";
 import Image from "next/image";
@@ -9,6 +9,7 @@ import { FaAngleDown, FaCirclePlus } from "react-icons/fa6";
 import { HiOutlineUsers } from "react-icons/hi2";
 import { FaAngleRight } from "react-icons/fa";
 import { BsDot } from "react-icons/bs";
+import { usePathname } from "next/navigation";
 const menuList1 = [
   "Distributors List",
   "Retailers List",
@@ -40,7 +41,10 @@ const userManagementList = [
   },
 ];
 const Navbar = ({ roleId }) => {
+  const pathname = usePathname();
+  // console.log(pathname);
   const [openMenu, setOpenMenu] = useState(null);
+  const isActive = (path) => pathname === path;
   const toggleMenu = (index) => {
     setOpenMenu(openMenu === index ? null : index);
   };
@@ -51,29 +55,36 @@ const Navbar = ({ roleId }) => {
         <Image src={logo} alt=""></Image>
       </div>
 
-      <nav className="w-64 p-4 overflow-y-auto h-[calc(100vh-5rem)]">
+      <nav className="w-[230px] p-4 overflow-y-auto h-[calc(100vh-5rem)]">
         {/* <nav className="flex flex-col mt-4"> */}
         <ul className="text-sm space-y-4 text-gray-600 font-light">
-          <li
-            className={`p-3 rounded-xl transition-colors bg-primary text-white`}
-          >
-            <Link href="/dashboard">
-              <div className="flex items-center space-x-2">
-                <span>
-                  <CiHome />
-                </span>
-                <span>Dashboard</span>
-              </div>
+          <li>
+            <Link
+              href="/dashboard"
+              className={`flex items-center space-x-2 hover:text-primary ${
+                isActive("/dashboard")
+                  ? "bg-primary text-white p-3 rounded-lg hover:text-white"
+                  : ""
+              }`}
+            >
+              <span>
+                <CiHome />
+              </span>
+              <span>Dashboard</span>
             </Link>
           </li>
           <h6>Company CRM/MIS</h6>
           {/* /// // // / // / // / / // / / */}
           {roleId === 3 &&
             addList.map((item, index) => (
-              <li key={index}>
+              <li key={index} className="">
                 <Link
                   href={`/${item.toLowerCase().replace(" ", "-")}`}
-                  className={`flex items-center space-x-2 hover:text-primary`}
+                  className={`flex items-center space-x-2 hover:text-primary ${
+                    isActive(`/${item.toLowerCase().replace(" ", "-")}`)
+                      ? "bg-primary text-white p-3 rounded-lg hover:text-white"
+                      : ""
+                  }`}
                 >
                   <span>
                     <FaCirclePlus />
@@ -91,7 +102,16 @@ const Navbar = ({ roleId }) => {
                     .toLowerCase()
                     .replace(" ", "-")
                     .replace("/", "-")}`}
-                  className="flex items-center space-x-2 hover:text-primary"
+                  className={`flex items-center space-x-2 hover:text-primary ${
+                    isActive(
+                      `/${item
+                        .toLowerCase()
+                        .replace(" ", "-")
+                        .replace("/", "-")}`
+                    )
+                      ? "bg-primary text-white p-3 rounded-lg hover:text-white"
+                      : ""
+                  }`}
                 >
                   <span>
                     <IoIosList />
@@ -106,7 +126,11 @@ const Navbar = ({ roleId }) => {
               <li key={index}>
                 <Link
                   href={`/${item.toLowerCase().replace(" ", "-")}`}
-                  className="flex items-center space-x-2 hover:text-primary"
+                  className={`flex items-center space-x-2 hover:text-primary ${
+                    isActive(`/${item.toLowerCase().replace(" ", "-")}`)
+                      ? "bg-primary text-white p-3 rounded-lg hover:text-white"
+                      : ""
+                  }`}
                 >
                   <span>
                     <IoIosList />
@@ -120,9 +144,9 @@ const Navbar = ({ roleId }) => {
             <>
               <h1 className="">User Management</h1>
               {userManagementList.map((item, index) => (
-                <li key={index}>
+                <li key={index} className={`${isActive() ? "" : ""}`}>
                   <div
-                    className="flex items-center justify-between space-x-4 cursor-pointer p-2 hover:bg-gray-200 rounded"
+                    className="hover:text-primary flex items-center justify-between space-x-4 cursor-pointer p-2 rounded"
                     onClick={() => toggleMenu(index)}
                   >
                     <div className="flex items-center space-x-4">
@@ -162,7 +186,10 @@ const Navbar = ({ roleId }) => {
               {" "}
               <h1>App Management</h1>
               <li>
-                <Link href="/settings" className="flex items-center space-x-2">
+                <Link
+                  href="/settings"
+                  className="flex items-center space-x-2 hover:text-primary"
+                >
                   <span>
                     <CiSettings />
                   </span>
