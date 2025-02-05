@@ -72,9 +72,10 @@ const Dashboard = () => {
           <StockStatisticsChart />
         </div>
       ) : (
-        <div className="p-6">
+        <div className="mt-10">
           <h1 className="text-center text-2xl font-semibold">
-            Welcome {name} to TCIMAX{" "}
+            Welcome <span className="text-primary">{name}</span> to TCIMAX MIS
+            APP
           </h1>
           <p className="text-center">
             You are logged in as{" "}

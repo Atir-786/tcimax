@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import logo from "../public/logo.png";
+import logo from "../public/LOGO-01.png";
 import Image from "next/image";
 import Link from "next/link";
 import { CiHome, CiSettings } from "react-icons/ci";
@@ -51,13 +51,19 @@ const Navbar = ({ roleId }) => {
   // console.log(roleId);
   return (
     <div className="flex flex-col h-full">
-      <div className="flex items-center justify-between p-4 border-b">
-        <Image src={logo} alt=""></Image>
+      <div className="h-[72px] border-b flex justify-center items-center">
+        <Image
+          src={logo}
+          alt=""
+          width={170}
+          height={72}
+          className="object-contain"
+        ></Image>
       </div>
 
       <nav className="w-[230px] p-4 overflow-y-auto h-[calc(100vh-5rem)]">
         {/* <nav className="flex flex-col mt-4"> */}
-        <ul className="text-sm space-y-4 text-gray-600 font-light">
+        <ul className="text-sm space-y-4 text-gray-600 font-semibold">
           <li>
             <Link
               href="/dashboard"

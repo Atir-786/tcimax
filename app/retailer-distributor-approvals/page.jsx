@@ -22,17 +22,13 @@ export default function UsersQueue() {
   const fetchUsers = async (page) => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("access_token");
-      const response = await axios.get(
-        `${API_URLS.GET_SALES_QUEUE}/${page}/${rowsPerPage}/bulkusers`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await fetch(
+        `/api/usersQueue?page=${page}&rowsPerPage=${rowsPerPage}`
       );
-      console.log(response.data.data.uploads);
-      setUsers(response.data.data.uploads);
+      if (!response.ok) throw new Error(await response.json());
+      const data = await response.json();
+      console.log(data.uploads);
+      setUsers(data.uploads);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching sales data:", error);
@@ -110,8 +106,7 @@ export default function UsersQueue() {
                   <th className="px-4 py-4">S.NO.</th>
                   <th className="px-4 py-4">Date</th>
                   <th className="px-4 py-4">Uploaded By</th>
-                  <th className="px-4 py-4">File Processing</th>
-                  <th className="px-4 py-4">Manager Status</th>
+                  <th className="px-4 py-4">File Processing Status</th>
                   <th className="px-4 py-4">Download</th>
                 </tr>
               </thead>
@@ -126,7 +121,7 @@ export default function UsersQueue() {
                     <td className="px-4 py-4">
                       {upload.process_id === 1 ? (
                         <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
-                          Processing
+                          Processed
                         </span>
                       ) : upload.process_id === 0 ? (
                         <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm">
@@ -139,21 +134,6 @@ export default function UsersQueue() {
                       ) : null}
                     </td>
 
-                    <td className="px-4 py-4">
-                      {upload.status === 1 ? (
-                        <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
-                          Completed
-                        </span>
-                      ) : upload.status === 0 ? (
-                        <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm">
-                          Pending
-                        </span>
-                      ) : upload.status === 3 ? (
-                        <span className="bg-red-100 text-red-600 px-4 py-2 rounded-full text-sm">
-                          Failed
-                        </span>
-                      ) : null}
-                    </td>
                     <td className="px-4 py-4">
                       <Link
                         href={upload.download}

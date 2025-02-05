@@ -13,28 +13,6 @@ const List = ({ role, name }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  // const fetchUsers = async () => {
-  //   setLoading(true);
-  //   setError(null);
-
-  //   try {
-  //     const token = localStorage.getItem("access_token");
-  //     const response = await axios.get(
-  //       `${API_URLS.USERS}/${page}/${rowsPerPage}/${role}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }
-  //     );
-  //     setUsers(response.data.data.users);
-  //   } catch (err) {
-  //     setError(err.response?.data?.message || "An error occurred.");
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -53,13 +31,23 @@ const List = ({ role, name }) => {
     fetchData();
   }, [page, rowsPerPage, role]);
 
-  // Filter users by search query
-  const filteredUsers = users.filter(
-    (user) =>
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      user.mobile.includes(searchQuery) ||
-      user.district.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  // Sorting and Filtering Users
+  const filteredUsers = users
+    .filter(
+      (user) =>
+        user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        user.mobile.includes(searchQuery) ||
+        user.district.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+    .sort((a, b) => {
+      // First, sort by name (A to Z)
+      const nameComparison = a.name.localeCompare(b.name);
+      if (nameComparison !== 0) {
+        return nameComparison;
+      }
+      // If names are the same, sort by mobile number
+      return a.mobile.localeCompare(b.mobile);
+    });
   const handleRowsPerPageChange = (e) => {
     setRowsPerPage(Number(e.target.value)); // Update the rowsPerPage state
   };
@@ -113,9 +101,11 @@ const List = ({ role, name }) => {
               <thead>
                 <tr className="bg-gray-200">
                   <th className="p-4">S.L</th>
-                  <th className="p-4">Mobile</th>
                   <th className="p-4">Name</th>
+                  <th className="p-4">Mobile</th>
                   <th className="p-4">Date Added</th>
+                  <th className="p-4">Address</th>
+
                   <th className="p-4">District</th>
                   <th className="p-4">Status</th>
                   <th className="p-4">Action</th>
@@ -127,11 +117,13 @@ const List = ({ role, name }) => {
                     <td className="p-4">
                       {(page - 1) * rowsPerPage + index + 1}
                     </td>
-                    <td className="p-4">{user.mobile}</td>
                     <td className="p-4">{user.name}</td>
+                    <td className="p-4">{user.mobile}</td>
                     <td className="p-4">{user.created_at}</td>
+                    <td className="p-4">{user.address}</td>
+
                     <td className="p-4">{user.district}</td>
-                    <td className="p-4">
+                    <td className="p-4 ">
                       <span
                         className={`px-4 py-2 text-sm rounded ${
                           user.status == 1
@@ -142,8 +134,8 @@ const List = ({ role, name }) => {
                         {user.status == 1 ? "Active" : "Not Active"}
                       </span>
                     </td>
-                    <td className="p-4 flex justify-center items-center">
-                      <BsEye className="text-blue-500 cursor-pointer" />
+                    <td className="">
+                      <BsEye className="mx-auto text-blue-500 cursor-pointer" />
                     </td>
                   </tr>
                 ))}

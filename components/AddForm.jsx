@@ -19,6 +19,7 @@ const AddForm = ({ role, name }) => {
     district: "",
     tehsil: "",
     pincode: "",
+    // distributorName:""
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -80,6 +81,7 @@ const AddForm = ({ role, name }) => {
         district: formData.district.trim(),
         tehsil: formData.tehsil.trim(),
         pincode: formData.pincode.trim(),
+        // distributorName:formData.distributorName
       };
 
       // console.log("Payload being sent:", payload);

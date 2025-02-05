@@ -1,46 +1,36 @@
 "use client";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Swal from "sweetalert2";
 import Layout from "../../components/Layout";
 import { FiDownload } from "react-icons/fi";
 import Link from "next/link";
 import ActionDropdown from "../../components/ActionDropdown";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import API_URLS from "../../config/apiUrls";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 export default function SaleApprovals() {
-  const router = useRouter();
   const [salesData, setSalesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
-  const [roleId, setRoleId] = useState(null);
+  const [userData, setUserData] = useState(null);
   useEffect(() => {
-    const { role } = JSON.parse(Cookies.get("user_data"));
-    setRoleId(role);
-    console.log(role);
-    // if (role !== 1 || role !== 2) router.push("dashboard");
-
+    const user = JSON.parse(Cookies.get("user_data"));
+    console.log(user);
+    setUserData(user);
     fetchSalesData(currentPage);
   }, [currentPage, rowsPerPage]);
 
   const fetchSalesData = async (page) => {
     setLoading(true);
     try {
-      const token = localStorage.getItem("access_token");
-      const response = await axios.get(
-        `${API_URLS.GET_SALES_QUEUE}/${page}/${rowsPerPage}/bulksales`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await fetch(
+        `/api/salesQueue?page=${page}&rowsPerPage=${rowsPerPage}`
       );
-      console.log(response.data.data.uploads);
-      setSalesData(response.data.data.uploads);
+      if (!response.ok) throw new Error(await response.json());
+      const data = await response.json();
+      console.log(data.uploads);
+      setSalesData(data.uploads);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching sales data:", error);
@@ -115,9 +105,9 @@ export default function SaleApprovals() {
                   <th className="px-4 py-4">S.NO.</th>
                   <th className="px-4 py-4">Date</th>
                   <th className="px-4 py-4">Uploaded By</th>
-                  <th className="px-4 py-4">File Processing </th>
+                  <th className="px-4 py-4">File Processing Status</th>
                   <th className="px-4 py-4">Manager Status</th>
-                  {roleId === 2 && <th className="px-4 py-4">Action</th>}
+                  {userData.role === 2 && <th className="px-4 py-4">Action</th>}
                   <th className="px-4 py-4">Download</th>
                 </tr>
               </thead>
@@ -133,7 +123,7 @@ export default function SaleApprovals() {
                       {" "}
                       {upload.process_id === 1 ? (
                         <span className="bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm">
-                          Proccessing
+                          Proccessed
                         </span>
                       ) : upload.process_id === 0 ? (
                         <span className="bg-orange-100 text-orange-600 px-4 py-2 rounded-full text-sm">
@@ -161,10 +151,11 @@ export default function SaleApprovals() {
                         </span>
                       ) : null}
                     </td>
-                    {roleId === 2 && (
+                    {userData.role === 2 && (
                       <td className="px-4 py-4 flex justify-center items-center">
                         <ActionDropdown
-                          processId={upload.process_id}
+                          upload={upload.upload_id}
+                          userId={userData.id}
                           // handleAction={handleAction}
                         />
                       </td>

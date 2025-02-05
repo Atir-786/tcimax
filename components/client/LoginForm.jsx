@@ -55,14 +55,14 @@ export default function LoginForm() {
 
       if (response.status === 200 || response.status === 200) {
         // save data in localStorage
-        localStorage.setItem("access_token", response.data.access_token);
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            name: response.data.user.name,
-            role: response.data.user.role_id,
-          })
-        );
+        // localStorage.setItem("access_token", response.data.access_token);
+        // localStorage.setItem(
+        //   "user",
+        //   JSON.stringify({
+        //     name: response.data.user.name,
+        //     role: response.data.user.role_id,
+        //   })
+        // );
         //save data in cookies
         // Set cookies securely using the Next.js API route
         await axios.post("/api/setCookies", {
@@ -70,6 +70,7 @@ export default function LoginForm() {
           user: {
             name: response.data.user.name,
             role: response.data.user.role_id,
+            id: response.data.user.id,
           },
         });
         Swal.fire({

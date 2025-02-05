@@ -10,7 +10,7 @@ export default function AddUserLayout({ role, name, url }) {
   const [activeTab, setActiveTab] = useState("excel");
   return (
     <Layout>
-      <div className=" mx-auto p-6 bg-white  rounded-lg border ">
+      <div className="mx-auto p-6 bg-white  rounded-lg border ">
         <h2 className="text-center text-2xl font-semibold mb-4">
           Add {name.charAt(0).toUpperCase() + name.slice(1)}
         </h2>
