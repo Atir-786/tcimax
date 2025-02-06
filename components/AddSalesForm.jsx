@@ -5,8 +5,6 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import API_URLS from "../config/apiUrls";
-import Select2 from "react-select2-wrapper";
-import "react-select2-wrapper/css/select2.css";
 const AddSalesForm = ({ name }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -197,22 +195,15 @@ const AddSalesForm = ({ name }) => {
       </div>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Qty (Truck)</label>
-        <Select2
-          data={[...Array(10)].map((_, i) => ({
-            id: i + 1,
-            text: `${i + 1}`,
-          }))}
+        <input
+          type="number"
+          name="qty"
           value={formData.qty}
           onChange={handleChange}
-          options={{
-            placeholder: "Select quantity",
-            width: "100%",
-          }}
           className="w-full p-2 border border-gray-300 rounded"
         />
         {errors.qty && <p className="text-red-500 text-sm">{errors.qty}</p>}
       </div>
-
       <div className="mb-4">
         <button
           type="submit"
