@@ -19,7 +19,7 @@ const AddForm = ({ role, name }) => {
     district: "",
     tehsil: "",
     pincode: "",
-    // distributorName:""
+    distributorName: "",
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -32,6 +32,7 @@ const AddForm = ({ role, name }) => {
         name === "password" ? value : prevData.passwordConfirmation,
     }));
   };
+  console.log(formData);
 
   // Form validation
   const validateForm = () => {
@@ -81,7 +82,10 @@ const AddForm = ({ role, name }) => {
         district: formData.district.trim(),
         tehsil: formData.tehsil.trim(),
         pincode: formData.pincode.trim(),
-        // distributorName:formData.distributorName
+        // // conditionally check // //
+        ...(name === "retailers" && {
+          distributorName: formData.distributorName?.trim(),
+        }),
       };
 
       // console.log("Payload being sent:", payload);
@@ -110,7 +114,6 @@ const AddForm = ({ role, name }) => {
       setLoading(false);
     }
   };
-
   return (
     <form onSubmit={handleSubmit} className="p-4 border mx-auto max-w-xl">
       {errors.api && (
@@ -222,7 +225,28 @@ const AddForm = ({ role, name }) => {
           <p className="text-red-500 text-sm">{errors.district}</p>
         )}
       </div>
-
+      {name == "retailers" && (
+        <div className="mb-4">
+          <label className="block text-sm font-medium mb-1">
+            Select Distributor
+          </label>
+          <select
+            name="distributorName"
+            value={formData.distributorName}
+            onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded bg-white"
+          >
+            <option value="" disabled>
+              Select your distributorName
+            </option>
+            <option value="Abc">Abc</option>
+            <option value="jlj">hkh</option>
+          </select>
+          {errors.distributorName && (
+            <p className="text-red-500 text-sm">{errors.distributorName}</p>
+          )}
+        </div>
+      )}
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Tehsil</label>
         <input

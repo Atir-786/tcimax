@@ -5,6 +5,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import API_URLS from "../config/apiUrls";
+import Select2 from "react-select2-wrapper";
+import "react-select2-wrapper/css/select2.css";
 const AddSalesForm = ({ name }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -40,8 +42,6 @@ const AddSalesForm = ({ name }) => {
       validationErrors.retailerMobile = "Mobile is required";
     if (!formData.retailerAddress)
       validationErrors.retailerAddress = "retailerAddress is required";
-    if (!formData.voucherNumber)
-      validationErrors.voucherNumber = "voucherNumber is required";
     if (!formData.qty) validationErrors.qty = "Qty is required";
     else if (!/^[6-9]\d{9}$/.test(formData.mobile))
       validationErrors.mobile = "Please enter a valid 10-digit mobile number";
@@ -197,16 +197,22 @@ const AddSalesForm = ({ name }) => {
       </div>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Qty (Truck)</label>
-        <input
-          type="number"
-          name="qty"
+        <Select2
+          data={[...Array(10)].map((_, i) => ({
+            id: i + 1,
+            text: `${i + 1}`,
+          }))}
           value={formData.qty}
           onChange={handleChange}
+          options={{
+            placeholder: "Select quantity",
+            width: "100%",
+          }}
           className="w-full p-2 border border-gray-300 rounded"
-          // placeholder="Enter your voucherNumber"
         />
         {errors.qty && <p className="text-red-500 text-sm">{errors.qty}</p>}
       </div>
+
       <div className="mb-4">
         <button
           type="submit"

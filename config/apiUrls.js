@@ -1,12 +1,16 @@
-const BASE_URL = "https://mis.tcimax.co.in/api";
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
 const API_URLS = {
-  LOGIN: `${BASE_URL}/login`,
-  LOGOUT: `${BASE_URL}/logout`,
-  REGISTER: `${BASE_URL}/register`,
-  USERS: `${BASE_URL}/users`,
-  GET_SALES_QUEUE: `${BASE_URL}/getSalesQueue`,
-  ADD_BULK_SALES: `${BASE_URL}/addbulksales`,
-  ADD_BULK_USERS: `${BASE_URL}/addbulkusers`,
-  // ADD_BULK_DISTRIBUTORS: `${BASE_URL}/addbulkdistributors`,
+  LOGIN: `${BASE_URL}${process.env.NEXT_PUBLIC_LOGIN_ENDPOINT}`,
+  LOGOUT: `${BASE_URL}${process.env.NEXT_PUBLIC_LOGOUT_ENDPOINT}`,
+  REGISTER: `${BASE_URL}${process.env.NEXT_PUBLIC_REGISTER_ENDPOINT}`,
+  USERS: `${BASE_URL}${process.env.NEXT_PUBLIC_USERS_ENDPOINT}`,
+  USERS_BY_ROLEID: `${BASE_URL}${process.env.NEXT_PUBLIC_USERS_BY_ROLEID_ENDPOINT}`,
+  GET_SALES_QUEUE: `${BASE_URL}${process.env.NEXT_PUBLIC_GET_SALES_QUEUE_ENDPOINT}`,
+  ADD_BULK_SALES: `${BASE_URL}${process.env.NEXT_PUBLIC_ADD_BULK_SALES_ENDPOINT}`,
+  ADD_SALES: `${BASE_URL}${process.env.NEXT_PUBLIC_ADD_SALES_ENDPOINT}`,
+  ADD_BULK_USERS: `${BASE_URL}${process.env.NEXT_PUBLIC_ADD_BULK_USERS_ENDPOINT}`,
+  APPROVE_SALES: `${BASE_URL}${process.env.NEXT_PUBLIC_APPROVE_SALES_ENDPOINT}`,
 };
+
 export default API_URLS;

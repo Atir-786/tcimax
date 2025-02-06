@@ -53,7 +53,7 @@ export default function LoginForm() {
         }
       );
 
-      if (response.status === 200 || response.status === 200) {
+      if (response.status === 200 || response.status === 201) {
         // save data in localStorage
         // localStorage.setItem("access_token", response.data.access_token);
         // localStorage.setItem(
@@ -83,8 +83,18 @@ export default function LoginForm() {
         router.push("/dashboard");
       }
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.message || "Login failed. Please try again.";
+      console.log(error);
+
+      let errorMessage;
+
+      if (error.code === "ERR_NETWORK") {
+        errorMessage =
+          "Network error: Server may be down. Please try again later.";
+      } else {
+        errorMessage =
+          error.response?.data?.message || "Login failed. Please try again.";
+      }
+
       setErrors({ api: errorMessage });
 
       Swal.fire({

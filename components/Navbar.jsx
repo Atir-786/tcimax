@@ -13,6 +13,7 @@ import { usePathname } from "next/navigation";
 const menuList1 = [
   "Distributors List",
   "Retailers List",
+  "Sales List",
   "Sale Approvals",
   "Retailer/Distributor Approvals",
 ];
