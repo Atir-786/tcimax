@@ -9,10 +9,16 @@ const AddSalesForm = ({ name }) => {
   const router = useRouter();
   const [formData, setFormData] = useState({
     date: "",
+    // //
+    distributorId: "",
     distributorName: "",
+    distributorMobile: "",
+    // //
+    retailerId: "",
     retailerName: "",
     retailerMobile: "",
     retailerAddress: "",
+    // //
     voucherNumber: "",
     qty: "",
   });
@@ -23,16 +29,13 @@ const AddSalesForm = ({ name }) => {
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
-      passwordConfirmation:
-        name === "password" ? value : prevData.passwordConfirmation,
     }));
   };
 
   // Form validation
   const validateForm = () => {
     const validationErrors = {};
-    if (!formData.distributorName)
-      validationErrors.distributorName = "distributor Name is required";
+
     if (!formData.retailerName)
       validationErrors.retailerName = "Retailer name is required";
     if (!formData.date) validationErrors.date = "date is required";
@@ -41,8 +44,9 @@ const AddSalesForm = ({ name }) => {
     if (!formData.retailerAddress)
       validationErrors.retailerAddress = "retailerAddress is required";
     if (!formData.qty) validationErrors.qty = "Qty is required";
-    else if (!/^[6-9]\d{9}$/.test(formData.mobile))
-      validationErrors.mobile = "Please enter a valid 10-digit mobile number";
+    else if (!/^[6-9]\d{9}$/.test(formData.retailerMobile))
+      validationErrors.retailerMobile =
+        "Please enter a valid 10-digit mobile number";
     return validationErrors;
   };
 
@@ -60,19 +64,29 @@ const AddSalesForm = ({ name }) => {
     setLoading(true);
     console.log(formData);
     try {
+      // Prepare payload
       const payload = {
-        distributorName: formData.distributorName.trim(),
-        retailerName: formData.retailerName.trim(),
         date: formData.date.trim(),
-        retailerMobile: formData.retailerMobile.trim(),
+        distributor_id: formData.distributorId.trim() || "",
+        distributor_mobile: formData.distributorMobile.trim(),
+        distributor_name: formData.distributorName.trim(),
+        retailer_id: formData.retailerId.trim() || "",
+        retailer_name: formData.retailerName.trim(),
+        retailer_mobile: formData.retailerMobile.trim(),
         retailerAddress: formData.retailerAddress.trim(),
         voucherNumber: formData.voucherNumber.trim(),
         qty: formData.qty.trim(),
       };
 
-      // console.log("Payload being sent:", payload);
-      const response = await axios.post(`${API_URLS.addsaleurl}`, payload);
+      console.log("Payload being sent:", payload);
 
+      // Make the API call
+      const response = await axios.post("/api/addSales", payload, {
+        headers: {
+          "Content-Type": "application/json", // Make sure to set Content-Type to JSON
+        },
+      });
+      console.log(response);
       if (response.status === 200 || response.status === 201) {
         console.log("Registration successful:", response.data);
         // Redirect to the users-list
@@ -82,18 +96,26 @@ const AddSalesForm = ({ name }) => {
           timer: 2000,
           showConfirmButton: false,
         });
-        router.push(`/${name}-list`);
+        // router.push(`/${name}-list`); // Uncomment when ready to use router
       }
     } catch (error) {
-      if (error.response && error.response.data) {
-        // Extract errors from server response
+      // Enhanced error handling
+      console.log(error);
+      if (error.response) {
+        // Server responded with an error
         const serverErrors = error.response.data.errors || {};
         setErrors(serverErrors); // Set server errors in state
+      } else if (error.request) {
+        // Request was made but no response was received
+        setErrors({
+          api: "No response received from server. Please try again later.",
+        });
       } else {
+        // Some other error occurred
         setErrors({ api: "An unexpected error occurred. Please try again." });
       }
     } finally {
-      setLoading(false);
+      setLoading(false); // Reset loading state
     }
   };
 
@@ -105,7 +127,7 @@ const AddSalesForm = ({ name }) => {
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Date</label>
         <input
-          type="text"
+          type="date"
           name="date"
           value={formData.date}
           onChange={handleChange}
@@ -170,11 +192,7 @@ const AddSalesForm = ({ name }) => {
           onChange={handleChange}
           maxLength={10}
           className="w-full p-2 border border-gray-300 rounded"
-          //   placeholder="Enter Retailer Mobile Number"
         />
-        {/* <p className="text-sm text-gray-500 mt-1">
-          This mobile number will be your primary contact and must be unique.
-        </p> */}
         {errors.retailerMobile && (
           <p className="text-red-500 text-sm">{errors.retailerMobile}</p>
         )}
