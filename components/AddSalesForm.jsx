@@ -22,7 +22,7 @@ const AddSalesForm = () => {
     retailerId: "",
     retailerName: "",
     retailerMobile: "",
-    retailerAddress: "",
+    retailerAddress: "hkkh",
     // //
     voucherNumber: "",
     qty: "",
@@ -35,7 +35,7 @@ const AddSalesForm = () => {
       try {
         const response = await fetch(`/api/fetchUsersByRoleId?role=${roleId}`);
         const data = await response.json();
-        // console.log(data);
+        console.log(data);
         return data;
       } catch (error) {
         console.error("Error fetching users", error);
@@ -56,14 +56,31 @@ const AddSalesForm = () => {
     fetchData();
   }, []);
   // Handle normal input fields
-  const handleChange = (e) => {
+  function formatDate(inputDate) {
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    const [year, month, day] = inputDate.split("-");
+
+    return `${day}/${months[parseInt(month) - 1]}/${year}`;
+  }
+  function handleChange(e) {
     const { name, value } = e.target;
     console.log(name, value);
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  }
   // Handle select fields
   const handleSelectChange = (
     name,
@@ -71,7 +88,9 @@ const AddSalesForm = () => {
     idField,
     idValue,
     mobileField,
-    mobileValue
+    mobileValue,
+    addressField,
+    addressValue
   ) => {
     console.log(name, value);
     console.log(idField, idValue);
@@ -80,6 +99,7 @@ const AddSalesForm = () => {
       [name]: value || "", // Fallback to an empty string
       [idField]: idValue || "",
       [mobileField]: mobileValue || "",
+      [addressField]: addressValue || "",
     }));
   };
   // Form validation
@@ -88,25 +108,27 @@ const AddSalesForm = () => {
     if (!formData.date) validationErrors.date = "date is required";
     if (!formData.distributorName)
       validationErrors.distributorName = "distributor name is required";
-    if (!formData.distributorMobile)
-      validationErrors.distributorMobile = "distributor mobile is required";
+    // if (!formData.distributorMobile)
+    //   validationErrors.distributorMobile = "distributor mobile is required";
     if (!formData.retailerName)
       validationErrors.retailerName = "Retailer name is required";
 
-    if (!formData.retailerMobile)
-      validationErrors.retailerMobile = "Retailer Mobile is required";
-    if (!formData.retailerAddress)
-      validationErrors.retailerAddress = "retailer Address is required";
+    // if (!formData.retailerMobile)
+    //   validationErrors.retailerMobile = "Retailer Mobile is required";
+    // if (!formData.retailerAddress)
+    //   validationErrors.retailerAddress = "retailer Address is required";
     if (!formData.qty) validationErrors.qty = "Qty is required";
-    else if (!/^[6-9]\d{9}$/.test(formData.retailerMobile))
-      validationErrors.retailerMobile =
-        "Please enter a valid 10-digit mobile number";
+    // else if (!/^[6-9]\d{9}$/.test(formData.retailerMobile))
+    //   validationErrors.retailerMobile =
+    //     "Please enter a valid 10-digit mobile number";
     return validationErrors;
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // console.log("date", formatDate(formData.date));
+
     console.log("data is ", formData);
 
     const validationErrors = validateForm();
@@ -122,26 +144,35 @@ const AddSalesForm = () => {
 
     // Make the API call
     try {
-      const formdata = new FormData();
-      formdata.append("date", "01/Dec/2024");
-      formdata.append("distributor_id", "52");
-      formdata.append("distributor_mobile", "9419003250");
-      formdata.append("retailer_id", "89");
-      formdata.append("retailer_name", "RFG Retailer");
-      formdata.append("retailer_mobile", "99066125876");
-      formdata.append("retailer_address", "srinagar");
-      formdata.append("qty", "2");
+      const myHeaders = new Headers();
+      myHeaders.append("Authorization", `Bearer ${accessToken}`);
 
-      const res = await fetch(API_URLS.ADD_SALES, {
+      const formdata = new FormData();
+
+      formdata.append("date", formatDate(formData.date));
+      formdata.append("distributor_id", Number(formData.distributorId));
+      formdata.append("distributor_mobile", formData.distributorMobile);
+      formdata.append("retailer_id", Number(formData.retailerId));
+      formdata.append("retailer_name", formData.retailerName);
+      formdata.append("retailer_mobile", formData.retailerMobile);
+      formdata.append("retailer_address", formData.retailerAddress);
+      formdata.append("qty", formData.qty);
+      formdata.append("voucher_no", formData.voucherNumber);
+
+      const requestOptions = {
         method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: myHeaders,
         body: formdata,
-      });
+        redirect: "follow",
+      };
+
+      const res = await fetch(
+        "https://mis.tcimax.co.in/api/addsales",
+        requestOptions
+      );
+      // console.log(res);
       const data = await res.json();
-      // console.log(data);
-      // console.log(data.success);
+      console.log(data);
 
       if (data.success) {
         console.log(data.success);
@@ -242,11 +273,12 @@ const AddSalesForm = () => {
           Distributor Mobile
         </label>
         <input
+          readOnly
           type="text"
           name="distributorMobile"
           value={formData.distributorMobile}
-          onChange={handleChange}
-          maxLength={10}
+          // onChange={handleChange}
+          // maxLength={10}
           className="w-full p-2 border border-gray-300 rounded"
         />
         {errors.distributorMobile && (
@@ -264,6 +296,7 @@ const AddSalesForm = () => {
             label: retailer.name,
             id: retailer.user_id,
             mobile: retailer.mobile,
+            address: retailer.address,
           }))}
           onChange={(option) =>
             handleSelectChange(
@@ -272,7 +305,9 @@ const AddSalesForm = () => {
               "retailerId",
               option.id,
               "retailerMobile",
-              option.mobile
+              option.mobile,
+              "retailerAddress",
+              option.address
             )
           }
         />
@@ -280,27 +315,12 @@ const AddSalesForm = () => {
           <p className="text-red-500 text-sm">{errors.retailerName}</p>
         )}
       </div>
-
-      <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">
-          Retailer Address
-        </label>
-        <textarea
-          name="retailerAddress"
-          value={formData.retailerAddress}
-          //   placeholder="Enter Retailer Address"
-          onChange={handleChange}
-          className="w-full border p-2 rounded"
-        ></textarea>
-        {errors.retailerAddress && (
-          <p className="text-red-500 text-sm">{errors.retailerAddress}</p>
-        )}
-      </div>
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">
           Retailer Mobile
         </label>
         <input
+          readOnly
           type="text"
           name="retailerMobile"
           value={formData.retailerMobile}
@@ -312,6 +332,23 @@ const AddSalesForm = () => {
           <p className="text-red-500 text-sm">{errors.retailerMobile}</p>
         )}
       </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium mb-1">
+          Retailer Address
+        </label>
+        <input
+          readOnly
+          name="retailerAddress"
+          value={formData.retailerAddress}
+          //   placeholder="Enter Retailer Address"
+          // onChange={handleChange}
+          className="w-full border p-2 rounded"
+        ></input>
+        {errors.retailerAddress && (
+          <p className="text-red-500 text-sm">{errors.retailerAddress}</p>
+        )}
+      </div>
+
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Voucher No</label>
         <input
@@ -327,7 +364,9 @@ const AddSalesForm = () => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">Qty (Truck)</label>
+        <label className="block text-sm font-medium mb-1">
+          Quantity (Truck)
+        </label>
         <select
           name="qty"
           value={formData.qty}

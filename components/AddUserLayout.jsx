@@ -44,7 +44,7 @@ export default function AddUserLayout({ role, name, url }) {
                 : "text-gray-600"
             }`}
           >
-            Sample
+            Dowload Sample
           </button>
         </div>
         {/* Tab Content */}

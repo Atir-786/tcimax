@@ -15,17 +15,18 @@ export async function GET(req) {
   try {
     const page = req.nextUrl.searchParams.get("page");
     const rowsPerPage = req.nextUrl.searchParams.get("rowsPerPage");
-    const role = req.nextUrl.searchParams.get("role");
+    // const role = req.nextUrl.searchParams.get("role");
     // console.log(page, rowsPerPage, role);
     const response = await axios.get(
-      `${API_URLS.SALES}/${page}/${rowsPerPage}/${role}`,
+      `${API_URLS.GET_SALES}/${page}/${rowsPerPage}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       }
     );
-    return new Response(JSON.stringify(response.data.data.users), {
+    // console.log(response.data.data);
+    return new Response(JSON.stringify(response.data.data.sales), {
       status: 200,
     });
   } catch (err) {

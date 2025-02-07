@@ -11,7 +11,7 @@ const List = ({ role, name }) => {
   const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,7 +69,7 @@ const List = ({ role, name }) => {
               value={rowsPerPage}
               className="border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-200"
             >
-              <option value={5}>5</option>
+              {/* <option value={5}>5</option> */}
               <option value={10}>10</option>
               <option value={25}>25</option>
               <option value={50}>50</option>

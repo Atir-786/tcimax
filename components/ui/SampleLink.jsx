@@ -7,10 +7,10 @@ const SampleLink = ({ url }) => {
         href={`${url}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="text-blue-500 px-2 py-2 rounded-2xl  border border-blue-400"
+        className="text-blue-500 px-4 py-2 rounded-2xl  border border-blue-400"
       >
         <FiDownload className="inline text-sm" />{" "}
-        <span className="text-sm">Download Sample</span>
+        <span className="text-sm">Sample</span>
       </a>
     </div>
   );

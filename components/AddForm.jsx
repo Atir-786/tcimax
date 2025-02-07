@@ -90,7 +90,7 @@ const AddForm = ({ role, name }) => {
 
       // console.log("Payload being sent:", payload);
       const response = await axios.post(`${API_URLS.REGISTER}`, payload);
-
+      console.log(response);
       if (response.status === 200 || response.status === 201) {
         console.log("Registration successful:", response.data);
         // Redirect to the users-list
@@ -104,9 +104,19 @@ const AddForm = ({ role, name }) => {
       }
     } catch (error) {
       if (error.response && error.response.data) {
+        console.log(error.response.data);
         // Extract errors from server response
-        const serverErrors = error.response.data.errors || {};
-        setErrors(serverErrors); // Set server errors in state
+        const errorMessages = Object.entries(error.response.data.errors)
+          .map(([field, messages]) => `${messages.join(", ")}`)
+          .join("\n");
+        console.log(errorMessages);
+        Swal.fire({
+          title: "Failed!",
+          text: errorMessages,
+          // timer: 2000,
+          showConfirmButton: true,
+        });
+        // setErrors(serverErrors); // Set server errors in state
       } else {
         setErrors({ api: "An unexpected error occurred. Please try again." });
       }

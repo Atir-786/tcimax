@@ -2,7 +2,8 @@
 import { useState } from "react";
 import { FiChevronsDown } from "react-icons/fi";
 import Swal from "sweetalert2";
-
+import { FiCheckCircle } from "react-icons/fi";
+import { FiXCircle } from "react-icons/fi";
 export default function ActionDropdown({ userId, upload }) {
   const [showMenu, setShowMenu] = useState(false);
   // console.log(userId, status, upload);
@@ -82,17 +83,19 @@ export default function ActionDropdown({ userId, upload }) {
       </button>
 
       {showMenu && (
-        <ul className="absolute z-10 w-full bg-white border border-gray-300 rounded-md shadow-lg mt-1 p-2">
+        <ul className="absolute z-10 w-full bg-white border-b  rounded-md shadow-lg mt-1 p-2">
           <li
             onClick={() => handleSelect("Approve")}
-            className="px-4 py-2 text-gray-700 hover:bg-primary hover:text-white cursor-pointer rounded"
+            className="flex  items-center  px-4 py-2 text-gray-700 hover:bg-primary hover:text-white cursor-pointer rounded"
           >
+            <FiCheckCircle className="mr-2" size={18} />
             Approve
           </li>
           <li
             onClick={() => handleSelect("Reject")}
-            className="px-4 py-2 text-gray-700 hover:bg-primary hover:text-white cursor-pointer rounded"
+            className="flex  items-center px-4 py-2 text-gray-700 hover:bg-primary hover:text-white cursor-pointer rounded"
           >
+            <FiXCircle className="mr-2" size={18} />
             Reject
           </li>
         </ul>
