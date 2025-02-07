@@ -18,7 +18,7 @@ export async function POST(req) {
   headers.append(
     "Set-Cookie",
     serialize("access_token", accessToken, {
-      httpOnly: true,
+      httpOnly: false,
       secure: true,
       maxAge: 60 * 60 * 24,
       path: "/",

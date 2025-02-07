@@ -1,44 +1,42 @@
+import { NextResponse } from "next/server";
 import API_URLS from "../../../config/apiUrls";
 import { cookies } from "next/headers";
-import { NextResponse } from "next/server"; // Make sure you import NextResponse
 
 export async function POST(req) {
   const cookieStore = await cookies();
   const accessToken = cookieStore.get("access_token")?.value;
+  console.log(accessToken);
+  const body = await req.json();
+  console.log(body);
+  console.log(Number(body.distributor_mobile));
 
-  if (!accessToken) {
-    return NextResponse.json(
-      { error: "Unauthorized, no access token found" },
-      { status: 401 }
-    );
-  }
+  const formdata = new FormData();
+  console.log("apending");
+  formdata.append("date", body.date);
+  formdata.append("distributor_id", body.distributor_id);
+  formdata.append("distributor_mobile", Number(body.distributor_mobile));
+  formdata.append("retailer_id", body.retailer_id);
+  formdata.append("retailer_name", body.retailer_name);
+  formdata.append("retailer_mobile", Number(body.retailer_mobile));
+  formdata.append("retailer_address", body.retailer_address);
+  formdata.append("qty", body.qty);
+  console.log("apended");
 
   try {
-    // Since req.body will be a ReadableStream, we need to parse it to JSON
-    const requestBody = await req.json();
-
-    const response = await fetch(API_URLS.ADD_SALES, {
+    const response = await fetch("https://mis.tcimax.co.in/api/addsales", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json", // Set the content type to application/json
       },
-      body: JSON.stringify(requestBody), // Stringify the request body
+      body: formdata,
     });
+    console.log(response);
+    const resultText = await response.text(); // Handle non-JSON response
+    console.log("External API ResponseText:", resultText.response);
 
-    if (!response.ok) {
-      const error = await response.json();
-      return NextResponse.json(error, { status: response.status });
-    }
-
-    const result = await response.json();
-    console.log(result);
-    return NextResponse.json(result); // Return the result from the external API
+    return NextResponse.json({ response: resultText });
   } catch (error) {
-    console.error("Error in forwarding request:", error);
-    return NextResponse.json(
-      { error: error.message || "Something went wrong." },
-      { status: 500 }
-    );
+    console.log(error);
+    return NextResponse.json({ error: "somerror" }, { status: 500 });
   }
 }

@@ -266,6 +266,7 @@ const AddForm = ({ role, name }) => {
         <label className="block text-sm font-medium mb-1">Pincode</label>
         <input
           type="text"
+          maxLength={6}
           name="pincode"
           value={formData.pincode}
           onChange={handleChange}

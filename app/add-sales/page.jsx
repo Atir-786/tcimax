@@ -6,11 +6,11 @@ import API_URLS from "../../config/apiUrls";
 import AddSalesForm from "../../components/AddSalesForm";
 import SampleLink from "../../components/ui/SampleLink";
 const page = () => {
-  const [activeTab, setActiveTab] = useState("excel");
+  const [activeTab, setActiveTab] = useState("manual");
   return (
     <Layout>
       <div className="mx-auto p-6 bg-white  rounded-lg border ">
-        <h2 className="text-center text-2xl font-semibold mb-4">Add Sales</h2>
+        <h2 className="text-left text-2xl font-semibold mb-4">Add Sales</h2>
         {/* Tabs Navigation */}
         <div className="flex border-b">
           <button
@@ -48,7 +48,7 @@ const page = () => {
         <div className="mt-6">
           {activeTab === "manual" && (
             <div className="bg-gray-50 p-4 rounded-xl">
-              <AddSalesForm name={"sales"} />
+              <AddSalesForm />
             </div>
           )}
           {activeTab === "excel" && (

@@ -11,12 +11,8 @@ export async function GET(req) {
       status: 401,
     });
   }
-  //   console.log(req.nextUrl.searchParams);
   try {
-    // const page = req.nextUrl.searchParams.get("page");
-    // const rowsPerPage = req.nextUrl.searchParams.get("rowsPerPage");
     const role = req.nextUrl.searchParams.get("role");
-    // console.log(page, rowsPerPage, role);
     const response = await axios.get(`${API_URLS.USERS_BY_ROLEID}/${role}`, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
