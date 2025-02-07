@@ -22,7 +22,7 @@ const AddSalesForm = () => {
     retailerId: "",
     retailerName: "",
     retailerMobile: "",
-    retailerAddress: "hkkh",
+    retailerAddress: "",
     // //
     voucherNumber: "",
     qty: "",

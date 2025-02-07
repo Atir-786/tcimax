@@ -1,18 +1,22 @@
 import React from "react";
 import { FaPlusCircle } from "react-icons/fa";
 import Swal from "sweetalert2";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import API_URLS from "../config/apiUrls";
+import Select from "react-select";
+
 const AddForm = ({ role, name }) => {
   const router = useRouter();
+  const [distributors, setDistributors] = useState([]);
+
   const [formData, setFormData] = useState({
     name: "",
     lname: "",
     email: "",
     mobile: "",
-    password: "1298@XYZ",
+    password: "1298@XY",
     passwordConfirmation: "",
     status: 1, // Active by default
     address: "",
@@ -23,6 +27,26 @@ const AddForm = ({ role, name }) => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    const fetchUsersByRoleId = async (roleId) => {
+      try {
+        const response = await fetch(`/api/fetchUsersByRoleId?role=${roleId}`);
+        const data = await response.json();
+        console.log(data);
+        return data;
+      } catch (error) {
+        console.error("Error fetching users", error);
+        return [];
+      }
+    };
+
+    const fetchData = async () => {
+      const distributorsData = await fetchUsersByRoleId(4); // Fetch distributors
+      setDistributors(distributorsData);
+    };
+
+    fetchData();
+  }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -33,12 +57,21 @@ const AddForm = ({ role, name }) => {
     }));
   };
   console.log(formData);
-
+  // Handle select fields
+  const handleSelectChange = (name, value) => {
+    console.log(name, value);
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value || "", // Fallback to an empty string
+    }));
+  };
   // Form validation
   const validateForm = () => {
     const validationErrors = {};
     if (!formData.name) validationErrors.name = "Name is required";
     if (!formData.lname) validationErrors.lname = "Last name is required";
+    if (name === "retailers" && !formData.distributorName)
+      validationErrors.distributorName = "Distributor name is required";
     if (!formData.email) validationErrors.email = "Email is required";
     if (!formData.mobile) validationErrors.mobile = "Mobile is required";
     if (!formData.address) validationErrors.address = "address is required";
@@ -61,6 +94,7 @@ const AddForm = ({ role, name }) => {
 
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
+      console.log("somethingissing", validationErrors);
       setErrors(validationErrors);
       return;
     }
@@ -208,7 +242,7 @@ const AddForm = ({ role, name }) => {
           className="w-full p-2 border border-gray-300 rounded bg-white"
         >
           <option value="" disabled>
-            Select your district
+            {/* Select your district */}
           </option>
           <option value="Anantnag">Anantnag</option>
           <option value="Bandipora">Bandipora</option>
@@ -240,18 +274,20 @@ const AddForm = ({ role, name }) => {
           <label className="block text-sm font-medium mb-1">
             Select Distributor
           </label>
-          <select
+          <Select
             name="distributorName"
-            value={formData.distributorName}
-            onChange={handleChange}
-            className="w-full p-2 border border-gray-300 rounded bg-white"
-          >
-            <option value="" disabled>
-              Select your distributorName
-            </option>
-            <option value="Abc">Abc</option>
-            <option value="jlj">hkh</option>
-          </select>
+            value={{
+              value: formData.distributorName,
+              label: formData.distributorName,
+            }}
+            options={distributors.map((distributor) => ({
+              value: distributor.name,
+              label: distributor.name,
+            }))}
+            onChange={(option) =>
+              handleSelectChange("distributorName", option.value)
+            }
+          />
           {errors.distributorName && (
             <p className="text-red-500 text-sm">{errors.distributorName}</p>
           )}
