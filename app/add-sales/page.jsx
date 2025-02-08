@@ -41,7 +41,7 @@ const page = () => {
                 : "text-gray-600"
             }`}
           >
-            Sample
+            Download Sample
           </button>
         </div>
         {/* Tab Content */}

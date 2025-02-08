@@ -16,7 +16,7 @@ const AddForm = ({ role, name }) => {
     lname: "",
     email: "",
     mobile: "",
-    password: "1298@XY",
+    password: "1298@XYZ",
     passwordConfirmation: "",
     status: 1, // Active by default
     address: "",
@@ -78,7 +78,9 @@ const AddForm = ({ role, name }) => {
     if (!formData.district) validationErrors.district = "district is required";
     if (!formData.pincode) validationErrors.pincode = "pincode is required";
     if (!formData.tehsil) validationErrors.tehsil = "tehsil is required";
-    else if (!/^[6-9]\d{9}$/.test(formData.mobile))
+    if (formData.pincode.length < 6)
+      validationErrors.pincode = "Enter a valid 6 digit pincode";
+    if (!/^[6-9]\d{9}$/.test(formData.mobile))
       validationErrors.mobile = "Please enter a valid 10-digit mobile number";
     if (!formData.password) validationErrors.password = "Password is required";
     else if (formData.password.length < 8)
@@ -318,6 +320,7 @@ const AddForm = ({ role, name }) => {
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded"
           placeholder="Enter your pincode"
+          pattern="\d*"
         />
         {errors.pincode && (
           <p className="text-red-500 text-sm">{errors.pincode}</p>

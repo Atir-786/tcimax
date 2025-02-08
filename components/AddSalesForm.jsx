@@ -5,7 +5,8 @@ import Swal from "sweetalert2";
 import API_URLS from "../config/apiUrls";
 import Select from "react-select";
 import Cookies from "js-cookie";
-
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const AddSalesForm = () => {
   // const router = useRouter();
   const [distributors, setDistributors] = useState([]);
@@ -55,9 +56,10 @@ const AddSalesForm = () => {
 
     fetchData();
   }, []);
-  // Handle normal input fields
-  function formatDate(inputDate) {
-    const months = [
+  const formatDate = (date) => {
+    if (!date) return "";
+    const day = String(date.getDate()).padStart(2, "0");
+    const monthNames = [
       "Jan",
       "Feb",
       "Mar",
@@ -71,11 +73,15 @@ const AddSalesForm = () => {
       "Nov",
       "Dec",
     ];
+    const month = monthNames[date.getMonth()];
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
 
-    const [year, month, day] = inputDate.split("-");
-
-    return `${day}/${months[parseInt(month) - 1]}/${year}`;
-  }
+  const handleDateChange = (date) => {
+    setFormData({ ...formData, date });
+  };
+  // Handle normal input fields
   function handleChange(e) {
     const { name, value } = e.target;
     console.log(name, value);
@@ -127,9 +133,9 @@ const AddSalesForm = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // console.log("date", formatDate(formData.date));
+    console.log("date", formatDate(formData.date));
 
-    console.log("data is ", formData);
+    // console.log("data is ", formData);
 
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
@@ -227,11 +233,11 @@ const AddSalesForm = () => {
       )}
       <div className="mb-4">
         <label className="block text-sm font-medium mb-1">Date</label>
-        <input
-          type="date"
-          name="date"
-          value={formData.date}
-          onChange={handleChange}
+        <DatePicker
+          selected={formData.date}
+          onChange={handleDateChange}
+          dateFormat="dd/MM/yyyy"
+          placeholderText="Select a date"
           className="w-full p-2 border border-gray-300 rounded"
         />
         {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
@@ -364,22 +370,29 @@ const AddSalesForm = () => {
         )}
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-1">
-          Quantity (Truck)
-        </label>
-        <select
+        <label className="block text-sm font-medium mb-1">Qty (Truck)</label>
+        <Select
+          name="retailerName"
+          value={{ value: formData.qty, label: formData.qty }}
+          options={[...Array(20)].map((_, index) => ({
+            value: index + 1,
+            label: index + 1,
+          }))}
+          onChange={(option) => handleSelectChange("qty", option.value)}
+        />
+        {/* <select
           name="qty"
           value={formData.qty}
           onChange={handleChange}
           className="w-full p-2 border border-gray-300 rounded"
         >
           <option value="">Select Quantity</option>
-          {[...Array(10)].map((_, index) => (
+          {[...Array(20)].map((_, index) => (
             <option key={index + 1} value={index + 1}>
               {index + 1}
             </option>
           ))}
-        </select>
+        </select> */}
         {errors.qty && <p className="text-red-500 text-sm">{errors.qty}</p>}
       </div>
 

@@ -4,7 +4,9 @@ import { AiOutlinePoweroff } from "react-icons/ai";
 import { FiUser } from "react-icons/fi";
 import Logout from "./ui/Logout";
 import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 const UserAvatar = () => {
+  const router = useRouter();
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const modalRef = useRef(null);
   const [user, setUser] = useState(null);
@@ -66,7 +68,12 @@ const UserAvatar = () => {
           <ul className="py-2 text-md text-gray-700">
             <li className="hover:bg-gray-100 flex items-center space-x-2 px-4 py-2">
               <FiUser className="text-2xl text-gray-600" />
-              <button className="w-full text-left">Profile</button>
+              <button
+                onClick={() => router.push("/profile")}
+                className="w-full text-left"
+              >
+                Profile
+              </button>
             </li>
 
             <li className="hover:bg-gray-100 flex items-center space-x-2 px-4 py-2">
