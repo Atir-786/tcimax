@@ -172,10 +172,7 @@ const AddSalesForm = () => {
         redirect: "follow",
       };
 
-      const res = await fetch(
-        "https://mis.tcimax.co.in/api/addsales",
-        requestOptions
-      );
+      const res = await fetch(API_URLS.ADD_SALES, requestOptions);
       // console.log(res);
       const data = await res.json();
       console.log(data);
@@ -380,19 +377,7 @@ const AddSalesForm = () => {
           }))}
           onChange={(option) => handleSelectChange("qty", option.value)}
         />
-        {/* <select
-          name="qty"
-          value={formData.qty}
-          onChange={handleChange}
-          className="w-full p-2 border border-gray-300 rounded"
-        >
-          <option value="">Select Quantity</option>
-          {[...Array(20)].map((_, index) => (
-            <option key={index + 1} value={index + 1}>
-              {index + 1}
-            </option>
-          ))}
-        </select> */}
+
         {errors.qty && <p className="text-red-500 text-sm">{errors.qty}</p>}
       </div>
 

@@ -9,7 +9,7 @@ const page = () => {
     <Layout>
       <div className="mx-auto p-6 bg-white  rounded-lg border ">
         <h2 className="text-2xl font-semibold mb-4">Profile</h2>
-        <div className="border border-red-900 flex flex-col lg:flex-row gap-6">
+        <div className=" flex flex-col lg:flex-row gap-6">
           {/* Left Section: Profile Card */}
           <Profile />
           {/* right section */}
