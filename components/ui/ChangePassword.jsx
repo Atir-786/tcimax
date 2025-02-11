@@ -35,6 +35,12 @@ const ChangePassword = () => {
             className="mt-1 w-full border border-gray-300 rounded-md p-2"
           />
         </div>
+        <button
+          type="submit"
+          className="mt-6 bg-primary text-white py-2 px-4 rounded-md shadow-md"
+        >
+          Save Changes
+        </button>
       </form>
     </div>
   );

@@ -5,6 +5,7 @@ import Layout from "./Layout";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
 import API_URLS from "../config/apiUrls";
+import Cookies from "js-cookie";
 const List = ({ role, name }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -14,17 +15,25 @@ const List = ({ role, name }) => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
+    const token = Cookies.get("access_token");
     const fetchData = async () => {
       try {
-        const response = await fetch(
-          `/api/fetchUsers?page=${page}&rowsPerPage=${rowsPerPage}&role=${role}`
+        const response = await axios.get(
+          `${API_URLS.USERS}/${page}/${rowsPerPage}/${role}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
         );
-        if (!response.ok) throw new Error(await response.json());
-        const data = await response.json();
-        console.log(data);
-        setUsers(data);
+        // console.log(response);
+        if (response.status === 200) {
+          const data = response.data.data.users;
+          // console.log(data);
+          setUsers(data);
+        }
       } catch (err) {
-        setError(err.message);
+        setError("failed in fetching");
       }
     };
 

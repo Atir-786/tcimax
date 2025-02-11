@@ -6,9 +6,9 @@ import { redirect } from "next/navigation";
 
 const page = () => {
   const cookieStore = cookies();
-  const { role } = JSON.parse(cookieStore.get("user_data")?.value);
+  const { role_id } = JSON.parse(cookieStore.get("user_data")?.value);
   // console.log(role);
-  if (role != 1) {
+  if (role_id != 1) {
     redirect("/dashboard");
   }
   return (

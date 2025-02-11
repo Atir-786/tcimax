@@ -36,7 +36,7 @@ const NotificationSettings = () => {
             <button
               onClick={() => handleToggle(item.key)}
               className={`w-10 h-5 flex items-center bg-gray-300 rounded-full p-1 transition duration-300 ${
-                settings[item.key] ? "bg-blue-600" : ""
+                settings[item.key] ? "bg-primary" : ""
               }`}
             >
               <div

@@ -68,9 +68,10 @@ export default function LoginForm() {
         await axios.post("/api/setCookies", {
           accessToken: response.data.access_token,
           user: {
-            name: response.data.user.name,
-            role: response.data.user.role_id,
-            id: response.data.user.id,
+            // name: response.data.user.name,
+            // role: response.data.user.role_id,
+            // id: response.data.user.id,
+            ...response.data.user,
           },
         });
         Swal.fire({

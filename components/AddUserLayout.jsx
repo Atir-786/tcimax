@@ -5,6 +5,7 @@ import AddForm from "./AddForm";
 import UploadForm from "./UploadForm";
 
 import SampleLink from "./ui/SampleLink";
+import API_URLS from "../config/apiUrls";
 export default function AddUserLayout({ role, name, url }) {
   // Handle form field changes
   const [activeTab, setActiveTab] = useState("manual");
@@ -59,9 +60,7 @@ export default function AddUserLayout({ role, name, url }) {
               <UploadForm url={url} formName="bulk_users" />
             </div>
           )}
-          {activeTab === "sample" && (
-            <SampleLink url="https://mis.tcimax.co.in/public/assets/sample/sample_tcimax_users.xlsx" />
-          )}
+          {activeTab === "sample" && <SampleLink url={API_URLS.USERS_SAMPLE} />}
         </div>
       </div>
     </Layout>

@@ -58,7 +58,7 @@ export default function SaleApprovals() {
   };
   return (
     <Layout>
-      <div className=" mx-auto p-6 bg-white shadow-md rounded-lg border ">
+      <div className="mx-auto p-6 bg-white shadow-md rounded-lg border ">
         <h2 className="border-b text-xl font-bold mb-4 pb-4">Sales</h2>
         <div className="flex items-center justify-between mb-4">
           {/* Entries per page */}
@@ -102,10 +102,10 @@ export default function SaleApprovals() {
               <thead>
                 <tr className="bg-gray-200 ">
                   <th className="px-4 py-4">S.NO.</th>
-                  <th className="px-4 py-4">Date</th>
+                  <th className="px-4 py-4">Dated</th>
                   <th className="px-4 py-4">Distributor</th>
                   <th className="px-4 py-4">Retailer</th>
-                  <th className="px-4 py-4">Qty</th>
+                  <th className="px-4 py-4">Qty(TRUCK)</th>
                 </tr>
               </thead>
               <tbody>

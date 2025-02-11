@@ -12,8 +12,8 @@ const EditProfile = () => {
     fullName: "",
     email: "",
     phoneNumber: "",
-    designation: "",
-    language: "",
+    // designation: "",
+    // language: "",
   });
 
   const handleImageChange = (e) => {
@@ -48,7 +48,7 @@ const EditProfile = () => {
                 key={tab}
                 className={`py-2 px-4 text-sm ${
                   activeTab === tabKey
-                    ? "border-b-2 border-blue-500 font-semibold"
+                    ? "border-t-2 border-blue-500 font-semibold bg-gradient-to-b from-blue-100 to-blue-60"
                     : "text-gray-500"
                 }`}
                 onClick={() => setActiveTab(tabKey)}
@@ -61,17 +61,18 @@ const EditProfile = () => {
       </div>
 
       {/* Tab Contents */}
+
       {activeTab === "editProfile" && (
         <div>
           <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="flex flex-col lg:flex-row gap-4">
+            <div className="flex flex-col  gap-4 ">
               {/* Profile Image Section */}
               <div className="flex items-center gap-6">
                 <div className="relative w-32 h-32">
                   <img
                     src={selectedImage || "https://via."}
-                    alt="Profile"
+                    // alt="Profile"
                     className="w-full h-full object-cover rounded-full border border-gray-300"
                   />
                   {/* Camera Icon */}
@@ -136,7 +137,7 @@ const EditProfile = () => {
                       className="mt-1 w-full border border-gray-300 rounded-md p-2"
                     />
                   </div>
-                  <div className="flex-1">
+                  {/* <div className="flex-1">
                     <label className="block text-sm font-medium text-gray-700">
                       Designation
                     </label>
@@ -148,10 +149,10 @@ const EditProfile = () => {
                       placeholder="Enter Designation"
                       className="mt-1 w-full border border-gray-300 rounded-md p-2"
                     />
-                  </div>
+                  </div> */}
                 </div>
 
-                <div className="mt-4">
+                {/* <div className="mt-4">
                   <label className="block text-sm font-medium text-gray-700">
                     Language
                   </label>
@@ -166,16 +167,15 @@ const EditProfile = () => {
                     <option value="Spanish">Spanish</option>
                     <option value="French">French</option>
                   </select>
-                </div>
+                </div> */}
               </div>
+              <button
+                type="submit"
+                className="mt-4 mx-auto bg-primary text-white py-2 px-4 rounded-md shadow-md"
+              >
+                Save Changes
+              </button>
             </div>
-
-            <button
-              type="submit"
-              className="mt-6 bg-blue-600 text-white py-2 px-4 rounded-md shadow-md"
-            >
-              Save Changes
-            </button>
           </form>
         </div>
       )}

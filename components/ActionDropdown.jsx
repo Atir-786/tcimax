@@ -4,6 +4,7 @@ import { FiChevronsDown } from "react-icons/fi";
 import Swal from "sweetalert2";
 import { FiCheckCircle } from "react-icons/fi";
 import { FiXCircle } from "react-icons/fi";
+import { setNotification } from "../utils/user";
 export default function ActionDropdown({ userId, upload }) {
   const [showMenu, setShowMenu] = useState(false);
   // console.log(userId, status, upload);
@@ -26,7 +27,7 @@ export default function ActionDropdown({ userId, upload }) {
 
       const data = await response.json();
       console.log(data);
-      return data;
+      return { ...data, process: status === 1 ? "Approved" : "Rejected" };
     } catch (error) {
       console.error("Approval Error:", error);
       throw new Error("Approval request failed.");
@@ -48,12 +49,15 @@ export default function ActionDropdown({ userId, upload }) {
 
         apiCall
           .then((data) => {
+            console.log(data);
             if (data.success) {
               Swal.fire(
                 "Success!",
-                `The process was successfully approved.`,
+                `The process was successfully ${data.process}.`,
                 "success"
               );
+              // ADD MESSAGE HERE
+              setNotification(`${data.process} a sale`);
             } else {
               const errorMessages = Object.entries(data.errors || {})
                 .map(([field, messages]) => `${field}: ${messages.join(", ")}`)

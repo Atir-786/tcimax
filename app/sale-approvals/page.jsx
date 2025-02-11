@@ -10,7 +10,7 @@ import Cookies from "js-cookie";
 export default function SaleApprovals() {
   const [salesData, setSalesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [userData, setUserData] = useState(null);
@@ -72,7 +72,6 @@ export default function SaleApprovals() {
               value={rowsPerPage}
               className="border border-gray-300 rounded-md px-2 py-2 text-sm focus:outline-none focus:ring focus:ring-blue-200"
             >
-              <option value={5}>5</option>
               <option value={10}>10</option>
               <option value={25}>25</option>
               <option value={50}>50</option>
@@ -103,11 +102,13 @@ export default function SaleApprovals() {
               <thead>
                 <tr className="bg-gray-200 ">
                   <th className="px-4 py-4">S.NO.</th>
-                  <th className="px-4 py-4">Date</th>
+                  <th className="px-4 py-4">Dated</th>
                   <th className="px-4 py-4">Uploaded By</th>
                   <th className="px-4 py-4">File Processing Status</th>
                   <th className="px-4 py-4">Manager Status</th>
-                  {userData.role === 2 && <th className="px-4 py-4">Action</th>}
+                  {userData.role_id === 2 && (
+                    <th className="px-4 py-4">Action</th>
+                  )}
                   <th className="px-4 py-4">Download</th>
                 </tr>
               </thead>
@@ -151,7 +152,7 @@ export default function SaleApprovals() {
                         </span>
                       ) : null}
                     </td>
-                    {userData.role === 2 && (
+                    {userData.role_id === 2 && (
                       <td className="px-4 py-4 flex justify-center items-center">
                         <ActionDropdown
                           upload={upload.upload_id}

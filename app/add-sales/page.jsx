@@ -56,9 +56,7 @@ const page = () => {
               <UploadForm url={API_URLS.ADD_BULK_SALES} formName="bulk_sales" />
             </div>
           )}
-          {activeTab === "sample" && (
-            <SampleLink url="https://mis.tcimax.co.in/public/assets/sample/sample_tcimax.xlsx" />
-          )}
+          {activeTab === "sample" && <SampleLink url={API_URLS.SALES_SAMPLE} />}
         </div>
       </div>
     </Layout>

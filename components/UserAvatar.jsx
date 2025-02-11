@@ -5,6 +5,7 @@ import { FiUser } from "react-icons/fi";
 import Logout from "./ui/Logout";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { calcRole } from "../utils/utils";
 const UserAvatar = () => {
   const router = useRouter();
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
@@ -51,19 +52,7 @@ const UserAvatar = () => {
         >
           <div className="p-4 bg-blue-100 rounded-md">
             <h1 className="font-bold">{user?.name}</h1>
-            <h3 className="text-gray-600">
-              {user?.role === 1
-                ? "Admin"
-                : user?.role === 2
-                ? "Manager"
-                : user?.role === 3
-                ? "Data Entry Operator"
-                : user?.role === 4
-                ? "Distributor"
-                : user?.role === 5
-                ? "Retailer"
-                : "Other"}
-            </h3>
+            <h3 className="text-gray-600">{calcRole(user?.role_id)}</h3>
           </div>
           <ul className="py-2 text-md text-gray-700">
             <li className="hover:bg-gray-100 flex items-center space-x-2 px-4 py-2">

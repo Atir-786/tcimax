@@ -7,10 +7,13 @@ import Select from "react-select";
 import Cookies from "js-cookie";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import { setNotification } from "../utils/user";
 const AddSalesForm = () => {
   // const router = useRouter();
   const [distributors, setDistributors] = useState([]);
   const [retailers, setRetailers] = useState([]);
+  const [user, setUser] = useState([]);
+
   const [accessToken, setAccessToken] = useState([]);
   const [formData, setFormData] = useState({
     date: "",
@@ -48,6 +51,11 @@ const AddSalesForm = () => {
       const distributorsData = await fetchUsersByRoleId(4); // Fetch distributors
       const retailersData = await fetchUsersByRoleId(5); // Fetch retailers
       const token = Cookies.get("access_token");
+      const userData = Cookies.get("user_data");
+      if (userData) {
+        const data = JSON.parse(userData);
+        setUser(data);
+      }
       // console.log(token);
       setAccessToken(token);
       setDistributors(distributorsData);
@@ -201,6 +209,9 @@ const AddSalesForm = () => {
           voucherNumber: "",
           qty: "",
         });
+
+        // set Notification
+        await setNotification("Added Sale");
       } else {
         // Extract error messages and display them
         const errorMessages = Object.entries(data.errors)
@@ -228,7 +239,7 @@ const AddSalesForm = () => {
       {errors.api && (
         <div className="text-red-500 text-sm mb-4">{errors.api}</div>
       )}
-      <div className="mb-4">
+      <div className="mb-4 ">
         <label className="block text-sm font-medium mb-1">Date</label>
         <DatePicker
           selected={formData.date}
@@ -236,6 +247,7 @@ const AddSalesForm = () => {
           dateFormat="dd/MM/yyyy"
           placeholderText="Select a date"
           className="w-full p-2 border border-gray-300 rounded"
+          wrapperClassName="w-full"
         />
         {errors.date && <p className="text-red-500 text-sm">{errors.date}</p>}
       </div>

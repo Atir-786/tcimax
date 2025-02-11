@@ -6,6 +6,7 @@ import Navbar from "./Navbar";
 import { useRouter } from "next/navigation";
 import { FiLoader } from "react-icons/fi";
 import Cookies from "js-cookie";
+import { calcRole } from "../utils/utils";
 const Layout = ({ children }) => {
   const router = useRouter();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to closed
@@ -33,7 +34,8 @@ const Layout = ({ children }) => {
       router.push("/login");
     } else {
       const user = JSON.parse(user_data);
-      setRoleId(user?.role);
+      setRoleId(user?.role_id);
+      document.title = `TCI | ${calcRole(user?.role_id)}`;
       setIsLoading(false);
     }
   }, [router]);

@@ -10,6 +10,7 @@ const StockStatisticsChart = dynamic(
 );
 
 import Cookies from "js-cookie";
+import { calcRole } from "../../utils/utils";
 
 const Dashboard = () => {
   const [roleId, setRoleId] = useState(null);
@@ -19,8 +20,9 @@ const Dashboard = () => {
     if (userData) {
       try {
         const parsedUser = JSON.parse(userData);
+        // console.log(parsedUser);
         setName(parsedUser.name);
-        setRoleId(parsedUser.role);
+        setRoleId(parsedUser.role_id);
       } catch (err) {
         console.error("Error parsing user data:", err);
       }
@@ -77,18 +79,7 @@ const Dashboard = () => {
             Welcome <span className="text-primary">{name}</span> to TCIMAX MIS
             APP
           </h1>
-          <p className="text-center">
-            You are logged in as{" "}
-            {roleId == 2
-              ? "Manager"
-              : roleId == 3
-              ? "Data Entry Operator"
-              : roleId == 4
-              ? "Distributor"
-              : roleId == 5
-              ? "Retailer "
-              : "Other"}
-          </p>
+          <p className="text-center">You are logged in as {calcRole(roleId)}</p>
         </div>
       )}
     </Layout>
