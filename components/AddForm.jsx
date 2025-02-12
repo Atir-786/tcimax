@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import API_URLS from "../config/apiUrls";
 import Select from "react-select";
+import Cookies from "js-cookie";
 
 const AddForm = ({ role, name }) => {
   const router = useRouter();
@@ -28,12 +29,17 @@ const AddForm = ({ role, name }) => {
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
   useEffect(() => {
+    const token = Cookies.get("access_token");
     const fetchUsersByRoleId = async (roleId) => {
       try {
-        const response = await fetch(`/api/fetchUsersByRoleId?role=${roleId}`);
+        const response = await fetch(`${API_URLS.USERS_BY_ROLEID}/${roleId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
-        console.log(data);
-        return data;
+        // console.log(data);
+        return data.data.users;
       } catch (error) {
         console.error("Error fetching users", error);
         return [];

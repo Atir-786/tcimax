@@ -53,7 +53,11 @@ const page = () => {
           )}
           {activeTab === "excel" && (
             <div className="bg-gray-50 p-4 rounded-xl">
-              <UploadForm url={API_URLS.ADD_BULK_SALES} formName="bulk_sales" />
+              <UploadForm
+                url={API_URLS.ADD_BULK_SALES}
+                formName="bulk_sales"
+                name="sales"
+              />
             </div>
           )}
           {activeTab === "sample" && <SampleLink url={API_URLS.SALES_SAMPLE} />}

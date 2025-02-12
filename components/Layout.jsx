@@ -35,7 +35,7 @@ const Layout = ({ children }) => {
     } else {
       const user = JSON.parse(user_data);
       setRoleId(user?.role_id);
-      document.title = `TCI | ${calcRole(user?.role_id)}`;
+      document.title = `TCI MAX | ${calcRole(user?.role_id)}`;
       setIsLoading(false);
     }
   }, [router]);

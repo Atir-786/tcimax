@@ -1,10 +1,10 @@
 "use client";
 import { useState } from "react";
 import { FiUpload } from "react-icons/fi";
-import axios from "axios";
 import Swal from "sweetalert2";
+import { setNotification } from "../utils/user";
 
-export default function UploadForm({ url, formName }) {
+export default function UploadForm({ url, formName, name }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [error, setError] = useState("");
   // Handle file change
@@ -44,9 +44,6 @@ export default function UploadForm({ url, formName }) {
     //   console.log(`${pair[0]}: ${pair[1]}`);
     // }
     try {
-      // const token = localStorage.getItem("access_token");
-      // Replace with your real API
-      // // ///  /
       const res = await fetch("/api/bulkupload", {
         method: "POST",
         body: formData,
@@ -55,6 +52,7 @@ export default function UploadForm({ url, formName }) {
       const result = await res.json();
       if (res.ok) {
         Swal.fire("Success", "File uploaded successfully!", "success");
+        setNotification(`uploaded ${name}`);
         setSelectedFile(null);
       } else {
         Swal.fire("Error", result.message || "Something went wrong.", "error");

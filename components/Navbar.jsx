@@ -18,7 +18,7 @@ const menuList1 = [
   "Retailer/Distributor Approvals",
 ];
 const menuList2 = [
-  "Company Associated List",
+  "Company Associated Retailers",
   "Total Dealers List",
   "District Wise List",
   "Schemes List",
@@ -28,17 +28,17 @@ const userManagementList = [
   {
     name: "Managers",
     icon: <HiOutlineUsers />,
-    subItems: ["Add User", "Users List"],
+    subItems: ["Add Manager", "Managers List"],
   },
   {
     name: "Distributors",
     icon: <HiOutlineUsers />,
-    subItems: ["Add User", "Users List"],
+    subItems: ["Add Distributor", "Distributors List"],
   },
   {
     name: "Retailers",
     icon: <HiOutlineUsers />,
-    subItems: ["Add User", "Users List"],
+    subItems: ["Add Retailer", "Retailers List"],
   },
 ];
 const Navbar = ({ roleId }) => {

@@ -64,7 +64,7 @@ export default function ActionDropdown({ userId, upload }) {
                 .join("\n");
               Swal.fire(
                 "Failure",
-                `Failed to approve the process.\n\n${errorMessages}`,
+                `Sale cant be ${data.process} \n\n${errorMessages}`,
                 "error"
               );
             }

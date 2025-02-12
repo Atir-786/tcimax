@@ -6,8 +6,12 @@ const setNotification = async (message) => {
   const userData = Cookies.get("user_data");
   const user = JSON.parse(userData);
   try {
+    let obj = {
+      name: user.name,
+      message: message,
+    };
     const notificationData = new FormData();
-    notificationData.append("message", `${user.name} ${message}`);
+    notificationData.append("message", JSON.stringify(obj));
     notificationData.append("user_id", user.id);
     notificationData.append("role_id", user.role_id);
     const response = await fetch(API_URLS.ADD_MESSAGE, {

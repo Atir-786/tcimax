@@ -8,6 +8,7 @@ import Link from "next/link";
 import ActionDropdown from "../../components/ActionDropdown";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import API_URLS from "../../config/apiUrls";
+import Cookies from "js-cookie";
 export default function UsersQueue() {
   const [users, setUsers] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -16,23 +17,31 @@ export default function UsersQueue() {
   const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
-    fetchUsers(currentPage);
+    const token = Cookies.get("access_token");
+    fetchUsers(token, currentPage);
   }, [currentPage, rowsPerPage]);
 
-  const fetchUsers = async (page) => {
+  const fetchUsers = async (token, page) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `/api/usersQueue?page=${page}&rowsPerPage=${rowsPerPage}`
+        `${API_URLS.GET_SALES_QUEUE}/${page}/${rowsPerPage}/bulkusers`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      if (!response.ok) throw new Error(await response.json());
-      const data = await response.json();
-      console.log(data.uploads);
-      setUsers(data.uploads);
-      setLoading(false);
+      // console.log(response);
+      if (response.status === 200) {
+        const data = await response.json();
+        // console.log(data);
+        setUsers(data.data.uploads);
+      } else throw new Error(response.statusText);
     } catch (error) {
       console.error("Error fetching sales data:", error);
       Swal.fire("Error", "Failed to fetch sales data.", "error");
+    } finally {
       setLoading(false);
     }
   };

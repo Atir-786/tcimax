@@ -35,12 +35,19 @@ const AddSalesForm = () => {
   const [loading, setLoading] = useState(false);
   // Fetch Distributors and Retailers
   useEffect(() => {
+    const token = Cookies.get("access_token");
+    setAccessToken(token);
+
     const fetchUsersByRoleId = async (roleId) => {
       try {
-        const response = await fetch(`/api/fetchUsersByRoleId?role=${roleId}`);
+        const response = await fetch(`${API_URLS.USERS_BY_ROLEID}/${roleId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         const data = await response.json();
-        console.log(data);
-        return data;
+        // console.log(data);
+        return data.data.users;
       } catch (error) {
         console.error("Error fetching users", error);
         return [];
@@ -50,14 +57,13 @@ const AddSalesForm = () => {
     const fetchData = async () => {
       const distributorsData = await fetchUsersByRoleId(4); // Fetch distributors
       const retailersData = await fetchUsersByRoleId(5); // Fetch retailers
-      const token = Cookies.get("access_token");
+
       const userData = Cookies.get("user_data");
       if (userData) {
         const data = JSON.parse(userData);
         setUser(data);
       }
       // console.log(token);
-      setAccessToken(token);
       setDistributors(distributorsData);
       setRetailers(retailersData);
     };

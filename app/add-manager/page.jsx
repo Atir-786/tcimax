@@ -3,6 +3,7 @@ import Layout from "../../components/Layout";
 import RegisterUser from "../../components/RegisterUser";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import AddUserLayout from "../../components/AddUserLayout";
 
 const page = () => {
   const cookieStore = cookies();
@@ -11,15 +12,7 @@ const page = () => {
   if (role_id != 1) {
     redirect("/dashboard");
   }
-  return (
-    <>
-      <Layout>
-        {/* <RegisterForm /> */}
-        Add users
-        <RegisterUser />
-      </Layout>
-    </>
-  );
+  return <AddUserLayout role={2} name="managers" />;
 };
 
 export default page;

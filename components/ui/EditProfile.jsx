@@ -6,7 +6,7 @@ import { BsCamera, BsCamera2 } from "react-icons/bs";
 import ChangePassword from "./ChangePassword";
 
 const EditProfile = () => {
-  const [activeTab, setActiveTab] = useState("editProfile");
+  const [activeTab, setActiveTab] = useState("changePassword");
   const [selectedImage, setSelectedImage] = useState(null);
   const [formData, setFormData] = useState({
     fullName: "",
@@ -35,39 +35,32 @@ const EditProfile = () => {
     <div className="bg-white shadow-lg w-full p-6 rounded-lg">
       {/* Tabs Navigation */}
       <div className="flex border-b mb-4">
-        {["Edit Profile", "Change Password", "Notification Settings"].map(
-          (tab, index) => {
-            const tabKey =
-              index === 0
-                ? "editProfile"
-                : index === 1
-                ? "changePassword"
-                : "notificationSettings";
-            return (
-              <button
-                key={tab}
-                className={`py-2 px-4 text-sm ${
-                  activeTab === tabKey
-                    ? "border-t-2 border-blue-500 font-semibold bg-gradient-to-b from-blue-100 to-blue-60"
-                    : "text-gray-500"
-                }`}
-                onClick={() => setActiveTab(tabKey)}
-              >
-                {tab}
-              </button>
-            );
-          }
-        )}
+        {["Change Password", "Notification Settings"].map((tab, index) => {
+          const tabKey =
+            index === 0 ? "changePassword" : "notificationSettings";
+          return (
+            <button
+              key={tab}
+              className={`py-2 px-4 text-sm ${
+                activeTab === tabKey
+                  ? "border-t-2 border-blue-500 font-semibold bg-gradient-to-b from-blue-100 to-blue-60"
+                  : "text-gray-500"
+              }`}
+              onClick={() => setActiveTab(tabKey)}
+            >
+              {tab}
+            </button>
+          );
+        })}
       </div>
 
       {/* Tab Contents */}
 
-      {activeTab === "editProfile" && (
+      {/* {activeTab === "editProfile" && (
         <div>
           <h2 className="text-xl font-semibold mb-4">Edit Profile</h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="flex flex-col  gap-4 ">
-              {/* Profile Image Section */}
               <div className="flex items-center gap-6">
                 <div className="relative w-32 h-32">
                   <img
@@ -75,7 +68,6 @@ const EditProfile = () => {
                     // alt="Profile"
                     className="w-full h-full object-cover rounded-full border border-gray-300"
                   />
-                  {/* Camera Icon */}
                   <label
                     htmlFor="upload"
                     className="absolute bottom-2 right-2 bg-blue-200 text-primary p-2 rounded-full cursor-pointer shadow-md"
@@ -92,7 +84,6 @@ const EditProfile = () => {
                 </div>
               </div>
 
-              {/* Form Fields Section */}
               <div className="flex-1">
                 <div className="flex flex-col lg:flex-row gap-4">
                   <div className="flex-1">
@@ -137,37 +128,10 @@ const EditProfile = () => {
                       className="mt-1 w-full border border-gray-300 rounded-md p-2"
                     />
                   </div>
-                  {/* <div className="flex-1">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Designation
-                    </label>
-                    <input
-                      type="text"
-                      name="designation"
-                      value={formData.designation}
-                      onChange={handleInputChange}
-                      placeholder="Enter Designation"
-                      className="mt-1 w-full border border-gray-300 rounded-md p-2"
-                    />
-                  </div> */}
+                
                 </div>
 
-                {/* <div className="mt-4">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Language
-                  </label>
-                  <select
-                    name="language"
-                    value={formData.language}
-                    onChange={handleInputChange}
-                    className="mt-1 w-full border border-gray-300 rounded-md p-2"
-                  >
-                    <option value="">Select Language</option>
-                    <option value="English">English</option>
-                    <option value="Spanish">Spanish</option>
-                    <option value="French">French</option>
-                  </select>
-                </div> */}
+              
               </div>
               <button
                 type="submit"
@@ -178,7 +142,7 @@ const EditProfile = () => {
             </div>
           </form>
         </div>
-      )}
+      )} */}
 
       {activeTab === "changePassword" && <ChangePassword />}
 

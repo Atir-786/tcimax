@@ -2,11 +2,17 @@
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import Layout from "../../components/Layout";
-import { FiDownload } from "react-icons/fi";
+import {
+  FiCheckCircle,
+  FiChevronsDown,
+  FiDownload,
+  FiXCircle,
+} from "react-icons/fi";
 import Link from "next/link";
 import ActionDropdown from "../../components/ActionDropdown";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import Cookies from "js-cookie";
+import API_URLS from "../../config/apiUrls";
 export default function SaleApprovals() {
   const [salesData, setSalesData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,26 +20,38 @@ export default function SaleApprovals() {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
   const [userData, setUserData] = useState(null);
+  const [showMenu, setShowMenu] = useState(false);
+
   useEffect(() => {
     const user = JSON.parse(Cookies.get("user_data"));
-    console.log(user);
+    const accessToken = Cookies.get("access_token");
+    console.log(accessToken);
     setUserData(user);
-    fetchSalesData(currentPage);
+    fetchSalesData(accessToken);
   }, [currentPage, rowsPerPage]);
 
-  const fetchSalesData = async (page) => {
+  const fetchSalesData = async (token) => {
     setLoading(true);
     try {
       const response = await fetch(
-        `/api/fetchSales?page=${page}&rowsPerPage=${rowsPerPage}`
+        `${API_URLS.GET_SALES}/${currentPage}/${rowsPerPage}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      if (!response.ok) throw new Error(await response.json());
+      // if (!response.ok) throw new Error(await response.json());
       const data = await response.json();
-      console.log(data);
-      setSalesData(data);
+
+      // console.log(data);
+      if (data.message === "Success") {
+        // console.log(data.data.sales);
+        setSalesData(data.data.sales);
+      }
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching sales data:", error);
+      console.log("Error fetching sales data:", error);
       Swal.fire("Error", "Failed to fetch sales data.", "error");
       setLoading(false);
     }
@@ -106,6 +124,9 @@ export default function SaleApprovals() {
                   <th className="px-4 py-4">Distributor</th>
                   <th className="px-4 py-4">Retailer</th>
                   <th className="px-4 py-4">Qty(TRUCK)</th>
+                  {userData.role_id === 2 && (
+                    <th className="px-4 py-4">Action</th>
+                  )}
                 </tr>
               </thead>
               <tbody>
@@ -119,6 +140,11 @@ export default function SaleApprovals() {
                     <td className="px-4 py-4">{sale.retailer}</td>
 
                     <td className="px-4 py-4">{sale.qty}</td>
+                    {userData.role_id === 2 && (
+                      <td className="px-4 py-4 flex justify-center items-center">
+                        <ActionDropdown />
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>

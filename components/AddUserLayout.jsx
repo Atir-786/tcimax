@@ -16,38 +16,40 @@ export default function AddUserLayout({ role, name, url }) {
           Add {name.charAt(0).toUpperCase() + name.slice(1)}
         </h2>
         {/* Tabs Navigation */}
-        <div className="flex border-b">
-          <button
-            onClick={() => setActiveTab("manual")}
-            className={`px-4 py-2 font-semibold ${
-              activeTab === "manual"
-                ? "border-b-4 border-blue-500 text-blue-600"
-                : "text-gray-600"
-            }`}
-          >
-            Add Manually
-          </button>
-          <button
-            onClick={() => setActiveTab("excel")}
-            className={`ml-4 px-4 py-2 font-semibold ${
-              activeTab === "excel"
-                ? "border-b-4 border-green-500 text-green-600"
-                : "text-gray-600"
-            }`}
-          >
-            Upload Excel File
-          </button>
-          <button
-            onClick={() => setActiveTab("sample")}
-            className={`ml-4 px-4 py-2 font-semibold ${
-              activeTab === "sample"
-                ? "border-b-4 border-green-500 text-green-600"
-                : "text-gray-600"
-            }`}
-          >
-            Download Sample
-          </button>
-        </div>
+        {(role === 3 || role === 4) && (
+          <div className="flex border-b">
+            <button
+              onClick={() => setActiveTab("manual")}
+              className={`px-4 py-2 font-semibold ${
+                activeTab === "manual"
+                  ? "border-b-4 border-blue-500 text-blue-600"
+                  : "text-gray-600"
+              }`}
+            >
+              Add Manually
+            </button>
+            <button
+              onClick={() => setActiveTab("excel")}
+              className={`ml-4 px-4 py-2 font-semibold ${
+                activeTab === "excel"
+                  ? "border-b-4 border-green-500 text-green-600"
+                  : "text-gray-600"
+              }`}
+            >
+              Upload Excel File
+            </button>
+            <button
+              onClick={() => setActiveTab("sample")}
+              className={`ml-4 px-4 py-2 font-semibold ${
+                activeTab === "sample"
+                  ? "border-b-4 border-green-500 text-green-600"
+                  : "text-gray-600"
+              }`}
+            >
+              Download Sample
+            </button>
+          </div>
+        )}
         {/* Tab Content */}
         <div className="mt-6">
           {activeTab === "manual" && (
@@ -57,7 +59,7 @@ export default function AddUserLayout({ role, name, url }) {
           )}
           {activeTab === "excel" && (
             <div className="bg-gray-50 p-4 rounded-xl">
-              <UploadForm url={url} formName="bulk_users" />
+              <UploadForm url={url} formName="bulk_users" name={name} />
             </div>
           )}
           {activeTab === "sample" && <SampleLink url={API_URLS.USERS_SAMPLE} />}

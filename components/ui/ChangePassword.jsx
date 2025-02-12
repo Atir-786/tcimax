@@ -36,6 +36,7 @@ const ChangePassword = () => {
           />
         </div>
         <button
+          disabled
           type="submit"
           className="mt-6 bg-primary text-white py-2 px-4 rounded-md shadow-md"
         >
