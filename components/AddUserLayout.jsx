@@ -16,7 +16,7 @@ export default function AddUserLayout({ role, name, url }) {
           Add {name.charAt(0).toUpperCase() + name.slice(1)}
         </h2>
         {/* Tabs Navigation */}
-        {(role === 3 || role === 4) && (
+        {(role === 4 || role === 5) && (
           <div className="flex border-b">
             <button
               onClick={() => setActiveTab("manual")}

@@ -1,6 +1,11 @@
 "use client";
 import React from "react";
-import ReactApexChart from "react-apexcharts";
+import dynamic from "next/dynamic";
+
+// Dynamically import ReactApexChart to avoid SSR issues
+const ReactApexChart = dynamic(() => import("react-apexcharts"), {
+  ssr: false, // This prevents it from being rendered on the server
+});
 
 const StockStatisticsChart = () => {
   const chartOptions = {

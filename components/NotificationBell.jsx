@@ -31,7 +31,7 @@ const NotificationBell = () => {
     }
   }, []);
   const fetchNotifications = async function (user, token) {
-    console.log(user);
+    // console.log(user);
     try {
       const myHeaders = new Headers();
       myHeaders.append("Authorization", `Bearer ${token}`);
@@ -52,7 +52,7 @@ const NotificationBell = () => {
 
       const response = await fetch(API_URLS.GET_MESSAGE, requestOptions);
       const data = await response.json();
-      console.log(data);
+      // console.log(data);
       if (data.success) {
         setNotifications(data.data);
       }

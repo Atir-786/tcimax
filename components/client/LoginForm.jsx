@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { CiMobile1, CiLock } from "react-icons/ci";
-import InputField from "../InputComp";
+import InputField from "../ui/InputComp";
 import { useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import API_URLS from "../../config/apiUrls";
@@ -143,7 +143,7 @@ export default function LoginForm() {
 
       <button
         type="submit"
-        className="text-lg py-4 my-8 w-full bg-primary text-white rounded-xl hover:bg-blue-600 transition"
+        className="text-lg py-4 my-8 w-full bg-primary text-white rounded-xl transition"
         disabled={loading}
       >
         {loading ? "Logging in..." : "Signin"}
