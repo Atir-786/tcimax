@@ -48,21 +48,11 @@ export default function LoginForm() {
         API_URLS.LOGIN,
         { mobile, password },
         {
-          headers: { "Content-Type": "application/json" },
           withCredentials: true,
         }
       );
 
       if (response.status === 200 || response.status === 201) {
-        // save data in localStorage
-        // localStorage.setItem("access_token", response.data.access_token);
-        // localStorage.setItem(
-        //   "user",
-        //   JSON.stringify({
-        //     name: response.data.user.name,
-        //     role: response.data.user.role_id,
-        //   })
-        // );
         //save data in cookies
         // Set cookies securely using the Next.js API route
         await axios.post("/api/setCookies", {

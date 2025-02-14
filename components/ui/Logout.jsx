@@ -6,24 +6,19 @@ const Logout = () => {
   const router = useRouter();
   const handleLogout = async () => {
     try {
-      // Show loading spinner
-      // Swal.fire({
-      //   title: "Logging out...",
-      //   text: "Please wait while we log you out.",
-      // });
-      // console.log("init");
-      const res = await axios.post("/api/logout");
+      const res = await fetch("/api/logout", { method: "POST" });
       // console.log(res);
-      Swal.fire({
-        title: "Logout Successful!",
-        icon: "success",
-        timer: 2000,
-        showConfirmButton: false,
-      });
-
-      // localStorage.removeItem("access_token");
-      // localStorage.removeItem("user");
-      router.push("/login");
+      if (res.ok) {
+        Swal.fire({
+          title: "Logout Successful!",
+          icon: "success",
+          timer: 2000,
+          showConfirmButton: false,
+        });
+        router.push("/login");
+      } else {
+        Swal.fire("Error", "Logout Failed");
+      }
     } catch (error) {
       Swal.fire("Error", "Logout Failed");
       // console.error("Error during logout:", error);

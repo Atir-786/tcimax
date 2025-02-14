@@ -1,11 +1,10 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import Layout from "./Layout";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { BsEye } from "react-icons/bs";
-import API_URLS from "../config/apiUrls";
 import Cookies from "js-cookie";
+import { fetchUsers } from "../lib/action";
 const List = ({ role, name }) => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -16,28 +15,20 @@ const List = ({ role, name }) => {
 
   useEffect(() => {
     const token = Cookies.get("access_token");
-    const fetchData = async () => {
+    const getUsers = async () => {
+      setLoading(true);
       try {
-        const response = await axios.get(
-          `${API_URLS.USERS}/${page}/${rowsPerPage}/${role}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        // console.log(response);
-        if (response.status === 200) {
-          const data = response.data.data.users;
-          // console.log(data);
-          setUsers(data);
-        }
+        const data = await fetchUsers(token, page, rowsPerPage, role);
+        // console.log(data);
+        setUsers(data.data.users);
+        setError(null);
       } catch (err) {
-        setError("failed in fetching");
+        setError("Failed to fetch users");
       }
+      setLoading(false);
     };
 
-    fetchData();
+    getUsers();
   }, [page, rowsPerPage, role]);
 
   // Sorting and Filtering Users

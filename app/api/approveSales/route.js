@@ -6,9 +6,6 @@ export async function POST(req) {
   const accessToken = cookieStore.get("access_token")?.value;
   try {
     const formData = await req.formData();
-    // const userId = formData.get("user_id");
-    // const uploadId = formData.get("upload_id");
-    // const status = formData.get("status");
     const response = await fetch(API_URLS.APPROVE_SALES, {
       method: "POST",
       headers: {

@@ -4,19 +4,23 @@ import { fetchDashboardCount } from "../../lib/action";
 import StockStatisticsChart from "../../components/StockStatisticsChart";
 import { calcRole } from "../../utils/utils";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 // import DashboardCard from "../../components/ui/DashboardCard";
 const Dashboard = async () => {
   const cookieStore = await cookies();
   const userData = cookieStore.get("user_data")?.value;
   const token = cookieStore.get("access_token")?.value;
   // Parse user data
+  if (!userData) {
+    redirect("/login");
+  }
   const user = JSON.parse(userData);
 
   // Fetch data only if role is 1
   let count = {};
   if (user.role_id === 1 && token) {
     let data = await fetchDashboardCount(token);
-    // console.log(data);
+    console.log(data.counts);
     count = data.counts;
   }
 

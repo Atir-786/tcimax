@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import API_URLS from "../config/apiUrls";
 import Select from "react-select";
 import Cookies from "js-cookie";
+import { fetchUsersByRoleId } from "../lib/action";
 
 const AddForm = ({ role, name }) => {
   const router = useRouter();
@@ -30,28 +31,14 @@ const AddForm = ({ role, name }) => {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     const token = Cookies.get("access_token");
-    const fetchUsersByRoleId = async (roleId) => {
-      try {
-        const response = await fetch(`${API_URLS.USERS_BY_ROLEID}/${roleId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await response.json();
-        // console.log(data);
-        return data.data.users;
-      } catch (error) {
-        console.error("Error fetching users", error);
-        return [];
-      }
-    };
-
     const fetchData = async () => {
-      const distributorsData = await fetchUsersByRoleId(4); // Fetch distributors
+      const distributorsData = await fetchUsersByRoleId(token, 4); // Fetch distributors
+      // console.log(distributorsData);
       setDistributors(distributorsData);
     };
-
-    fetchData();
+    if (role === 5) {
+      fetchData();
+    }
   }, []);
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -62,7 +49,7 @@ const AddForm = ({ role, name }) => {
         name === "password" ? value : prevData.passwordConfirmation,
     }));
   };
-  console.log(formData);
+  // console.log(formData);
   // Handle select fields
   const handleSelectChange = (name, value) => {
     console.log(name, value);

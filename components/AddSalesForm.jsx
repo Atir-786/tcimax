@@ -8,13 +8,11 @@ import Cookies from "js-cookie";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { setNotification } from "../utils/user";
+import { fetchUsersByRoleId } from "../lib/action";
+import { formatDate } from "../utils/utils";
 const AddSalesForm = () => {
-  // const router = useRouter();
   const [distributors, setDistributors] = useState([]);
   const [retailers, setRetailers] = useState([]);
-  const [user, setUser] = useState([]);
-
-  const [accessToken, setAccessToken] = useState([]);
   const [formData, setFormData] = useState({
     date: "",
     // //
@@ -36,61 +34,16 @@ const AddSalesForm = () => {
   // Fetch Distributors and Retailers
   useEffect(() => {
     const token = Cookies.get("access_token");
-    setAccessToken(token);
-
-    const fetchUsersByRoleId = async (roleId) => {
-      try {
-        const response = await fetch(`${API_URLS.USERS_BY_ROLEID}/${roleId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await response.json();
-        // console.log(data);
-        return data.data.users;
-      } catch (error) {
-        console.error("Error fetching users", error);
-        return [];
-      }
-    };
-
     const fetchData = async () => {
-      const distributorsData = await fetchUsersByRoleId(4); // Fetch distributors
-      const retailersData = await fetchUsersByRoleId(5); // Fetch retailers
-
-      const userData = Cookies.get("user_data");
-      if (userData) {
-        const data = JSON.parse(userData);
-        setUser(data);
-      }
-      // console.log(token);
+      const distributorsData = await fetchUsersByRoleId(token, 4); // Fetch distributors
+      const retailersData = await fetchUsersByRoleId(token, 5); // Fetch retailers
+      // console.log(distributorsData);
       setDistributors(distributorsData);
       setRetailers(retailersData);
     };
 
     fetchData();
   }, []);
-  const formatDate = (date) => {
-    if (!date) return "";
-    const day = String(date.getDate()).padStart(2, "0");
-    const monthNames = [
-      "Jan",
-      "Feb",
-      "Mar",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sep",
-      "Oct",
-      "Nov",
-      "Dec",
-    ];
-    const month = monthNames[date.getMonth()];
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
-  };
 
   const handleDateChange = (date) => {
     setFormData({ ...formData, date });
@@ -128,29 +81,17 @@ const AddSalesForm = () => {
     if (!formData.date) validationErrors.date = "date is required";
     if (!formData.distributorName)
       validationErrors.distributorName = "distributor name is required";
-    // if (!formData.distributorMobile)
-    //   validationErrors.distributorMobile = "distributor mobile is required";
     if (!formData.retailerName)
       validationErrors.retailerName = "Retailer name is required";
-
-    // if (!formData.retailerMobile)
-    //   validationErrors.retailerMobile = "Retailer Mobile is required";
-    // if (!formData.retailerAddress)
-    //   validationErrors.retailerAddress = "retailer Address is required";
     if (!formData.qty) validationErrors.qty = "Qty is required";
-    // else if (!/^[6-9]\d{9}$/.test(formData.retailerMobile))
-    //   validationErrors.retailerMobile =
-    //     "Please enter a valid 10-digit mobile number";
     return validationErrors;
   };
 
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("date", formatDate(formData.date));
-
+    // console.log("date", formatDate(formData.date));
     // console.log("data is ", formData);
-
     const validationErrors = validateForm();
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);

@@ -1,60 +1,42 @@
 import { NextResponse } from "next/server";
-import { cookies } from "next/headers"; // To access cookies
-import axios from "axios";
-import { serialize } from "cookie";
+import { cookies } from "next/headers";
 import API_URLS from "../../../config/apiUrls";
 
 export async function POST() {
-  const cookieStore = await cookies();
+  const cookieStore = cookies();
   const token = cookieStore.get("access_token")?.value;
-  // console.log(token);
+
   if (!token) {
-    return new NextResponse(
-      JSON.stringify({ message: "No access token found." }),
-      { status: 400 }
-    );
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   }
 
   try {
     // Call the backend logout API
-    await axios.post(
-      API_URLS.LOGOUT,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const response = await fetch(API_URLS.LOGOUT, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-    // Clear cookies by setting maxAge to 0
-    const headers = new Headers();
-    headers.append(
-      "Set-Cookie",
-      serialize("access_token", "", {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 0,
-        path: "/",
-      })
-    );
-    headers.append(
-      "Set-Cookie",
-      serialize("user_data", "", {
-        httpOnly: false,
-        secure: process.env.NODE_ENV === "production",
-        maxAge: 0,
-        path: "/",
-      })
-    );
+    if (!response.ok) {
+      return NextResponse.json(
+        { message: "Logout failed" },
+        { status: response.status }
+      );
+    }
 
-    return new NextResponse(
-      JSON.stringify({ message: "Successfully logged out" }),
-      { headers }
+    //  Correct way to delete cookies in Next.js
+    cookieStore.delete("access_token");
+    cookieStore.delete("user_data");
+
+    return NextResponse.json(
+      { message: "Logged out successfully" },
+      { status: 200 }
     );
   } catch (error) {
-    return new NextResponse(
-      JSON.stringify({ message: "Failed to log out.", error: error.message }),
+    return NextResponse.json(
+      { message: "Internal Server Error" },
       { status: 500 }
     );
   }
