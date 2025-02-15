@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import API_URLS from "../../../config/apiUrls";
 
 export async function POST() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
 
   if (!token) {

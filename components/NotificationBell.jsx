@@ -75,7 +75,7 @@ const NotificationBell = () => {
         <FiBell className="w-6 h-6 text-gray-600" />
       </div>
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-[350px] bg-white shadow-xl rounded-lg z-50">
+        <div className="absolute right-0 mt-2 w-[300px]   bg-white shadow-xl rounded-lg z-50">
           <div className="bg-blue-100 m-2 rounded-md p-4 flex justify-between items-center">
             <h3 className="font-semibold text-lg">Notifications</h3>
             <h1 className="w-10 h-10 flex items-center justify-center font-semibold bg-white rounded-full text-primary">

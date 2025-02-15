@@ -129,7 +129,7 @@ const AddForm = ({ role, name }) => {
           timer: 2000,
           showConfirmButton: false,
         });
-        router.push(`/${name}-list`);
+        router.push(`/${name.toLowerCase().replace(/\s/g, "")}-list`);
       }
     } catch (error) {
       if (error.response && error.response.data) {

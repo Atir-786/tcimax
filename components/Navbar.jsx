@@ -23,7 +23,12 @@ const menuList3 = [
   "District Wise List",
   "Schemes List",
 ];
-const addList = ["Add Distributor", "Add Retailer", "Add Sales"];
+const addList = [
+  "Add Distributor",
+  "Add Retailer",
+  "Add Sales",
+  "Add Data Entry Operator",
+];
 const userManagementList = [
   {
     name: "Managers",
@@ -100,6 +105,42 @@ const Navbar = ({ roleId }) => {
                 </Link>
               </li>
             ))}
+          {/* /// // / // / // / / // /  // /  */}
+          {roleId === 2 && (
+            <>
+              <li className="">
+                <Link
+                  href="add-dataentryoperator"
+                  className={`flex items-center space-x-2 hover:text-primary ${
+                    isActive("/add-dataentryoperator")
+                      ? "bg-primary text-white p-3 rounded-lg hover:text-white"
+                      : ""
+                  }`}
+                >
+                  <span>
+                    <FaCirclePlus />
+                  </span>
+                  <span>Add Data Entry Operator</span>
+                </Link>
+              </li>
+              <li className="">
+                <Link
+                  href="dataentryoperators-list"
+                  className={`flex items-center space-x-2 hover:text-primary ${
+                    isActive("/dataentryoperators-list")
+                      ? "bg-primary text-white p-3 rounded-lg hover:text-white"
+                      : ""
+                  }`}
+                >
+                  <span>
+                    <FaCirclePlus />
+                  </span>
+                  <span>Data Entry Operators List</span>
+                </Link>
+              </li>
+            </>
+          )}
+
           {/* // /// / /// // / // // / /  */}
           {(roleId === 2 || roleId === 3) &&
             menuList1.map((item, index) => (
