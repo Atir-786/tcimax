@@ -13,6 +13,8 @@ import { formatDate } from "../utils/utils";
 const AddSalesForm = () => {
   const [distributors, setDistributors] = useState([]);
   const [retailers, setRetailers] = useState([]);
+  const [accessToken, setAccessToken] = useState();
+
   const [formData, setFormData] = useState({
     date: "",
     // //
@@ -31,9 +33,11 @@ const AddSalesForm = () => {
   });
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
+
   // Fetch Distributors and Retailers
   useEffect(() => {
     const token = Cookies.get("access_token");
+    setAccessToken(token);
     const fetchData = async () => {
       const distributorsData = await fetchUsersByRoleId(token, 4); // Fetch distributors
       const retailersData = await fetchUsersByRoleId(token, 5); // Fetch retailers
