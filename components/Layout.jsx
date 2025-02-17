@@ -7,8 +7,21 @@ import { useRouter } from "next/navigation";
 import { FiLoader } from "react-icons/fi";
 import Cookies from "js-cookie";
 import { calcRole } from "../utils/utils";
+import { usePathname } from "next/navigation";
+const getTitleFromPath = (pathname) => {
+  const titleMap = {
+    "/dashboard": "Dashboard - TCI MAX",
+    "/profile": "Profile - TCI MAX",
+    "/settings": "Settings - TCI MAX",
+    "/users": "Users List - TCI MAX",
+    "/orders": "Orders - TCI MAX",
+  };
+
+  return titleMap[pathname] || "TCI MAX";
+};
 const Layout = ({ children }) => {
   const router = useRouter();
+  const pathname = usePathname();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default to closed
   const [isLoading, setIsLoading] = useState(true);
   const [roleId, setRoleId] = useState(null);
@@ -35,7 +48,14 @@ const Layout = ({ children }) => {
     } else {
       const user = JSON.parse(user_data);
       setRoleId(user?.role_id);
-      document.title = `TCI MAX | ${calcRole(user?.role_id)}`;
+      // Convert pathname to title
+      const formattedTitle = pathname
+        .replace(/\//g, " ") // Replace "/" with space
+        .replace(/-/g, " ") // Replace "-" with space
+        .trim() // Remove extra spaces
+        .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize first letter
+
+      document.title = formattedTitle || "TCI MAX"; // Fallback title
       setIsLoading(false);
     }
   }, [router]);

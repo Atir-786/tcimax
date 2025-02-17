@@ -33,7 +33,7 @@ const AddForm = ({ role, name }) => {
     const token = Cookies.get("access_token");
     const fetchData = async () => {
       const distributorsData = await fetchUsersByRoleId(token, 4); // Fetch distributors
-      // console.log(distributorsData);
+      console.log(distributorsData);
       setDistributors(distributorsData);
     };
     if (role === 5) {
@@ -129,7 +129,7 @@ const AddForm = ({ role, name }) => {
           timer: 2000,
           showConfirmButton: false,
         });
-        router.push(`/${name.toLowerCase().replace(/\s/g, "")}-list`);
+        router.push(`/${name.toLowerCase().replace(/\s/g, "-")}-list`);
       }
     } catch (error) {
       if (error.response && error.response.data) {

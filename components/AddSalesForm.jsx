@@ -255,7 +255,7 @@ const AddSalesForm = () => {
           value={{ value: formData.retailerName, label: formData.retailerName }}
           options={retailers.map((retailer) => ({
             value: retailer.name,
-            label: retailer.name,
+            label: `${retailer.name} (${retailer.mobile})`,
             id: retailer.user_id,
             mobile: retailer.mobile,
             address: retailer.address,

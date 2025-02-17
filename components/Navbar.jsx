@@ -18,32 +18,37 @@ const menuList2 = [
 ];
 
 const menuList3 = [
+  "Month Sale Targets",
   "Company Associated Retailers",
   "Total Dealers List",
   "District Wise List",
   "Schemes List",
 ];
-const addList = [
-  "Add Distributor",
-  "Add Retailer",
-  "Add Sales",
-  "Add Data Entry Operator",
-];
+const addList = ["Add Distributor", "Add Retailer", "Add Sales"];
 const userManagementList = [
   {
     name: "Managers",
     icon: <HiOutlineUsers />,
     subItems: ["Add Manager", "Managers List"],
+    role: [1],
   },
   {
     name: "Distributors",
     icon: <HiOutlineUsers />,
     subItems: ["Add Distributor", "Distributors List"],
+    role: [1],
   },
   {
     name: "Retailers",
     icon: <HiOutlineUsers />,
     subItems: ["Add Retailer", "Retailers List"],
+    role: [1],
+  },
+  {
+    name: "Data Entry Operators",
+    icon: <HiOutlineUsers />,
+    subItems: ["Add Data Entry Operator", "Data Entry Operators List"],
+    role: [1, 2],
   },
 ];
 const Navbar = ({ roleId }) => {
@@ -105,41 +110,6 @@ const Navbar = ({ roleId }) => {
                 </Link>
               </li>
             ))}
-          {/* /// // / // / // / / // /  // /  */}
-          {roleId === 2 && (
-            <>
-              <li className="">
-                <Link
-                  href="add-dataentryoperator"
-                  className={`flex items-center space-x-2 hover:text-primary ${
-                    isActive("/add-dataentryoperator")
-                      ? "bg-primary text-white p-3 rounded-lg hover:text-white"
-                      : ""
-                  }`}
-                >
-                  <span>
-                    <FaCirclePlus />
-                  </span>
-                  <span>Add Data Entry Operator</span>
-                </Link>
-              </li>
-              <li className="">
-                <Link
-                  href="dataentryoperators-list"
-                  className={`flex items-center space-x-2 hover:text-primary ${
-                    isActive("/dataentryoperators-list")
-                      ? "bg-primary text-white p-3 rounded-lg hover:text-white"
-                      : ""
-                  }`}
-                >
-                  <span>
-                    <FaCirclePlus />
-                  </span>
-                  <span>Data Entry Operators List</span>
-                </Link>
-              </li>
-            </>
-          )}
 
           {/* // /// / /// // / // // / /  */}
           {(roleId === 2 || roleId === 3) &&
@@ -215,10 +185,11 @@ const Navbar = ({ roleId }) => {
             ))}
           {/* // ///  // / / / / / / / // / // / */}
 
-          {roleId === 1 && (
+          {(roleId === 1 || roleId === 2) && (
             <>
               <h1 className="">User Management</h1>
               {userManagementList.map((item, index) => {
+                if (!item.role.includes(roleId)) return;
                 // Check if any subitem is active
                 const isParentActive = item.subItems.some((subItem) =>
                   isActive(`/${subItem.toLowerCase().replace(/\s+/g, "-")}`)
