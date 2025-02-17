@@ -40,7 +40,7 @@ const StockStatisticsChart = ({ graph }) => {
     yaxis: {
       labels: {
         // formatter: (val) => `${val / 1000}k pcs`,
-        // formatter: (val) => `${val}`,
+        formatter: (val) => `${val} trucks`,
       },
     },
     dataLabels: {
@@ -65,7 +65,9 @@ const StockStatisticsChart = ({ graph }) => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <h3 className="text-lg font-semibold">Stock Statistic</h3>
-          <p className="text-2xl font-bold mt-2">{graph.total}</p>
+          <p className=" mt-2">
+            Total Trucks Sold <span className="font-bold">{graph.total}</span>
+          </p>
           {/* <div className="flex items-center text-sm text-green-600">
             <span className="mr-1">10%</span>
             <span className="mr-1">&#9650;</span>
