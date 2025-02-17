@@ -7,7 +7,7 @@ const ReactApexChart = dynamic(() => import("react-apexcharts"), {
   ssr: false, // This prevents it from being rendered on the server
 });
 
-const StockStatisticsChart = () => {
+const StockStatisticsChart = ({ graph }) => {
   const chartOptions = {
     chart: {
       type: "line",
@@ -21,24 +21,26 @@ const StockStatisticsChart = () => {
       borderColor: "#e7e7e7",
     },
     xaxis: {
-      categories: [
-        "Jan",
-        "Feb",
-        "Mar",
-        "Apr",
-        "May",
-        "Jun",
-        "Jul",
-        "Aug",
-        "Sep",
-        "Oct",
-        "Nov",
-        "Dec",
-      ],
+      categories: graph.categories,
+      // [
+      //   "Jan",
+      //   "Feb",
+      //   "Mar",
+      //   "Apr",
+      //   "May",
+      //   "Jun",
+      //   "Jul",
+      //   "Aug",
+      //   "Sep",
+      //   "Oct",
+      //   "Nov",
+      //   "Dec",
+      // ],
     },
     yaxis: {
       labels: {
-        formatter: (val) => `${val / 1000}k pcs`,
+        // formatter: (val) => `${val / 1000}k pcs`,
+        // formatter: (val) => `${val}`,
       },
     },
     dataLabels: {
@@ -50,10 +52,11 @@ const StockStatisticsChart = () => {
   const chartSeries = [
     {
       name: "Stock Statistics",
-      data: [
-        12000, 8000, 15000, 20000, 28000, 30000, 24000, 32000, 18000, 20000,
-        25000, 27000,
-      ],
+      data: graph.data,
+      // data: [
+      //   20000, 8000, 15000, 20000, 28000, 30000, 24000, 32000, 18000, 20000,
+      //   25000, 27000,
+      // ],
     },
   ];
 
@@ -62,18 +65,18 @@ const StockStatisticsChart = () => {
       <div className="flex justify-between items-center mb-4">
         <div>
           <h3 className="text-lg font-semibold">Stock Statistic</h3>
-          <p className="text-2xl font-bold mt-2">27,200</p>
-          <div className="flex items-center text-sm text-green-600">
+          <p className="text-2xl font-bold mt-2">{graph.total}</p>
+          {/* <div className="flex items-center text-sm text-green-600">
             <span className="mr-1">10%</span>
             <span className="mr-1">&#9650;</span>
             <span>+1500 Pcs Per Day</span>
-          </div>
+          </div> */}
         </div>
-        <select className="border border-gray-300 rounded px-3 py-2">
+        {/* <select className="border border-gray-300 rounded px-3 py-2">
           <option>Monthly</option>
           <option>Weekly</option>
           <option>Daily</option>
-        </select>
+        </select> */}
       </div>
       <ReactApexChart
         options={chartOptions}

@@ -20,7 +20,7 @@ const Dashboard = async () => {
   let count = {};
   if (user.role_id === 1 && token) {
     let data = await fetchDashboardCount(token);
-    console.log(data.counts);
+    // console.log(data.counts);
     count = data.counts;
   }
 
@@ -73,7 +73,7 @@ const Dashboard = async () => {
             </section>
           </main>
 
-          <StockStatisticsChart />
+          <StockStatisticsChart graph={count.graph} />
         </div>
       ) : (
         <div className="mt-10">
